@@ -1,0 +1,90 @@
+<resources>
+    <string name="app_name">Gym Companion</string>
+    <string name="client_id">877860165323-lm0a789crttfb62mot4jc1beesldtauf.apps.googleusercontent.com</string>
+    <string name="facebook_app_id">1234</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="facebook_client_token">56789</string>
+    <string name="google_s_logo">Google\'s Logo</string>
+    <string name="google_signin_prompt">Sign in with Google</string>
+    <string name="sign_up">Sign up</string>
+    <string name="sign_up_prompt">Don\'t have an account yet?</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log in</string>
+    <string name="forgotten_password">Forgotten Password?</string>
+    <string name="banner">banner</string>
+    <string name="loading_screen_prompt">weights for custom loading screen</string>
+    <string name="or">or</string>
+    <string name="prompt">Hi welcome to Gym Companion!</string>
+    <string name="button_prompt">Let\'s get started!</string>
+    <string name="progress">0%</string>
+    <string name="header_prompt">Tell us about your self</string>
+    <string name="next">NEXT</string>
+    <string name="first_name">First name</string>
+    <string name="middle_name">Middle name</string>
+    <string name="surname">Surname</string>
+    <string name="name_prompt">What is your name?</string>
+    <string name="age_prompt">How old are you?</string>
+    <string name="birthday_sample">03/28/02</string>
+    <string name="bmi_prompt">What is your current height and weight?</string>
+    <string name="weight">weight</string>
+    <string name="height">height</string>
+    <string name="kg">kg</string>
+    <string name="cm">cm</string>
+    <string name="gender_prompt">How do you define your gender?</string>
+    <string name="male_icon">male icon</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="RNS">Others</string>
+    <string name="level_prompt">How do you describe your gym experience?</string>
+    <string name="beginner_s_arm">beginner\'s arm</string>
+
+    <string name="novice">Beginner</string>
+    <string name="novice_prompt">0 experience</string>
+
+    <string name="advance">Advance</string>
+    <string name="advance_prompt">1 – 5 years</string>
+
+    <string name="proficient">Proficient</string>
+    <string name="proficient_prompt">6 – 9 years</string>
+
+    <string name="expert">Expert</string>
+    <string name="expert_prompt">10+ years</string>
+    <string name="sample_age">0 yrs old</string>
+    <string name="finish">Finish</string>
+    <string name="credentials_prompt">Almost done…</string>
+    <string name="email">Email</string>
+    <string name="terms_prompt">By checking the box, you agree to create an account and to Gym Companion\'s <font color="#1A70B6">Privacy Policy</font>.</string>
+    <string name="dummy_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in faucibus purus. nec <font color="#1E82D3">Privacy Policy</font> Policy felis. Donec dapibus a orci sed dignissim. Aliquam molestie, lectus sit amet semper facilisis, enim quam condimentum augue, at aliquam tortor urna in nulla. Donec sit amet purus id erat sodales tristique. Cras pretium <font color="#1E82D3">Privacy Policy</font> vestibulum. </string>
+    <string name="agreement_prompt">Why do we need this data?</string>
+    <string name="validate">Validate</string>
+    <string name="forgot_password_prompt">Forgot Password</string>
+    <string name="email_add_prompt">Enter your email address.</string>
+    <string name="home_fragment">home fragment</string>
+    <string name="home">Home</string>
+    <string name="person_fragment">person fragment</string>
+    <string name="person">Person</string>
+    <string name="friend_fragment">Friend Fragment</string>
+    <string name="friend">Friend</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="profile_photo">profile photo</string>
+    <string name="sample_name">Julius Andrie</string>
+    <string name="sample_email">juliusandrie28@gmail.com</string>
+    <string name="icon">icon</string>
+    <string name="dummy_title">Lorem Ipsum</string>
+    <string name="logout">Logout</string>
+    <string name="current_weight">Current BMI</string>
+    <string name="current_level">Current Level</string>
+    <string name="personal_best">Personal Records</string>
+    <string name="user_settings">USER SETTINGS</string>
+    <string name="user_profile">User Profile</string>
+    <string name="get_verified">Get Verified</string>
+    <string name="records">RECORDS</string>
+    <string name="privacy_settings">Privacy Settings</string>
+    <string name="save_videos">Save Videos</string>
+    <string name="settings">Settings</string>
+    <string name="active">Active</string>
+    <string name="display_name_key">display_name_key</string>
+    <string name="preference_file_key">com.example.gymcompanion.PREFERENCE_KEY</string>
+</resources>
