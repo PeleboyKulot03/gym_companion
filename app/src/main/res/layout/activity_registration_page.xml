@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.registrationpage.RegistrationPageActivity"
+    tools:context=".ui.registration.RegistrationPageActivity"
     android:background="@color/lightPrimaryVariant"
     >
 
@@ -96,6 +96,16 @@
                     android:layout_marginEnd="10dp"
                     />
 
+                <View
+                    android:id="@+id/level8"
+                    android:layout_width="0dp"
+                    android:layout_height="15dp"
+                    android:background="@drawable/rounded_border"
+                    android:backgroundTint="@color/white"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="10dp"
+                    />
+
                 <TextView
                     android:id="@+id/progress"
                     android:layout_width="wrap_content"
@@ -106,7 +116,6 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="5dp"
                     android:fontFamily="@font/poppins_black"
-
                     />
 
             </LinearLayout>
@@ -708,8 +717,8 @@
 
                 </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/credentialsPrompt"
             android:layout_width="match_parent"
@@ -790,6 +799,87 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/medicalRecordsPrompt"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/medical_condition_prompt"
+                android:textSize="24sp"
+                android:textAlignment="center"
+                />
+
+            <View
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/instruction"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/poppins"
+                />
+
+            <CheckBox
+                android:id="@+id/condition1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/scoliosis"
+                android:textSize="18sp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="10dp"
+                />
+
+            <CheckBox
+                android:id="@+id/condition2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/high_blood"
+                android:textSize="18sp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="10dp"
+                />
+
+            <CheckBox
+                android:id="@+id/condition3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/condition"
+                android:textSize="18sp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="10dp"
+                />
+
+            <CheckBox
+                android:id="@+id/condition4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/condition"
+                android:textSize="18sp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="10dp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/agreementPrompt"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -827,7 +917,6 @@
                 android:paddingEnd="10dp"
                 android:textColor="@color/black"
                 />
-
 
 
         </LinearLayout>

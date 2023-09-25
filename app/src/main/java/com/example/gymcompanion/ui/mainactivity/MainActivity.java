@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.gymcompanion.R;
-import com.example.gymcompanion.ui.homePage.HomePageActivity;
+import com.example.gymcompanion.ui.exercise.ExercisePageActivity;
+import com.example.gymcompanion.ui.exercise.ExercisePageActivity2;
+import com.example.gymcompanion.ui.home.HomePageActivity;
 import com.example.gymcompanion.ui.loginpage.LoginPageActivity;
 import com.google.firebase.auth.FirebaseAuth;
 

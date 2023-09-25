@@ -1,4 +1,4 @@
-package com.example.gymcompanion.ui.registrationpage;
+package com.example.gymcompanion.ui.registration;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -63,6 +63,7 @@ public class RegistrationPageActivity extends AppCompatActivity implements IRegi
         LinearLayout credentialsPrompt = findViewById(R.id.credentialsPrompt);
         LinearLayout agreementPrompt = findViewById(R.id.agreementPrompt);
         LinearLayout levelPrompt = findViewById(R.id.levelPrompt);
+        LinearLayout medicalRecordsPrompt = findViewById(R.id.medicalRecordsPrompt);
 
 
         View level1 = findViewById(R.id.level1);
@@ -72,6 +73,8 @@ public class RegistrationPageActivity extends AppCompatActivity implements IRegi
         View level5 = findViewById(R.id.level5);
         View level6 = findViewById(R.id.level6);
         View level7 = findViewById(R.id.level7);
+        View level8 = findViewById(R.id.level8);
+
 
         nameET = findViewById(R.id.nameET);
         middleNameET = findViewById(R.id.middleNameET);
@@ -116,6 +119,7 @@ public class RegistrationPageActivity extends AppCompatActivity implements IRegi
         levels.add(level5);
         levels.add(level6);
         levels.add(level7);
+        levels.add(level8);
 
         prompts = new ArrayList<>();
         prompts.add(namePrompt);
@@ -125,7 +129,7 @@ public class RegistrationPageActivity extends AppCompatActivity implements IRegi
         prompts.add(levelPrompt);
         prompts.add(credentialsPrompt);
         prompts.add(agreementPrompt);
-
+        prompts.add(medicalRecordsPrompt);
 
         // clicking next
         navButton = findViewById(R.id.navButton);
@@ -142,7 +146,7 @@ public class RegistrationPageActivity extends AppCompatActivity implements IRegi
             }
 
             if (isCorrect()){
-                if (currentLevel > 5){
+                if (currentLevel > 6){
                     customProgressBar.startAnimation(animation);
                     RegistrationPageModel model = new RegistrationPageModel(finalName, finalMiddleName, finalSurname, finalName, finalWeight, finalHeight, finalBirthday, finalAge, finalGender, finalExperience, finalEmail);
                     presenter.createNewUser(finalEmail, finalPassword, model);
@@ -151,7 +155,7 @@ public class RegistrationPageActivity extends AppCompatActivity implements IRegi
                 progressView(levels.get(currentLevel), R.color.white);
                 progressLayout(prompts.get(currentLevel), 0);
                 currentLevel++;
-                String levelText = (currentLevel == 6) ? (((currentLevel + 1) * 15) - 5) + "%": ((currentLevel + 1) * 15) + "%";
+                String levelText = ((currentLevel + 1) * 12.5) + "%";
                 progress.setText(levelText);
                 progressView(levels.get(currentLevel), R.color.lightPrimary);
                 progressLayout(prompts.get(currentLevel), 1);

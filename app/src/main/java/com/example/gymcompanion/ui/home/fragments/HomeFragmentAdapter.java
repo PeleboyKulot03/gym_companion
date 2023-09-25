@@ -1,9 +1,10 @@
-package com.example.gymcompanion.ui.homePage.fragments;
+package com.example.gymcompanion.ui.home.fragments;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,6 +32,12 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<HomeFragmentAdapte
 
     @Override
     public void onBindViewHolder(@NonNull HomeFragmentAdapter.ViewHolder holder, int position) {
+        HomeFragmentModel model = list.get(position);
+
+        holder.program.setText(model.getProgram());
+        holder.sets.setText(model.getSet());
+        holder.reps.setText(model.getReps());
+
     }
 
     @Override
@@ -39,8 +46,12 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<HomeFragmentAdapte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView reps, sets, program;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            reps = itemView.findViewById(R.id.reps);
+            sets = itemView.findViewById(R.id.sets);
+            program = itemView.findViewById(R.id.program);
         }
     }
 }

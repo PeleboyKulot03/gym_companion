@@ -1,4 +1,4 @@
-package com.example.gymcompanion.ui.registrationpage;
+package com.example.gymcompanion.ui.registration;
 
 import com.example.gymcompanion.utils.RegistrationPageModel;
 

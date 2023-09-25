@@ -1,4 +1,4 @@
-package com.example.gymcompanion.ui.registrationpage;
+package com.example.gymcompanion.ui.registration;
 
 public interface IRegistrationPage {
     void hasUser(boolean verdict);

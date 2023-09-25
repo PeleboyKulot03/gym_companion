@@ -1,4 +1,4 @@
-package com.example.gymcompanion.ui.homePage.fragments;
+package com.example.gymcompanion.ui.home.fragments;
 
 import android.os.Bundle;
 
@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.gymcompanion.R;
 
-public class FindFriendsFragment extends Fragment {
+public class ExploreFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -21,7 +21,7 @@ public class FindFriendsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_find_friends, container, false);
+        View view = inflater.inflate(R.layout.fragment_explore, container, false);
 
         return view;
     }

@@ -1,8 +1,6 @@
-package com.example.gymcompanion.ui.homePage.fragments;
+package com.example.gymcompanion.ui.home.fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -17,8 +15,6 @@ import com.example.gymcompanion.R;
 import com.example.gymcompanion.ui.loginpage.LoginPageActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.Objects;
 
 public class AccountFragment extends Fragment {
     private AccountFragmentPresenter presenter;

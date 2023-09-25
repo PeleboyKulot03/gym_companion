@@ -5,10 +5,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="blue">#1A70B6</color>
 
-<!--    <color name="lightPrimary">#99A799</color>-->
-<!--    <color name="lightPrimaryVariant">#D3E4CD</color>-->
-<!--    <color name="lightSecondary">#F2DDC1</color>-->
-<!--    <color name="lightSecondaryVariant">#B5A590</color>-->
+    <color name="lightPrimary">#99A799</color>
+    <color name="lightPrimaryVariant">#D3E4CD</color>
+    <color name="lightSecondary">#F2DDC1</color>
+    <color name="lightSecondaryVariant">#B5A590</color>
 <!--    <color name="fskafjaskfa">#F0F0F0</color>-->
 
 <!--    <color name="lightPrimary">#2C74B3</color>-->
@@ -16,8 +16,8 @@
 <!--    <color name="lightSecondary">#144272</color>-->
 <!--    <color name="lightSecondaryVariant">#0A2647</color>-->
 
-    <color name="lightPrimary">#212A3E</color>
-    <color name="lightPrimaryVariant">#394867</color>
-    <color name="lightSecondary">#B1BFDC</color>
-    <color name="lightSecondaryVariant">#F1F6F9</color>
+<!--    <color name="lightPrimary">#212A3E</color>-->
+<!--    <color name="lightPrimaryVariant">#394867</color>-->
+<!--    <color name="lightSecondary">#CBF1F6F9</color>-->
+<!--    <color name="lightSecondaryVariant">#F1F6F9</color>-->
 </resources>

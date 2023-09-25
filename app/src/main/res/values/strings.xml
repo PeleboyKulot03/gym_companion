@@ -41,20 +41,17 @@
 
     <string name="novice">Beginner</string>
     <string name="novice_prompt">0 experience</string>
-
     <string name="advance">Advance</string>
     <string name="advance_prompt">1 – 5 years</string>
-
     <string name="proficient">Proficient</string>
     <string name="proficient_prompt">6 – 9 years</string>
-
     <string name="expert">Expert</string>
     <string name="expert_prompt">10+ years</string>
     <string name="sample_age">0 yrs old</string>
     <string name="finish">Finish</string>
     <string name="credentials_prompt">Almost done…</string>
     <string name="email">Email</string>
-    <string name="terms_prompt">By checking the box, you agree to create an account and to Gym Companion\'s <font color="#1A70B6">Privacy Policy</font>.</string>
+    <string name="terms_prompt">By checking the box, you agree to Gym Companion\'s policies and all the information you provided is correct.<font color="#1A70B6">Privacy Policy</font>.</string>
     <string name="dummy_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in faucibus purus. nec <font color="#1E82D3">Privacy Policy</font> Policy felis. Donec dapibus a orci sed dignissim. Aliquam molestie, lectus sit amet semper facilisis, enim quam condimentum augue, at aliquam tortor urna in nulla. Donec sit amet purus id erat sodales tristique. Cras pretium <font color="#1E82D3">Privacy Policy</font> vestibulum. </string>
     <string name="agreement_prompt">Why do we need this data?</string>
     <string name="validate">Validate</string>
@@ -91,5 +88,18 @@
     <string name="motivational_template">"some motivational shit!!!"</string>
     <string name="start_set">Start Program</string>
     <string name="bench_press">Bench Press</string>
-    <string name="sample_reps">3 sets x 12 reps</string>
+    <string name="sample_set">3 sets</string>
+    <string name="sample_reps">12 reps</string>
+    <string name="sample_count">1/13</string>
+    <string name="new_image">new image</string>
+    <string name="finish_set">Finish Set</string>
+    <string name="count_0">Count: </string>
+    <string name="note_lorem_ipsum_dollor_amet_simet_shfjakhfyjh_f_asjkhfajskfsa"><font color="#c4c45a">Note:</font> Lorem Ipsum dollor, amet simet shfjakhfyjh.,f asjkhfajskfsa,.</string>
+    <string name="sample_weight">15lbs</string>
+    <string name="medical_condition_prompt">How is your health status?</string>
+    <string name="instruction">Please check the box if you have the condition listed below</string>
+    <string name="scoliosis">Scoliosis</string>
+    <string name="condition">Condition</string>
+    <string name="high_blood">High blood</string>
+
 </resources>
