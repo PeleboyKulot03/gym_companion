@@ -100,7 +100,7 @@ public class RegistrationPageModel {
     public void createNewUser(final onRegister onRegister, String email, String password, RegistrationPageModel model) {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()){
-                reference.child(Objects.requireNonNull(auth.getCurrentUser()).getUid()).setValue(model).addOnCompleteListener(task1 -> {
+                reference.child(Objects.requireNonNull(auth.getCurrentUser()).getUid()).child("informations").setValue(model).addOnCompleteListener(task1 -> {
                     if (task1.isSuccessful()){
                         FirebaseUser user = auth.getCurrentUser();
                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()

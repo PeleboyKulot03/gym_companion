@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.fragments.HomeFragment"
+    tools:context=".ui.homepage.fragments.HomeFragment"
     >
 
     <LinearLayout
@@ -25,19 +25,21 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_bold"
                 android:text="@string/sample_program"
-                android:textColor="@color/lightSecondaryVariant"
+                android:textColor="@color/white"
                 android:textSize="28sp"
                 android:layout_marginStart="5dp"/>
 
             <TextView
+                android:id="@+id/count"
                 android:padding="10dp"
-                android:layout_width="wrap_content"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:text="@string/sample_count"
                 android:textSize="16sp"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:fontFamily="@font/poppins"
                 android:background="@drawable/round_edit_text"
+                android:textAlignment="center"
                 />
         </LinearLayout>
 
@@ -46,24 +48,24 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins"
             android:text="@string/motivational_template"
-            android:textColor="@color/lightSecondary"
+            android:textColor="@color/white"
             android:textSize="18sp"
             android:layout_marginStart="5dp"/>
 
-        <Button
-            android:layout_gravity="end"
-            android:layout_width="wrap_content"
-            android:layout_height="55dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="5dp"
-            android:backgroundTint="@color/lightSecondaryVariant"
-            android:fontFamily="@font/poppins_medium"
-            android:text="@string/start_set"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:drawableEnd="@drawable/baseline_play_circle_24"
-            android:drawableTint="@color/lightPrimary"
-            android:drawablePadding="10dp"/>
+<!--        <Button-->
+<!--            android:layout_gravity="end"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="55dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_marginBottom="5dp"-->
+<!--            android:backgroundTint="@color/lightSecondaryVariant"-->
+<!--            android:fontFamily="@font/poppins_medium"-->
+<!--            android:text="@string/start_set"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="18sp"-->
+<!--            android:drawableEnd="@drawable/baseline_play_circle_24"-->
+<!--            android:drawableTint="@color/lightPrimary"-->
+<!--            android:drawablePadding="10dp"/>-->
 
     </LinearLayout>
 
@@ -77,6 +79,15 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="5dp"/>
+
+    <ImageView
+        android:id="@+id/customProgressBar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_centerInParent="true"
+        android:contentDescription="@string/loading_screen_prompt"
+        android:src="@drawable/weight_plates"
+        android:visibility="invisible" />
 
 
 

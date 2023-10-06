@@ -195,14 +195,13 @@
 
 
         <ImageView
-            android:contentDescription="@string/loading_screen_prompt"
-            android:visibility="invisible"
             android:id="@+id/customProgressBar"
-            android:src="@drawable/weight_plates"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_centerInParent="true"
-            />
+            android:contentDescription="@string/loading_screen_prompt"
+            android:src="@drawable/weight_plates"
+            android:visibility="invisible" />
 
         <RelativeLayout
             android:id="@+id/divider"

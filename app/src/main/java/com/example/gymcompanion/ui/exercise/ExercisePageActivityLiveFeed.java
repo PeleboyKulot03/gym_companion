@@ -9,9 +9,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
@@ -28,7 +26,6 @@ import android.os.HandlerThread;
 import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.gymcompanion.R;
@@ -40,7 +37,7 @@ import com.google.mlkit.vision.pose.defaults.PoseDetectorOptions;
 import java.util.Collections;
 import java.util.Objects;
 
-public class ExercisePageActivity extends AppCompatActivity {
+public class ExercisePageActivityLiveFeed extends AppCompatActivity {
 
     public static final int PERMISSION_CODE = 143;
     private CameraCharacteristics characteristics;
@@ -50,7 +47,6 @@ public class ExercisePageActivity extends AppCompatActivity {
     private CameraDevice mCameraDevice;
     private TextureView textureView;
     private PoseDetector poseDetector;
-    private ImageView imageView;
     private int count = 1;
     private boolean onHold = true;
     private TextView counter;
@@ -62,7 +58,6 @@ public class ExercisePageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_exercise_page);
 
         textureView = findViewById(R.id.textureView);
-        imageView = findViewById(R.id.imageView);
         counter = findViewById(R.id.counter);
 
 
@@ -105,21 +100,22 @@ public class ExercisePageActivity extends AppCompatActivity {
             @Override
             public void onSurfaceTextureUpdated(@NonNull SurfaceTexture surface) {
                 Bitmap bitmapImage = textureView.getBitmap();
-                if (bitmapImage != null) {
+
+                if (bitmapImage != null && textureView.isAvailable()) {
                     InputImage inputImage = InputImage.fromBitmap(textureView.getBitmap(), getDisplayRotation());
                     poseDetector.process(inputImage)
                             .addOnSuccessListener(pose -> {
-                                GraphicOverlay overlay = new GraphicOverlay(getApplicationContext());
-                                PoseGraphic poseGraphic = new PoseGraphic(overlay, pose, true, false, true);
-                                Paint paint = new Paint();
-                                paint.setStyle(Paint.Style.STROKE);
-                                paint.setColor(getColor(R.color.black));
-                                paint.setStrokeWidth(5);
-                                paint.setTextSize(30);
-
-                                Canvas canvas = new Canvas(bitmapImage);
-
-                                poseGraphic.draw(canvas);
+//                                GraphicOverlay overlay = new GraphicOverlay(getApplicationContext());
+//                                PoseGraphic poseGraphic = new PoseGraphic(overlay, pose, true, false, true);
+//                                Paint paint = new Paint();
+//                                paint.setStyle(Paint.Style.STROKE);
+//                                paint.setColor(getColor(R.color.black));
+//                                paint.setStrokeWidth(5);
+//                                paint.setTextSize(30);
+//
+//                                Canvas canvas = new Canvas(bitmapImage);
+//
+//                                poseGraphic.draw(canvas);
 
                                 PoseLandmark firstPoint = pose.getPoseLandmark(PoseLandmark.LEFT_WRIST);
                                 PoseLandmark midPoint = pose.getPoseLandmark(PoseLandmark.LEFT_ELBOW);
@@ -148,11 +144,11 @@ public class ExercisePageActivity extends AppCompatActivity {
 
                                 }
 
-                                imageView.setImageMatrix(setTextureTransform(characteristics));
-                                imageView.setImageBitmap(bitmapImage);
+//                                imageView.setImageMatrix(setTextureTransform(characteristics));
+//                                imageView.setImageBitmap(bitmapImage);
 
                             }).
-                            addOnFailureListener(e -> Toast.makeText(ExercisePageActivity.this, "Sorry but " + e.getLocalizedMessage() + ". Please Try again later!", Toast.LENGTH_SHORT).show());
+                            addOnFailureListener(e -> Toast.makeText(ExercisePageActivityLiveFeed.this, "Sorry but " + e.getLocalizedMessage() + ". Please Try again later!", Toast.LENGTH_SHORT).show());
                 }
 
             }
@@ -310,7 +306,7 @@ public class ExercisePageActivity extends AppCompatActivity {
         else {
 
             // Request permission to the user
-            ActivityCompat.requestPermissions(ExercisePageActivity.this,
+            ActivityCompat.requestPermissions(ExercisePageActivityLiveFeed.this,
                     new String[] {
                             Manifest.permission.CAMERA,
                             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -353,5 +349,17 @@ public class ExercisePageActivity extends AppCompatActivity {
         } catch (CameraAccessException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        mCameraDevice.close();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mCameraDevice.close();
     }
 }

@@ -86,7 +86,9 @@
     <string name="preference_file_key">com.example.gymcompanion.PREFERENCE_KEY</string>
     <string name="sample_program">Push Day</string>
     <string name="motivational_template">"some motivational shit!!!"</string>
-    <string name="start_set">Start Program</string>
+    <string name="start_set">Start Recording</string>
+    <string name="start_program">Start Set</string>
+
     <string name="bench_press">Bench Press</string>
     <string name="sample_set">3 sets</string>
     <string name="sample_reps">12 reps</string>
@@ -101,5 +103,13 @@
     <string name="scoliosis">Scoliosis</string>
     <string name="condition">Condition</string>
     <string name="high_blood">High blood</string>
+    <string name="tutorial_animation">tutorial animation for this exercise</string>
+    <string name="completed">Completed</string>
+    <string name="dummy_accuracy">Accuracy: 80%</string>
+    <string name="dummy_time_spent">Time spent: 2min</string>
+    <string name="back_button">back button</string>
+    <string name="live_feed">Start Live Feed</string>
+    <string name="download_button">donwload button</string>
+    <string name="video_thumbnail">video thumbnail</string>
 
 </resources>

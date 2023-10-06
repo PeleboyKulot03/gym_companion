@@ -1,58 +1,101 @@
 package com.example.gymcompanion.staticValues;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+
+import androidx.appcompat.content.res.AppCompatResources;
+
+import com.example.gymcompanion.R;
 import com.example.gymcompanion.utils.HomeFragmentModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DifferentExercise {
-    private final ArrayList<HomeFragmentModel> pushDay;
-    private final ArrayList<HomeFragmentModel> pullDay;
-    private final ArrayList<HomeFragmentModel> legDay;
+    private Map<String, ArrayList<Drawable>> DRAWABLES;
 
-    public DifferentExercise() {
-        pushDay = new ArrayList<>();
-        pushDay.add(new HomeFragmentModel("Flat Dumbbell Bench Press", "3 sets", "12 reps"));
-        pushDay.add(new HomeFragmentModel("Incline Bench Press", "3 sets", "12 reps"));
-        pushDay.add(new HomeFragmentModel("Close Grip Bench Press", "3 sets", "12 reps"));
-        pushDay.add(new HomeFragmentModel("Dips", "3 sets", "12 reps"));
-        pushDay.add(new HomeFragmentModel("Dumbbell Shoulder Press", "3 sets", "12 reps"));
-        pushDay.add(new HomeFragmentModel("Side Lateral Raises", "3 sets", "12 reps"));
-        pushDay.add(new HomeFragmentModel("Triceps Push down", "3 sets", "12 reps"));
-        pushDay.add(new HomeFragmentModel("Skull crushers", "3 sets", "12 reps"));
-        pushDay.add(new HomeFragmentModel("Seated Triceps Extensions", "3 sets", "12 reps"));
-        pushDay.add(new HomeFragmentModel("Dumbbell Shoulder Press", "3 sets", "12 reps"));
+    public DifferentExercise (Context context) {
+        DRAWABLES = new HashMap<>();
 
+        // animations for push day exercise
+        DRAWABLES.put("Flat Bench Press", new ArrayList<Drawable>(){{
+            add(AppCompatResources.getDrawable(context, R.drawable.flat_bench_press_1_));
+            add(AppCompatResources.getDrawable(context, R.drawable.flat_bench_press_2_));
+        }});
+        DRAWABLES.put("Incline Bench Press", new ArrayList<Drawable>(){{
+            add(AppCompatResources.getDrawable(context, R.drawable.incline_bench_press_1));
+            add(AppCompatResources.getDrawable(context, R.drawable.incline_bench_press_2_));
+        }});
+        DRAWABLES.put("Close Grip Bench Press", new ArrayList<Drawable>(){{
+            add(AppCompatResources.getDrawable(context, R.drawable.close_grip_bench_1));
+            add(AppCompatResources.getDrawable(context, R.drawable.close_grip_bench_2));
+        }});
+        DRAWABLES.put("Dips", new ArrayList<Drawable>(){{
+            add(AppCompatResources.getDrawable(context, R.drawable.dips_1));
+            add(AppCompatResources.getDrawable(context, R.drawable.dips_2));
+        }});
+        DRAWABLES.put("Dumbbell Shoulder Press", new ArrayList<Drawable>(){{
+            add(AppCompatResources.getDrawable(context, R.drawable.dumbbell_shoulder_press_1));
+            add(AppCompatResources.getDrawable(context, R.drawable.dumbbell_shoulder_press_2));
+        }});
+        DRAWABLES.put("Side Lateral Raises", new ArrayList<Drawable>(){{
+            add(AppCompatResources.getDrawable(context, R.drawable.side_lateral_raise_1));
+            add(AppCompatResources.getDrawable(context, R.drawable.side_lateral_raise_2));
+        }});
+        DRAWABLES.put("Skull Crushers", new ArrayList<Drawable>(){{
+            add(AppCompatResources.getDrawable(context, R.drawable.skull_crushes_1));
+            add(AppCompatResources.getDrawable(context, R.drawable.skull_crushes_2));
+        }});
 
-        pullDay = new ArrayList<>();
-        pullDay.add(new HomeFragmentModel("Pull-Ups", "3 sets", "12 reps"));
-        pullDay.add(new HomeFragmentModel("Deadlifts", "3 sets", "12 reps"));
-        pullDay.add(new HomeFragmentModel("Lat Pulldowns", "3 sets", "12 reps"));
-        pullDay.add(new HomeFragmentModel("Barbell Rows", "3 sets", "12 reps"));
-        pullDay.add(new HomeFragmentModel("Dumbbell Rows", "3 sets", "12 reps"));
-        pullDay.add(new HomeFragmentModel("Dumbbell Shrugs", "3 sets", "12 reps"));
-        pullDay.add(new HomeFragmentModel("Face Pulls", "3 sets", "12 reps"));
-        pullDay.add(new HomeFragmentModel("Barbell Biceps Curls", "3 sets", "12 reps"));
-        pullDay.add(new HomeFragmentModel("Dumbbell Preacher Curls", "3 sets", "12 reps"));
+        // animation for pull day
+        DRAWABLES.put("Deadlift", new ArrayList<Drawable>(){{
+            add(AppCompatResources.getDrawable(context, R.drawable.deadlift_1));
+            add(AppCompatResources.getDrawable(context, R.drawable.deadlift_2));
+        }});
+        DRAWABLES.put("Lat Pull down", new ArrayList<Drawable>(){{
+            add(AppCompatResources.getDrawable(context, R.drawable.lat_pulldown_1));
+            add(AppCompatResources.getDrawable(context, R.drawable.lat_pulldown_2));
+        }});
+        DRAWABLES.put("Barbell Rows", new ArrayList<Drawable>(){{
+            add(AppCompatResources.getDrawable(context, R.drawable.barbell_rows_1));
+            add(AppCompatResources.getDrawable(context, R.drawable.barbell_rows_2));
+        }});
+        DRAWABLES.put("Dumbbell Rows", new ArrayList<Drawable>(){{
+            add(AppCompatResources.getDrawable(context, R.drawable.dumbbell_rows_1));
+            add(AppCompatResources.getDrawable(context, R.drawable.dumbbell_rows_2));
+        }});
+        DRAWABLES.put("Barbell Curls", new ArrayList<Drawable>(){{
+            add(AppCompatResources.getDrawable(context, R.drawable.barbel_curl_1));
+            add(AppCompatResources.getDrawable(context, R.drawable.barbel_curl_2));
+        }});
+        DRAWABLES.put("Preacher Curls", new ArrayList<Drawable>(){{
+            add(AppCompatResources.getDrawable(context, R.drawable.preacher_curl_1));
+            add(AppCompatResources.getDrawable(context, R.drawable.preacher_curl_2));
+        }});
 
-        legDay = new ArrayList<>();
-        legDay.add(new HomeFragmentModel("Squats", "3 sets", "12 reps"));
-        legDay.add(new HomeFragmentModel("Leg Press", "3 sets", "12 reps"));
-        legDay.add(new HomeFragmentModel("Leg Extension", "3 sets", "12 reps"));
-        legDay.add(new HomeFragmentModel("Leg Curl", "3 sets", "12 reps"));
-        legDay.add(new HomeFragmentModel("Romanian Deadlifts", "3 sets", "12 reps"));
-        legDay.add(new HomeFragmentModel("Lunges", "3 sets", "12 reps"));
-        legDay.add(new HomeFragmentModel("Standing Calf Raises", "3 sets", "12 reps"));
+        // leg day animations
+        DRAWABLES.put("Squats", new ArrayList<Drawable>(){{
+            add(AppCompatResources.getDrawable(context, R.drawable.squat_1));
+            add(AppCompatResources.getDrawable(context, R.drawable.squat_2));
+        }});
+        DRAWABLES.put("Leg Extension", new ArrayList<Drawable>(){{
+            add(AppCompatResources.getDrawable(context, R.drawable.leg_extension_1));
+            add(AppCompatResources.getDrawable(context, R.drawable.leg_extension_2));
+        }});
+        DRAWABLES.put("Romanian Deadlift", new ArrayList<Drawable>(){{
+            add(AppCompatResources.getDrawable(context, R.drawable.romanian_deadlift_1));
+            add(AppCompatResources.getDrawable(context, R.drawable.romanian_deadlift_2));
+        }});
+        DRAWABLES.put("Lunges", new ArrayList<Drawable>(){{
+            add(AppCompatResources.getDrawable(context, R.drawable.lunges_1));
+            add(AppCompatResources.getDrawable(context, R.drawable.lunges_2));
+        }});
+
     }
 
-    public ArrayList<HomeFragmentModel> getPushDay() {
-        return pushDay;
+    public Map<String, ArrayList<Drawable>> getDRAWABLES() {
+        return DRAWABLES;
     }
 
-    public ArrayList<HomeFragmentModel> getPullDay() {
-        return pullDay;
-    }
-
-    public ArrayList<HomeFragmentModel> getLegDay() {
-        return legDay;
-    }
 }

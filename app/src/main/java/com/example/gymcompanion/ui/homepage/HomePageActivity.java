@@ -1,12 +1,12 @@
-package com.example.gymcompanion.ui.home;
+package com.example.gymcompanion.ui.homepage;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import android.os.Bundle;
 import com.example.gymcompanion.R;
-import com.example.gymcompanion.ui.home.fragments.AccountFragment;
-import com.example.gymcompanion.ui.home.fragments.ExploreFragment;
-import com.example.gymcompanion.ui.home.fragments.HomeFragment;
+import com.example.gymcompanion.ui.homepage.fragments.AccountFragment;
+import com.example.gymcompanion.ui.homepage.fragments.ExploreFragment;
+import com.example.gymcompanion.ui.homepage.fragments.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomePageActivity extends AppCompatActivity {

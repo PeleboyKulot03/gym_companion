@@ -33,7 +33,7 @@ public class PoseGraphic extends GraphicOverlay.Graphic {
     private final Paint rightPaint;
     private final Paint whitePaint;
 
-    PoseGraphic(
+    public PoseGraphic(
             GraphicOverlay overlay,
             Pose pose,
             boolean showInFrameLikelihood,

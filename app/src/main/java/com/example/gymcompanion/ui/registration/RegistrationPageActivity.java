@@ -128,8 +128,8 @@ public class RegistrationPageActivity extends AppCompatActivity implements IRegi
         prompts.add(genderPrompt);
         prompts.add(levelPrompt);
         prompts.add(credentialsPrompt);
-        prompts.add(agreementPrompt);
         prompts.add(medicalRecordsPrompt);
+        prompts.add(agreementPrompt);
 
         // clicking next
         navButton = findViewById(R.id.navButton);
@@ -140,13 +140,13 @@ public class RegistrationPageActivity extends AppCompatActivity implements IRegi
                 isStart = false;
                 headerPrompt.setText(getString(R.string.header_prompt));
                 navButton.setText(getString(R.string.next));
-                String levelText = ((currentLevel + 1) * 15) + "%";
+                String levelText = ((currentLevel + 1) * 12.5) + "%";
                 progress.setText(levelText);
                 return;
             }
 
             if (isCorrect()){
-                if (currentLevel > 6){
+                if (currentLevel > 7){
                     customProgressBar.startAnimation(animation);
                     RegistrationPageModel model = new RegistrationPageModel(finalName, finalMiddleName, finalSurname, finalName, finalWeight, finalHeight, finalBirthday, finalAge, finalGender, finalExperience, finalEmail);
                     presenter.createNewUser(finalEmail, finalPassword, model);
@@ -359,14 +359,17 @@ public class RegistrationPageActivity extends AppCompatActivity implements IRegi
                         presenter.hasUser(emailET.getText().toString());
                         return false;
                     }
-                    headerPrompt.setText(getString(R.string.agreement_prompt));
-                    navButton.setText(getString(R.string.finish));
-                    finalEmail = emailET.getText().toString();
-                    finalPassword = passwordET.getText().toString();
                 }
                 break;
 
             case 6:
+                headerPrompt.setText(getString(R.string.agreement_prompt));
+                navButton.setText(getString(R.string.finish));
+                finalEmail = emailET.getText().toString();
+                finalPassword = passwordET.getText().toString();
+                break;
+
+            case 7:
                 if (!checkBox.isChecked()){
                     builder.setTitle("Warning Notice")
                             .setMessage("Sorry but you have to agree in the terms and policy of Gym Companion in order to continue")
@@ -392,7 +395,7 @@ public class RegistrationPageActivity extends AppCompatActivity implements IRegi
             progressView(levels.get(currentLevel), R.color.white);
             progressLayout(prompts.get(currentLevel), 0);
             currentLevel--;
-            String levelText = ((currentLevel + 1) * 15) + "%";
+            String levelText = ((currentLevel + 1) * 12.5) + "%";
             progress.setText(levelText);
             progressView(levels.get(currentLevel), R.color.lightPrimary);
             progressLayout(prompts.get(currentLevel), 1);

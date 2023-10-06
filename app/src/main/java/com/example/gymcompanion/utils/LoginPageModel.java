@@ -49,7 +49,7 @@ public class LoginPageModel {
     }
 
     public void createNewUser(final onCreateUser onCreateUser, LoginPageModel model, String userId){
-        reference.child(userId).setValue(model).addOnCompleteListener(task -> {
+        reference.child(userId).child("informations").setValue(model).addOnCompleteListener(task -> {
             if (task.isSuccessful()){
                 onCreateUser.isSuccess(true);
                 return;

@@ -4,7 +4,13 @@
 
     <uses-feature android:name="android.hardware.camera" />
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -19,16 +25,31 @@
         android:theme="@style/Theme.GymCompanion"
         tools:targetApi="31">
         <activity
+            android:name=".ui.SavedVideos.PlayVideoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.SavedVideos.SaveVideosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.testActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.exercise.ExercisePageActivityVideoRecording"
+            android:exported="false" />
+        <activity
+            android:name=".tutorial_activity"
+            android:exported="false" />
+        <activity
             android:name=".ui.exercise.ExercisePageActivity3"
             android:exported="true" />
         <activity
             android:name=".ui.exercise.ExercisePageActivity2"
             android:exported="true" />
         <activity
-            android:name=".ui.exercise.ExercisePageActivity"
+            android:name=".ui.exercise.ExercisePageActivityLiveFeed"
             android:exported="true" />
         <activity
-            android:name=".ui.home.HomePageActivity"
+            android:name=".ui.homepage.HomePageActivity"
             android:exported="true" />
         <activity
             android:name=".ui.forgotpassword.ForgotPasswordActivity"
@@ -46,6 +67,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

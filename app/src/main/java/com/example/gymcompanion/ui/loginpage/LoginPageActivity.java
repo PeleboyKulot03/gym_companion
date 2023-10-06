@@ -29,7 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.gymcompanion.R;
 import com.example.gymcompanion.ui.forgotpassword.ForgotPasswordActivity;
-import com.example.gymcompanion.ui.home.HomePageActivity;
+import com.example.gymcompanion.ui.homepage.HomePageActivity;
 import com.example.gymcompanion.ui.registration.RegistrationPageActivity;
 import com.example.gymcompanion.utils.LoginPageModel;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
@@ -66,7 +66,6 @@ public class LoginPageActivity extends AppCompatActivity implements ILoginPage {
         oneTapClient = Identity.getSignInClient(this);
         presenter = new LoginPagePresenter(this);
         animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate);
-
 
         customProgressBar = findViewById(R.id.customProgressBar);
         emailET = findViewById(R.id.emailET);

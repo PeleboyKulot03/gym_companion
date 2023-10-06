@@ -129,9 +129,7 @@ public class ExercisePageActivity2 extends AppCompatActivity implements SurfaceH
 
 
     private void startCamera() {
-
         cameraProviderFuture  = ProcessCameraProvider.getInstance(this);
-
         cameraProviderFuture.addListener(() -> {
             try {
                 ProcessCameraProvider cameraProvider = cameraProviderFuture.get();

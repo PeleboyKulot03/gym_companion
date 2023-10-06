@@ -1,4 +1,4 @@
-package com.example.gymcompanion.ui.home.fragments;
+package com.example.gymcompanion.ui.homepage.fragments;
 
 import com.example.gymcompanion.utils.AccountModel;
 
