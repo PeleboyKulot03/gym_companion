@@ -25,6 +25,9 @@
         android:theme="@style/Theme.GymCompanion"
         tools:targetApi="31">
         <activity
+            android:name=".ui.exercise.PreviewVideoActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.SavedVideos.PlayVideoActivity"
             android:exported="false" />
         <activity

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.exercise.PreviewVideoActivity"
+    android:background="@color/black">
+
+    <com.warnyul.android.widget.FastVideoView
+        android:id="@+id/videoView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:clickable="true"
+        android:focusable="true"
+        android:rotation="180" />
+
+    <LinearLayout
+        android:id="@+id/controls"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <SeekBar
+            android:id="@+id/seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            />
+
+        <LinearLayout
+            android:padding="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:id="@+id/currentTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dummy_time"
+                android:textColor="@color/white"
+                />
+
+            <TextView
+                android:layout_marginEnd="10dp"
+                android:layout_weight="0"
+                android:id="@+id/duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dummy_time"
+                android:textColor="@color/white"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="#55000000"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:id="@+id/repeat"
+                android:contentDescription="@string/repeat"
+                android:src="@drawable/baseline_repeat_24"
+                app:tint="@color/white" />
+
+            <ImageView
+                android:layout_weight="1"
+                android:id="@+id/rewind"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:src="@drawable/rewind_button"
+                app:tint="@color/white"
+                android:contentDescription="@string/rewind" />
+
+            <ImageView
+                android:contentDescription="@string/play"
+                android:layout_weight="1"
+                android:id="@+id/play"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:src="@drawable/baseline_play_circle_24"
+                app:tint="@color/white" />
+
+            <ImageView
+                android:layout_weight="1"
+                android:id="@+id/forward"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:src="@drawable/forward_button"
+                app:tint="@color/white"
+                android:contentDescription="@string/forward" />
+
+            <ImageView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="32dp"
+                android:id="@+id/download"
+                android:contentDescription="@string/download_button"
+                android:src="@drawable/baseline_download_for_offline_24"
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

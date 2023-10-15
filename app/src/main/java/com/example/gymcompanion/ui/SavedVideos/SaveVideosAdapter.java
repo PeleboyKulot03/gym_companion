@@ -13,13 +13,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gymcompanion.R;
+import com.example.gymcompanion.ui.exercise.PreviewVideoActivity;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class SaveVideosAdapter extends RecyclerView.Adapter<SaveVideosAdapter.ViewHolder> {
 
@@ -50,6 +56,28 @@ public class SaveVideosAdapter extends RecyclerView.Adapter<SaveVideosAdapter.Vi
             intent.putExtra("uri", uri.toString());
             activity.startActivity(intent);
         });
+        holder.title.setText(uri.getLastPathSegment());
+        holder.date.setText(uri.getLastPathSegment().substring(0, 10));
+        holder.card.setOnLongClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            builder.setTitle("Returning Notice");
+            builder.setMessage("Are you sure you want to delete this video?");
+            builder.setPositiveButton("Yes", (dialog, which) -> {
+                int pos = holder.getAdapterPosition();
+                list.remove(pos);
+                File file = new File(Objects.requireNonNull(uri.getPath()));
+                if (file.delete()) {
+                    Toast.makeText(context, "deleting video successfully!", Toast.LENGTH_SHORT).show();
+                    notifyItemRemoved(pos);
+                    return;
+                }
+                Toast.makeText(context, "an error occurred while deleting the video, please try again later!", Toast.LENGTH_SHORT).show();
+
+            });
+            builder.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
+            builder.create().show();
+            return false;
+        });
     }
 
     @Override
@@ -60,10 +88,13 @@ public class SaveVideosAdapter extends RecyclerView.Adapter<SaveVideosAdapter.Vi
     public class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView thumbnail;
         private final RelativeLayout card;
+        private final TextView title, date;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             thumbnail = itemView.findViewById(R.id.thumbnail);
             card = itemView.findViewById(R.id.card);
+            title = itemView.findViewById(R.id.title);
+            date = itemView.findViewById(R.id.date);
         }
     }
     private Bitmap getThumbnail(Uri uri) {

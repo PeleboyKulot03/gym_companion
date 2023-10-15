@@ -29,6 +29,22 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+    packaging {
+        resources.pickFirsts.add ("lib/x86/libc++_shared.so")
+        resources.pickFirsts.add  ("lib/x86_64/libc++_shared.so")
+        resources.pickFirsts.add  ("lib/armeabi-v7a/libc++_shared.so")
+        resources.pickFirsts.add  ("lib/arm64-v8a/libc++_shared.so")
+    }
+
+
+//    splits {
+//        abi {
+//            isEnable = true
+//            reset()
+//            include("x86", "armeabi")
+//            isUniversalApk = false
+//        }
+//    }
 }
 
 dependencies {
@@ -62,4 +78,13 @@ dependencies {
     implementation ("com.google.code.gson:gson:2.8.6")
     implementation ("com.google.guava:guava:27.1-android")
 
+    implementation ("com.github.wseemann:FFmpegMediaMetadataRetriever-core:1.0.19")
+//    implementation ("com.github.wseemann:FFmpegMediaMetadataRetriever-native:1.0.19")
+    implementation ("org.jcodec:jcodec:0.2.5")
+    implementation ("org.jcodec:jcodec-android:0.2.5")
+    implementation ("org.jcodec:jcodec-javase:0.2.5")
+//    implementation ("com.writingminds:FFmpegAndroid:0.3.2")
+    implementation ("com.warnyul.android.fast-video-view:fast-video-view:1.0.2")
+//    implementation ("nl.bravobit:android-ffmpeg:1.1.7")
+    implementation ("com.arthenica:ffmpeg-kit-full:6.0-2")
 }

@@ -71,7 +71,9 @@ public class tutorial_activity extends AppCompatActivity {
         });
 
         startRecording.setOnClickListener(view -> {
-            startActivity(new Intent(getApplicationContext(), ExercisePageActivityVideoRecording.class));
+            Intent intent1 = new Intent(getApplicationContext(), ExercisePageActivityVideoRecording.class);
+            intent1.putExtra("exercise", exercise);
+            startActivity(intent1);
         });
 
         back.setOnClickListener(v -> finish());

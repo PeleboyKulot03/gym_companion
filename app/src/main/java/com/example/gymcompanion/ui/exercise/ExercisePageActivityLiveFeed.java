@@ -9,7 +9,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
@@ -26,6 +28,7 @@ import android.os.HandlerThread;
 import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.gymcompanion.R;
@@ -50,7 +53,7 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity {
     private int count = 1;
     private boolean onHold = true;
     private TextView counter;
-
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +62,7 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity {
 
         textureView = findViewById(R.id.textureView);
         counter = findViewById(R.id.counter);
-
+        imageView = findViewById(R.id.imageView);
 
         HandlerThread handlerThread = new HandlerThread("Video Thread");
         handlerThread.start();
@@ -105,17 +108,17 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity {
                     InputImage inputImage = InputImage.fromBitmap(textureView.getBitmap(), getDisplayRotation());
                     poseDetector.process(inputImage)
                             .addOnSuccessListener(pose -> {
-//                                GraphicOverlay overlay = new GraphicOverlay(getApplicationContext());
-//                                PoseGraphic poseGraphic = new PoseGraphic(overlay, pose, true, false, true);
-//                                Paint paint = new Paint();
-//                                paint.setStyle(Paint.Style.STROKE);
-//                                paint.setColor(getColor(R.color.black));
-//                                paint.setStrokeWidth(5);
-//                                paint.setTextSize(30);
-//
-//                                Canvas canvas = new Canvas(bitmapImage);
-//
-//                                poseGraphic.draw(canvas);
+                                GraphicOverlay overlay = new GraphicOverlay(getApplicationContext());
+                                PoseGraphic poseGraphic = new PoseGraphic(overlay, pose, true, false, true);
+                                Paint paint = new Paint();
+                                paint.setStyle(Paint.Style.STROKE);
+                                paint.setColor(getColor(R.color.black));
+                                paint.setStrokeWidth(5);
+                                paint.setTextSize(30);
+
+                                Canvas canvas = new Canvas(bitmapImage);
+
+                                poseGraphic.draw(canvas);
 
                                 PoseLandmark firstPoint = pose.getPoseLandmark(PoseLandmark.LEFT_WRIST);
                                 PoseLandmark midPoint = pose.getPoseLandmark(PoseLandmark.LEFT_ELBOW);
@@ -144,8 +147,8 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity {
 
                                 }
 
-//                                imageView.setImageMatrix(setTextureTransform(characteristics));
-//                                imageView.setImageBitmap(bitmapImage);
+                                imageView.setImageMatrix(setTextureTransform(characteristics));
+                                imageView.setImageBitmap(bitmapImage);
 
                             }).
                             addOnFailureListener(e -> Toast.makeText(ExercisePageActivityLiveFeed.this, "Sorry but " + e.getLocalizedMessage() + ". Please Try again later!", Toast.LENGTH_SHORT).show());

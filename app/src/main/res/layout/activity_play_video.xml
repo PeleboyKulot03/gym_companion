@@ -4,14 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.SavedVideos.PlayVideoActivity">
+    tools:context=".ui.SavedVideos.PlayVideoActivity"
+    android:background="@color/black">
 
-    <VideoView
+    <com.warnyul.android.widget.FastVideoView
+        android:rotation="180"
         android:id="@+id/videoView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-
         />
+
+
 
 </RelativeLayout>

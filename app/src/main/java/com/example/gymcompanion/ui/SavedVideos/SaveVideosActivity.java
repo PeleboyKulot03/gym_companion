@@ -31,15 +31,18 @@ public class SaveVideosActivity extends AppCompatActivity {
     }
 
     private void getSavedVideos() {
-        String path = getApplicationContext().getFilesDir().getAbsolutePath() + "/SavedVideos";
+        //TODO: change back to /SavedVideos
+        String path = getApplicationContext().getFilesDir().getAbsolutePath() + File.separator + "/SavedVideos";
         File directory = new File(path);
         File[] files = directory.listFiles();
 
         assert files != null;
         for (File file: files){
-            Uri uri = Uri.fromFile(file);
-            Log.i("ttttt", "getSavedVideos: " + file.getName());
-            uris.add(uri);
+            if (file.getName().contains(".mp4")) {
+                Uri uri = Uri.fromFile(file);
+                Log.i("ttttt", "getSavedVideos: " + file.getName());
+                uris.add(uri);
+            }
         }
 
         Log.i("TAG", "getSavedVideos: " + uris.size());
