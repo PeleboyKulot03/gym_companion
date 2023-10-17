@@ -5,27 +5,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.content.ContextCompat;
 
-import android.content.DialogInterface;
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MediaController;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.widget.VideoView;
 import com.example.gymcompanion.R;
-import com.warnyul.android.widget.FastVideoView;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -34,28 +27,28 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
-import java.util.Objects;
 
 public class PreviewVideoActivity extends AppCompatActivity {
     private LinearLayout controls;
     private SeekBar seekBar;
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler();
     private boolean onRepeat = false;
     private File dir;
-    private String path;
     private boolean isSave = false;
 
-
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview_video);
         Intent intent = getIntent();
         Uri uri = Uri.parse(intent.getStringExtra("uri"));
-        path = uri.getPath();
-        dir = new File(path);
+        String path = uri.getPath();
+        if (path != null) {
+            dir = new File(path);
+        }
 
-        FastVideoView videoView = findViewById(R.id.videoView);
+        VideoView videoView = findViewById(R.id.videoView);
         videoView.setVideoURI(uri);
         controls = findViewById(R.id.controls);
         ImageView play = findViewById(R.id.play);

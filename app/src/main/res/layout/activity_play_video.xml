@@ -7,8 +7,7 @@
     tools:context=".ui.SavedVideos.PlayVideoActivity"
     android:background="@color/black">
 
-    <com.warnyul.android.widget.FastVideoView
-        android:rotation="180"
+    <VideoView
         android:id="@+id/videoView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

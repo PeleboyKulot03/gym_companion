@@ -1,5 +1,8 @@
 package com.example.gymcompanion.ui.exercise;
 
+import static java.lang.Math.atan2;
+import static java.lang.Math.max;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -22,6 +25,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
@@ -47,10 +51,15 @@ import com.example.gymcompanion.ui.SavedVideos.PlayVideoActivity;
 import com.example.gymcompanion.ui.exercise.decoders.Frame;
 import com.example.gymcompanion.ui.exercise.decoders.FrameExtractor;
 import com.example.gymcompanion.ui.exercise.decoders.IVideoFrameExtractor;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.pose.Pose;
 import com.google.mlkit.vision.pose.PoseDetection;
 import com.google.mlkit.vision.pose.PoseDetector;
+import com.google.mlkit.vision.pose.PoseLandmark;
 import com.google.mlkit.vision.pose.defaults.PoseDetectorOptions;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -84,12 +93,28 @@ public class ExercisePageActivityVideoRecording extends AppCompatActivity implem
     private final String filePrefix = "picture";
     private final String fileExtn = ".jpeg";
     int count = 1;
+    private String direction = "";
+    private int directionFrom = 0;
+    private boolean didPass = false;
+    private boolean onHold = true;
+    private ArrayList<ArrayList<Integer>> bottomToMiddle = new ArrayList<>();
+    private ArrayList<ArrayList<Integer>> middleToTop = new ArrayList<>();
+    private ArrayList<ArrayList<Integer>> topToMiddle = new ArrayList<>();
+    private ArrayList<ArrayList<Integer>> middleToBottom = new ArrayList<>();
+    private ArrayList<Integer> tempHolder = new ArrayList<>();
+    private ArrayList<Bitmap> bitmaps = new ArrayList<>();
+
+    boolean isDone = true;
+    boolean isFileSaving = false;
+    int i = 0;
     private final ActivityResultLauncher<String> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), result -> {
         if (ActivityCompat.checkSelfPermission(ExercisePageActivityVideoRecording.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             startCamera(cameraFacing);
         }
     });
     private File src;
+    private int counter = 0;
+    private int testCount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,6 +247,7 @@ public class ExercisePageActivityVideoRecording extends AppCompatActivity implem
 
                 cameraProvider.bindToLifecycle(this, cameraSelector, preview, videoCapture);
 
+
             } catch (ExecutionException | InterruptedException e) {
                 e.printStackTrace();
             }
@@ -248,42 +274,38 @@ public class ExercisePageActivityVideoRecording extends AppCompatActivity implem
         Buffer buffer = currentFrame.getByteBuffer();
         buffer.rewind();
         result.copyPixelsFromBuffer(buffer);
-        Bitmap outputBitmap = Bitmap.createBitmap(result, 0, 0, result.getWidth(), result.getHeight());
+        Matrix matrix = new Matrix();
+        matrix.postRotate(180);
+        Bitmap outputBitmap = Bitmap.createBitmap(result, 0, 0, result.getWidth(), result.getHeight(), matrix, true);
         outputBitmap.setDensity(DisplayMetrics.DENSITY_DEFAULT);
-
-        InputImage inputImage = InputImage.fromBitmap(outputBitmap, 0);
-        poseDetector.process(inputImage).addOnSuccessListener(pose -> {
-            GraphicOverlay overlay = new GraphicOverlay(getApplicationContext());
-            PoseGraphic poseGraphic = new PoseGraphic(overlay, pose, true, false, true);
-            Paint paint = new Paint();
-            paint.setStyle(Paint.Style.STROKE);
-            paint.setColor(getColor(R.color.black));
-            paint.setStrokeWidth(5);
-            paint.setTextSize(30);
-
-            Canvas canvas = new Canvas(outputBitmap);
-
-            poseGraphic.draw(canvas);
-            String childName = filePrefix + String.format(Locale.getDefault(), "%07d", count) + fileExtn;
-            String path = dir.getAbsolutePath() + File.separator + "TempPictures";
-            src = new File(path, childName);
-            try (FileOutputStream out = new FileOutputStream(src)) {
-                outputBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out); // bmp is your Bitmap instance
-                count++;
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            runOnUiThread(() -> {
-                if (progressBar.getProgress() < 90) {
-                    progressBar.setProgress(progressBar.getProgress() + 1);
-                }
-            });
-        });
+        bitmaps.add(outputBitmap);
+        Log.i("tagerista", "onCurrentFrameExtracted: " + testCount++);
 
     }
 
     @Override
     public void onAllFrameExtracted(int processedFrameCount, Long processedTimeMs) {
+        Log.i("tagerista", "onAllFrameExtracted: " + testCount);
+        Log.i("tagerista", "before pose detection");
+        addPoseDetections();
+        Log.i("tagerista", "after pose detection");
+
+        DifferentExercise differentExercise = new DifferentExercise(getApplicationContext());
+        int max = differentExercise.getShoulderPressBottomToMiddleMax();
+        int min = differentExercise.getShoulderPressBottomToMiddleMin();
+        ArrayList<Boolean> accuracy = new ArrayList<>();
+        for (ArrayList<Integer> angles: bottomToMiddle) {
+            for (Integer angle: angles){
+                if (angle >= min && angle <= max){
+                    accuracy.add(true);
+                    continue;
+                }
+                accuracy.add(false);
+            }
+        }
+        Log.i("testing", "bottom to middles: " + bottomToMiddle);
+
+        Log.i("testing", "bottom to middle: " + accuracy);
         runOnUiThread(() -> {
             progressBar.setProgress(100);
             progressText.setText(getString(R.string.second_phase));
@@ -340,5 +362,126 @@ public class ExercisePageActivityVideoRecording extends AppCompatActivity implem
         });
 
 
+    }
+
+    private void addPoseDetections() {
+        while (i < bitmaps.size()){
+            if (isDone) {
+                isDone = false;
+                Bitmap outputBitmap = bitmaps.get(i);
+
+                InputImage inputImage = InputImage.fromBitmap(outputBitmap, 0);
+                poseDetector.process(inputImage).addOnCompleteListener(pose -> {
+                    if (pose.isComplete()){
+                        GraphicOverlay overlay = new GraphicOverlay(getApplicationContext());
+                        PoseGraphic poseGraphic = new PoseGraphic(overlay, pose.getResult(), true, false, true);
+                        Canvas canvas = new Canvas(outputBitmap);
+                        PoseLandmark firstPoint = pose.getResult().getPoseLandmark(PoseLandmark.LEFT_WRIST);
+                        PoseLandmark midPoint = pose.getResult().getPoseLandmark(PoseLandmark.LEFT_ELBOW);
+                        PoseLandmark lastPoint = pose.getResult().getPoseLandmark(PoseLandmark.LEFT_SHOULDER);
+
+                        Log.i("tagerista", "wrist: " + firstPoint.getPosition().y );
+                        Log.i("tagerista", "elbow: " + midPoint.getPosition().y);
+                        Log.i("tagerista", "shoulder: " + lastPoint.getPosition().y);
+
+                        if ((firstPoint != null) && (midPoint != null) && (lastPoint != null) && (firstPoint.getPosition().y < midPoint.getPosition().y)) {
+                            int angleResult = (int) Math.toDegrees(
+                                    atan2(lastPoint.getPosition().y - midPoint.getPosition().y,
+                                            lastPoint.getPosition().x - midPoint.getPosition().x)
+                                            - atan2(firstPoint.getPosition().y - midPoint.getPosition().y,
+                                            firstPoint.getPosition().x - midPoint.getPosition().x));
+
+                            if (angleResult > 180) {
+                                angleResult = (360 - angleResult);
+                            }
+
+                            angleResult = Math.abs(angleResult);
+                            Log.i("Tagerista", "Angle Result: " + angleResult);
+
+                            countReps(angleResult);
+                            checkForm(angleResult);
+                        }
+                        poseGraphic.draw(canvas);
+                        String childName = filePrefix + String.format(Locale.getDefault(), "%07d", count) + fileExtn;
+                        String path = dir.getAbsolutePath() + File.separator + "TempPictures";
+                        src = new File(path, childName);
+                        try (FileOutputStream out = new FileOutputStream(src)) {
+                            outputBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+                            count++;
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } finally {
+                            Log.i("tagerista", "detection complete at frame: " + i);
+                            i++;
+                            isDone = true;
+                        }
+                        runOnUiThread(() -> {
+                            if (progressBar.getProgress() < 90) {
+                                progressBar.setProgress(progressBar.getProgress() + 1);
+                            }
+                        });
+                    }
+
+                    if (pose.isCanceled()) {
+                        isDone = true;
+                    }
+                }).addOnFailureListener(e -> {
+                    isDone = true;
+                    Log.i("tagerista", "addPoseDetections: " + e.getLocalizedMessage());
+                });
+            }
+        }
+    }
+
+    private void countReps(int angleResult) {
+        // reached the down state
+        if (angleResult < 70) {
+            onHold = false;
+        }
+
+        // reach the upstate
+        if (angleResult > 150 && !onHold) {
+            String tempText = getString(R.string.count_0) + (counter+1);
+            onHold = true;
+            Log.i("ggggg", tempText);
+        }
+    }
+    private void checkForm(int angleResult) {
+        // the down state is reached update the direction
+        if (angleResult < 70 && didPass){
+            middleToBottom.add(tempHolder);
+            tempHolder = new ArrayList<>();
+            directionFrom = 0;
+            didPass = false;
+            direction = "hit the down state";
+            Log.i("testing", direction);
+        }
+
+        // middle point is reached
+        if (angleResult >= 90 && angleResult <= 110 && !didPass){
+            if (directionFrom == 0){
+                bottomToMiddle.add(tempHolder);
+                direction = "passed the middle while going up";
+            }
+            if (directionFrom == 1){
+                topToMiddle.add(tempHolder);
+                direction = "passed the middle while going down";
+            }
+            tempHolder = new ArrayList<>();
+            didPass = true;
+            Log.i("testing", direction);
+        }
+
+        // upstate reached
+        if (angleResult > 150 && didPass) {
+            middleToTop.add(tempHolder);
+            tempHolder = new ArrayList<>();
+            directionFrom = 1;
+            didPass = false;
+            direction = "hit the up state";
+            Log.i("testing", direction);
+        }
+        tempHolder.add(angleResult);
+        Log.i("ggggg", "Angle Result: " + angleResult);
     }
 }

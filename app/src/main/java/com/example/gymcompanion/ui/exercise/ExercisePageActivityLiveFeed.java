@@ -1,6 +1,10 @@
 package com.example.gymcompanion.ui.exercise;
 
+import static java.lang.Math.acos;
 import static java.lang.Math.atan2;
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -25,6 +29,7 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
@@ -54,6 +59,7 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity {
     private boolean onHold = true;
     private TextView counter;
     private ImageView imageView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,17 +131,33 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity {
                                 PoseLandmark lastPoint = pose.getPoseLandmark(PoseLandmark.LEFT_SHOULDER);
 
                                 if (firstPoint != null && midPoint != null && lastPoint != null && firstPoint.getPosition().y < lastPoint.getPosition().y) {
-                                    double result =
-                                        Math.toDegrees(
-                                                atan2(lastPoint.getPosition().y - midPoint.getPosition().y,
-                                                        lastPoint.getPosition().x - midPoint.getPosition().x)
-                                                        - atan2(firstPoint.getPosition().y - midPoint.getPosition().y,
-                                                        firstPoint.getPosition().x - midPoint.getPosition().x));
-                                    result = Math.abs(result); // Angle should never be negative
+
+                                    int result = (int) Math.toDegrees(
+                                            atan2(lastPoint.getPosition().y - midPoint.getPosition().y,
+                                                    lastPoint.getPosition().x - midPoint.getPosition().x)
+                                                    - atan2(firstPoint.getPosition().y - midPoint.getPosition().y,
+                                                    firstPoint.getPosition().x - midPoint.getPosition().x));//
+
+
+//                                    // compute the distances of the given points
+//                                    double pointA = sqrt(pow((firstPoint.getPosition().x - midPoint.getPosition().x), 2) + pow((firstPoint.getPosition().y - midPoint.getPosition().y), 2));
+//                                    double pointB =  sqrt(pow((lastPoint.getPosition().x - midPoint.getPosition().x), 2) + pow((lastPoint.getPosition().y - midPoint.getPosition().y), 2));
+//
+//                                    // apply pythagorean theorem to get the hypotenuse
+//                                    double pointC = pow(pointA, 2) + pow(pointB, 2);
+//
+//                                    double initialRes = (pow(pointB, 2) + pow(pointC, 2)) - ((2 * pointB) * pointB);
+//
+//                                    double result = initialRes / pow(pointA, 2);
+
 
                                     if (result > 180) {
-                                        result = (360.0 - result); // Always get the acute representation of the angle
+                                        result = (360 - result); // Always get the acute representation of the angle
                                     }
+                                    result = Math.abs(result);
+
+                                    Log.i("Tagerista", "Angle Result: " + result);
+
                                     if (result < 90) {
                                         onHold = false;
                                     }

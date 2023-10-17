@@ -7,14 +7,14 @@
     tools:context=".ui.exercise.PreviewVideoActivity"
     android:background="@color/black">
 
-    <com.warnyul.android.widget.FastVideoView
+    <VideoView
         android:id="@+id/videoView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:clickable="true"
         android:focusable="true"
-        android:rotation="180" />
+        />
 
     <LinearLayout
         android:id="@+id/controls"

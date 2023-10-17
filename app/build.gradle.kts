@@ -79,12 +79,8 @@ dependencies {
     implementation ("com.google.guava:guava:27.1-android")
 
     implementation ("com.github.wseemann:FFmpegMediaMetadataRetriever-core:1.0.19")
-//    implementation ("com.github.wseemann:FFmpegMediaMetadataRetriever-native:1.0.19")
     implementation ("org.jcodec:jcodec:0.2.5")
     implementation ("org.jcodec:jcodec-android:0.2.5")
     implementation ("org.jcodec:jcodec-javase:0.2.5")
-//    implementation ("com.writingminds:FFmpegAndroid:0.3.2")
-    implementation ("com.warnyul.android.fast-video-view:fast-video-view:1.0.2")
-//    implementation ("nl.bravobit:android-ffmpeg:1.1.7")
     implementation ("com.arthenica:ffmpeg-kit-full:6.0-2")
 }

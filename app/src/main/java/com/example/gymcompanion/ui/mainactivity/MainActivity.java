@@ -10,6 +10,7 @@ import com.arthenica.ffmpegkit.FFmpegKit;
 import com.arthenica.ffmpegkit.FFmpegSession;
 import com.arthenica.ffmpegkit.ReturnCode;
 import com.example.gymcompanion.R;
+import com.example.gymcompanion.ui.exercise.Extractor;
 import com.example.gymcompanion.ui.homepage.HomePageActivity;
 import com.example.gymcompanion.ui.loginpage.LoginPageActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,50 +25,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         auth = FirebaseAuth.getInstance();
-        String path = getApplicationContext().getFilesDir().getAbsolutePath() + File.separator + "TempPictures";
-        File s = new File(path);
-        File[] test = s.listFiles();
-
-        String fileName = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.getDefault()).format(System.currentTimeMillis()) + ".mp4";
-
-
-        String cmd = "ffmpeg -f image2 -i /data/user/0/com.example.gymcompanion/files/TempPictures/picture%03d.jpg /data/user/0/com.example.gymcompanion/files/test.avi";
-
-//
-//        for (File file: test){
-//            Log.i("teggg", "success: " + file.getAbsolutePath());
-//
-//        }
-//        try {
-//            FFmpeg.getInstance(this).execute(cmd, new FFmpegExecuteResponseHandler() {
-//                @Override
-//                public void onSuccess(String message) {
-//
-//                }
-//
-//                @Override
-//                public void onProgress(String message) {
-//
-//                }
-//
-//                @Override
-//                public void onFailure(String message) {
-//
-//                }
-//
-//                @Override
-//                public void onStart() {
-//
-//                }
-//
-//                @Override
-//                public void onFinish() {
-//
-//                }
-//            });
-//        } catch (FFmpegCommandAlreadyRunningException e) {
-//            throw new RuntimeException(e);
-//        }
     }
 
     @Override

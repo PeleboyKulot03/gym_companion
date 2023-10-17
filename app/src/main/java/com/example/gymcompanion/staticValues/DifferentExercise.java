@@ -14,6 +14,16 @@ import java.util.Map;
 
 public class DifferentExercise {
     private Map<String, ArrayList<Drawable>> DRAWABLES;
+    private int shoulderPressBottomToMiddleMin = 60;
+    private int shoulderPressBottomToMiddleMax = 90;
+    private int shoulderPressMiddleToTopMin = 95;
+    private int shoulderPressMiddleToTopeMax = 150;
+
+    private int shoulderPressTopToMiddleMin = 116;
+    private int shoulderPressTopToMiddleMax = 157;
+    private int shoulderPressMiddleToBottomMin = 73;
+    private int shoulderPressMiddleToBottomMax = 110;
+
 
     public DifferentExercise (Context context) {
         DRAWABLES = new HashMap<>();
@@ -98,4 +108,35 @@ public class DifferentExercise {
         return DRAWABLES;
     }
 
+    public int getShoulderPressBottomToMiddleMin() {
+        return shoulderPressBottomToMiddleMin;
+    }
+
+    public int getShoulderPressBottomToMiddleMax() {
+        return shoulderPressBottomToMiddleMax;
+    }
+
+    public int getShoulderPressMiddleToTopMin() {
+        return shoulderPressMiddleToTopMin;
+    }
+
+    public int getShoulderPressMiddleToTopeMax() {
+        return shoulderPressMiddleToTopeMax;
+    }
+
+    public int getShoulderPressTopToMiddleMin() {
+        return shoulderPressTopToMiddleMin;
+    }
+
+    public int getShoulderPressTopToMiddleMax() {
+        return shoulderPressTopToMiddleMax;
+    }
+
+    public int getShoulderPressMiddleToBottomMin() {
+        return shoulderPressMiddleToBottomMin;
+    }
+
+    public int getShoulderPressMiddleToBottomMax() {
+        return shoulderPressMiddleToBottomMax;
+    }
 }
