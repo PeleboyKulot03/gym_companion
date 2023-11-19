@@ -126,46 +126,60 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity {
 
                                 poseGraphic.draw(canvas);
 
-                                PoseLandmark firstPoint = pose.getPoseLandmark(PoseLandmark.LEFT_WRIST);
-                                PoseLandmark midPoint = pose.getPoseLandmark(PoseLandmark.LEFT_ELBOW);
-                                PoseLandmark lastPoint = pose.getPoseLandmark(PoseLandmark.LEFT_SHOULDER);
+                                PoseLandmark leftWrist = pose.getPoseLandmark(PoseLandmark.LEFT_WRIST);
+                                PoseLandmark leftElbow = pose.getPoseLandmark(PoseLandmark.LEFT_ELBOW);
+                                PoseLandmark leftShoulder = pose.getPoseLandmark(PoseLandmark.LEFT_SHOULDER);
 
-                                if (firstPoint != null && midPoint != null && lastPoint != null && firstPoint.getPosition().y < lastPoint.getPosition().y) {
+                                PoseLandmark rightWrist = pose.getPoseLandmark(PoseLandmark.RIGHT_WRIST);
+                                PoseLandmark rightElbow = pose.getPoseLandmark(PoseLandmark.RIGHT_ELBOW);
+                                PoseLandmark rightShoulder = pose.getPoseLandmark(PoseLandmark.RIGHT_SHOULDER);
 
-                                    int result = (int) Math.toDegrees(
-                                            atan2(lastPoint.getPosition().y - midPoint.getPosition().y,
-                                                    lastPoint.getPosition().x - midPoint.getPosition().x)
-                                                    - atan2(firstPoint.getPosition().y - midPoint.getPosition().y,
-                                                    firstPoint.getPosition().x - midPoint.getPosition().x));//
+                                if ((leftWrist != null && leftElbow != null && leftShoulder != null && leftWrist.getPosition().y < leftShoulder.getPosition().y)
+                                        && (rightWrist != null && rightElbow != null && rightShoulder != null && rightWrist.getPosition().y < rightShoulder.getPosition().y)) {
+
+                                    int leftResult = (int) Math.toDegrees(
+                                            atan2(leftShoulder.getPosition().y - leftElbow.getPosition().y,
+                                                    leftShoulder.getPosition().x - leftElbow.getPosition().x)
+                                                    - atan2(leftWrist.getPosition().y - leftElbow.getPosition().y,
+                                                    leftWrist.getPosition().x - leftElbow.getPosition().x));
+
+                                    int rightResult = (int) Math.toDegrees(
+                                            atan2(rightShoulder.getPosition().y - rightElbow.getPosition().y,
+                                                    rightShoulder.getPosition().x - rightShoulder.getPosition().x)
+                                                    - atan2(rightWrist.getPosition().y - rightElbow.getPosition().y,
+                                                    rightElbow.getPosition().x - rightElbow.getPosition().x));
 
 
 //                                    // compute the distances of the given points
-//                                    double pointA = sqrt(pow((firstPoint.getPosition().x - midPoint.getPosition().x), 2) + pow((firstPoint.getPosition().y - midPoint.getPosition().y), 2));
-//                                    double pointB =  sqrt(pow((lastPoint.getPosition().x - midPoint.getPosition().x), 2) + pow((lastPoint.getPosition().y - midPoint.getPosition().y), 2));
+//                                    double pointA = sqrt(pow((leftWrist.getPosition().x - leftElbow.getPosition().x), 2) + pow((leftWrist.getPosition().y - leftElbow.getPosition().y), 2));
+//                                    double pointB =  sqrt(pow((leftShoulder.getPosition().x - leftElbow.getPosition().x), 2) + pow((leftShoulder.getPosition().y - leftElbow.getPosition().y), 2));
 //
 //                                    // apply pythagorean theorem to get the hypotenuse
 //                                    double pointC = pow(pointA, 2) + pow(pointB, 2);
 //
 //                                    double initialRes = (pow(pointB, 2) + pow(pointC, 2)) - ((2 * pointB) * pointB);
 //
-//                                    double result = initialRes / pow(pointA, 2);
+//                                    double leftResult = initialRes / pow(pointA, 2);
 
 
-                                    if (result > 180) {
-                                        result = (360 - result); // Always get the acute representation of the angle
+                                    if (leftResult > 180) {
+                                        leftResult = (360 - leftResult); // Always get the acute representation of the angle
                                     }
-                                    result = Math.abs(result);
+                                    leftResult = Math.abs(leftResult);
 
-                                    Log.i("Tagerista", "Angle Result: " + result);
+                                    Log.i("Tagerista", "Angle Result: " + leftResult);
 
-                                    if (result < 90) {
+                                    if (leftResult < 90) {
                                         onHold = false;
                                     }
-                                    if (result > 150 && !onHold) {
+
+                                    if (leftResult > 150 && !onHold) {
                                         String tempText = getString(R.string.count_0) + count++;
                                         counter.setText(tempText);
                                         onHold = true;
                                     }
+
+
 
                                 }
 

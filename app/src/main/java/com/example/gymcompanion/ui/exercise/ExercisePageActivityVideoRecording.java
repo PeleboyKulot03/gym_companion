@@ -346,7 +346,6 @@ public class ExercisePageActivityVideoRecording extends AppCompatActivity implem
                         Toast.makeText(this, "Extraction is cancelled! Please try again later!", Toast.LENGTH_SHORT).show();
                     } else {
                         Log.d("teggg", String.format("Command failed with state %s and rc %s.%s", session.getState(), session.getReturnCode(), session.getFailStackTrace()));
-
                     }
                     String path = getApplicationContext().getFilesDir().getAbsolutePath() + File.separator + "TempPictures";
                     File s = new File(path);
@@ -379,10 +378,6 @@ public class ExercisePageActivityVideoRecording extends AppCompatActivity implem
                         PoseLandmark firstPoint = pose.getResult().getPoseLandmark(PoseLandmark.LEFT_WRIST);
                         PoseLandmark midPoint = pose.getResult().getPoseLandmark(PoseLandmark.LEFT_ELBOW);
                         PoseLandmark lastPoint = pose.getResult().getPoseLandmark(PoseLandmark.LEFT_SHOULDER);
-
-                        Log.i("tagerista", "wrist: " + firstPoint.getPosition().y );
-                        Log.i("tagerista", "elbow: " + midPoint.getPosition().y);
-                        Log.i("tagerista", "shoulder: " + lastPoint.getPosition().y);
 
                         if ((firstPoint != null) && (midPoint != null) && (lastPoint != null) && (firstPoint.getPosition().y < midPoint.getPosition().y)) {
                             int angleResult = (int) Math.toDegrees(

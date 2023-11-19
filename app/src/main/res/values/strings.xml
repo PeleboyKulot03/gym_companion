@@ -119,5 +119,9 @@
     <string name="forward">forward</string>
     <string name="repeat">repeat</string>
     <string name="dummy_time">0:00</string>
+    <string name="empty_state_prompt">empty state</string>
+    <string name="empty_state_description">Resting is part of the training so do it!</string>
+    <string name="addInformationPrompt">click here to start your fitness journey!</string>
+    <string name="empty_state_description_1">Information is required!</string>
 
 </resources>

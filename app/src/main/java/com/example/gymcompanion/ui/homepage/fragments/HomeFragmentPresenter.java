@@ -13,6 +13,6 @@ public class HomeFragmentPresenter {
 
     public void getExercise() {
         HomeFragmentModel model = new HomeFragmentModel();
-        model.getExercise((verdict, models, finish) -> homeFragmentInterface.getExercise(verdict, models, finish));
+        model.getExercise((verdict, models, finish, hasInfo, currentDate, date) -> homeFragmentInterface.getExercise(verdict, models, finish, hasInfo, currentDate, date));
     }
 }

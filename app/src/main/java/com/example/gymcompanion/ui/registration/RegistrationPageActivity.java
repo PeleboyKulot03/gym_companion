@@ -6,6 +6,7 @@ import androidx.core.view.ViewCompat;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +20,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.gymcompanion.R;
+import com.example.gymcompanion.ui.homepage.HomePageActivity;
 import com.example.gymcompanion.utils.RegistrationPageModel;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.MaterialToolbar;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 public class RegistrationPageActivity extends AppCompatActivity implements IRegistrationPage{
@@ -51,6 +57,8 @@ public class RegistrationPageActivity extends AppCompatActivity implements IRegi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration_page);
+
+        MaterialToolbar toolbar = findViewById(R.id.materialToolbar);
 
         presenter = new RegistrationPagePresenter(this);
         animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate);
@@ -146,9 +154,11 @@ public class RegistrationPageActivity extends AppCompatActivity implements IRegi
             }
 
             if (isCorrect()){
-                if (currentLevel > 7){
+                if (currentLevel >= 7){
                     customProgressBar.startAnimation(animation);
-                    RegistrationPageModel model = new RegistrationPageModel(finalName, finalMiddleName, finalSurname, finalName, finalWeight, finalHeight, finalBirthday, finalAge, finalGender, finalExperience, finalEmail);
+                    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+                    Date date = new Date();
+                    RegistrationPageModel model = new RegistrationPageModel(finalName, finalMiddleName, finalSurname, finalName, finalWeight, finalHeight, finalBirthday, finalAge, finalGender, finalExperience, finalEmail, formatter.format(date));
                     presenter.createNewUser(finalEmail, finalPassword, model);
                     return;
                 }
@@ -227,10 +237,22 @@ public class RegistrationPageActivity extends AppCompatActivity implements IRegi
             removePicks(expertise);
             proficient.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.rounded_border));
         });
+
         expert.setOnClickListener(view -> {
             finalExperience = "Expert";
             removePicks(expertise);
             expert.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.drawable.rounded_border));
+        });
+
+        toolbar.setOnClickListener(view -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(RegistrationPageActivity.this);
+            builder.setTitle("Warning Notice")
+                    .setMessage("Are you sure you want to go back to sign in page?")
+                    .setPositiveButton("Yes", (dialogInterface, i) -> super.onBackPressed())
+                    .setNegativeButton("No", (dialogInterface, i) -> dialogInterface.dismiss())
+                    .create();
+
+            builder.show();
         });
 
     }
@@ -438,5 +460,7 @@ public class RegistrationPageActivity extends AppCompatActivity implements IRegi
             return;
         }
         Toast.makeText(this, "Registration Complete!", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(getApplicationContext(), HomePageActivity.class));
+        finish();
     }
 }
