@@ -279,17 +279,16 @@ public class ExercisePageActivityVideoRecording extends AppCompatActivity implem
         Bitmap outputBitmap = Bitmap.createBitmap(result, 0, 0, result.getWidth(), result.getHeight(), matrix, true);
         outputBitmap.setDensity(DisplayMetrics.DENSITY_DEFAULT);
         bitmaps.add(outputBitmap);
-        runOnUiThread(() -> {
-            if (progressBar.getProgress() < 90) {
-                progressBar.setProgress(progressBar.getProgress() + 1);
-            }
-        });
+        Log.i("tagerista", "onCurrentFrameExtracted: " + testCount++);
 
     }
 
     @Override
     public void onAllFrameExtracted(int processedFrameCount, Long processedTimeMs) {
+        Log.i("tagerista", "onAllFrameExtracted: " + testCount);
+        Log.i("tagerista", "before pose detection");
         addPoseDetections();
+        Log.i("tagerista", "after pose detection");
 
         DifferentExercise differentExercise = new DifferentExercise(getApplicationContext());
         int max = differentExercise.getShoulderPressBottomToMiddleMax();
@@ -304,9 +303,12 @@ public class ExercisePageActivityVideoRecording extends AppCompatActivity implem
                 accuracy.add(false);
             }
         }
+        Log.i("testing", "bottom to middles: " + bottomToMiddle);
+
+        Log.i("testing", "bottom to middle: " + accuracy);
         runOnUiThread(() -> {
             progressBar.setProgress(100);
-            progressText.setText(getString(R.string.thirdPhase));
+            progressText.setText(getString(R.string.second_phase));
             if (processedFrameCount != 0) {
                 int videoLength = MediaPlayer.create(getApplicationContext(), Uri.fromFile(outputFile)).getDuration();
                 if (outputFile.delete()){
@@ -363,12 +365,6 @@ public class ExercisePageActivityVideoRecording extends AppCompatActivity implem
     }
 
     private void addPoseDetections() {
-        runOnUiThread(() -> {
-            progressBar.setProgress(100);
-            progressText.setText(getString(R.string.second_phase));
-            progressBar.setProgress(0);
-        });
-        int iterator = 100 / bitmaps.size();
         while (i < bitmaps.size()){
             if (isDone) {
                 isDone = false;
@@ -378,50 +374,34 @@ public class ExercisePageActivityVideoRecording extends AppCompatActivity implem
                 poseDetector.process(inputImage).addOnCompleteListener(pose -> {
                     if (pose.isComplete()){
                         GraphicOverlay overlay = new GraphicOverlay(getApplicationContext());
-                        PoseGraphic poseGraphic = new PoseGraphic(overlay, pose.getResult(), false, true, false);
+                        PoseGraphic poseGraphic = new PoseGraphic(overlay, pose.getResult(), true, false, true);
                         Canvas canvas = new Canvas(outputBitmap);
+                        PoseLandmark firstPoint = pose.getResult().getPoseLandmark(PoseLandmark.LEFT_WRIST);
+                        PoseLandmark midPoint = pose.getResult().getPoseLandmark(PoseLandmark.LEFT_ELBOW);
+                        PoseLandmark lastPoint = pose.getResult().getPoseLandmark(PoseLandmark.LEFT_SHOULDER);
 
-                        // left arm
-                        PoseLandmark leftWrist = pose.getResult().getPoseLandmark(PoseLandmark.LEFT_WRIST);
-                        PoseLandmark leftElbow = pose.getResult().getPoseLandmark(PoseLandmark.LEFT_ELBOW);
-                        PoseLandmark leftShoulder = pose.getResult().getPoseLandmark(PoseLandmark.LEFT_SHOULDER);
+                        Log.i("tagerista", "wrist: " + firstPoint.getPosition().y );
+                        Log.i("tagerista", "elbow: " + midPoint.getPosition().y);
+                        Log.i("tagerista", "shoulder: " + lastPoint.getPosition().y);
 
-                        // right arm
-                        PoseLandmark rightWrist = pose.getResult().getPoseLandmark(PoseLandmark.RIGHT_WRIST);
-                        PoseLandmark rightElbow = pose.getResult().getPoseLandmark(PoseLandmark.RIGHT_ELBOW);
-                        PoseLandmark rightShoulder = pose.getResult().getPoseLandmark(PoseLandmark.RIGHT_SHOULDER);
+                        if ((firstPoint != null) && (midPoint != null) && (lastPoint != null) && (firstPoint.getPosition().y < midPoint.getPosition().y)) {
+                            int angleResult = (int) Math.toDegrees(
+                                    atan2(lastPoint.getPosition().y - midPoint.getPosition().y,
+                                            lastPoint.getPosition().x - midPoint.getPosition().x)
+                                            - atan2(firstPoint.getPosition().y - midPoint.getPosition().y,
+                                            firstPoint.getPosition().x - midPoint.getPosition().x));
 
-                        if (((leftWrist != null) && (leftElbow != null) && (leftShoulder != null) && (leftWrist.getPosition().y < leftElbow.getPosition().y))
-                                && ((rightWrist != null) && (rightElbow != null) && (rightShoulder != null) && (rightWrist.getPosition().y < rightElbow.getPosition().y))) {
-                            int leftAngleResult = (int) Math.toDegrees(
-                                    atan2(leftShoulder.getPosition().y - leftElbow.getPosition().y,
-                                            leftShoulder.getPosition().x - leftElbow.getPosition().x)
-                                            - atan2(leftWrist.getPosition().y - leftElbow.getPosition().y,
-                                            leftWrist.getPosition().x - leftElbow.getPosition().x));
-
-                            int rightAngleResult = (int) Math.toDegrees(
-                                    atan2(rightShoulder.getPosition().y - rightElbow.getPosition().y,
-                                            rightShoulder.getPosition().x - rightElbow.getPosition().x)
-                                            - atan2(rightWrist.getPosition().y - rightElbow.getPosition().y,
-                                            rightWrist.getPosition().x - rightElbow.getPosition().x));
-
-                            leftAngleResult = Math.abs(leftAngleResult);
-                            rightAngleResult = Math.abs(rightAngleResult);
-
-                            if (leftAngleResult > 180) {
-                                leftAngleResult = (360 - leftAngleResult);
-                            }
-                            if (rightAngleResult > 180) {
-                                rightAngleResult = (360 - rightAngleResult);
+                            if (angleResult > 180) {
+                                angleResult = (360 - angleResult);
                             }
 
-                            Log.i("Tagerista", "Angle Result: " + leftAngleResult);
-                            Log.i("Tagerista", "Angle Result: " + rightAngleResult);
+                            angleResult = Math.abs(angleResult);
+                            Log.i("Tagerista", "Angle Result: " + angleResult);
 
-                            countReps(leftAngleResult);
-                            checkForm(leftAngleResult);
+                            countReps(angleResult);
+                            checkForm(angleResult);
                         }
-//                        poseGraphic.draw(canvas);
+                        poseGraphic.draw(canvas);
                         String childName = filePrefix + String.format(Locale.getDefault(), "%07d", count) + fileExtn;
                         String path = dir.getAbsolutePath() + File.separator + "TempPictures";
                         src = new File(path, childName);
@@ -434,8 +414,12 @@ public class ExercisePageActivityVideoRecording extends AppCompatActivity implem
                             Log.i("tagerista", "detection complete at frame: " + i);
                             i++;
                             isDone = true;
-                            runOnUiThread(() -> progressBar.setProgress(progressBar.getProgress() + iterator));
                         }
+                        runOnUiThread(() -> {
+                            if (progressBar.getProgress() < 90) {
+                                progressBar.setProgress(progressBar.getProgress() + 1);
+                            }
+                        });
                     }
 
                     if (pose.isCanceled()) {

@@ -14,6 +14,10 @@ import java.util.Map;
 
 public class DifferentExercise {
     private Map<String, ArrayList<Drawable>> DRAWABLES;
+    private ArrayList<String> pushDay;
+    private ArrayList<String> pullDay;
+    private ArrayList<String> legDay;
+
     private int shoulderPressBottomToMiddleMin = 60;
     private int shoulderPressBottomToMiddleMax = 90;
     private int shoulderPressMiddleToTopMin = 95;
@@ -26,6 +30,12 @@ public class DifferentExercise {
 
 
     public DifferentExercise (Context context) {
+        pullDay = new ArrayList<>();
+        pushDay = new ArrayList<>();
+        legDay = new ArrayList<>();
+
+
+
         DRAWABLES = new HashMap<>();
 
         // animations for push day exercise
@@ -138,5 +148,17 @@ public class DifferentExercise {
 
     public int getShoulderPressMiddleToBottomMax() {
         return shoulderPressMiddleToBottomMax;
+    }
+
+    public ArrayList<String> getPushDay() {
+        return pushDay;
+    }
+
+    public ArrayList<String> getPullDay() {
+        return pullDay;
+    }
+
+    public ArrayList<String> getLegDay() {
+        return legDay;
     }
 }
