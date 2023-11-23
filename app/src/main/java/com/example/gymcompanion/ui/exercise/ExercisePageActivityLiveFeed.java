@@ -11,6 +11,7 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -37,11 +38,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.gymcompanion.R;
+import com.example.gymcompanion.staticValues.DifferentExercise;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.pose.PoseDetection;
 import com.google.mlkit.vision.pose.PoseDetector;
 import com.google.mlkit.vision.pose.PoseLandmark;
 import com.google.mlkit.vision.pose.defaults.PoseDetectorOptions;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
@@ -59,13 +63,24 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity {
     private boolean onHold = true;
     private TextView counter;
     private ImageView imageView;
+    private boolean didPass = false;
+    private int directionFrom = 0;
+    DifferentExercise differentExercise;
 
+    private String exercise;
+    private double leftAccuracy = 0.0;
+    private double rightAccuracy = 0.0;
+    private String curLoc = "BM";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_page);
-
+        Intent intent = getIntent();
+        if (intent != null) {
+            exercise = intent.getStringExtra("exercise");
+        }
+        differentExercise = new DifferentExercise(getApplicationContext());
         textureView = findViewById(R.id.textureView);
         counter = findViewById(R.id.counter);
         imageView = findViewById(R.id.imageView);
@@ -115,7 +130,7 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity {
                     poseDetector.process(inputImage)
                             .addOnSuccessListener(pose -> {
                                 GraphicOverlay overlay = new GraphicOverlay(getApplicationContext());
-                                PoseGraphic poseGraphic = new PoseGraphic(overlay, pose, true, false, true);
+                                PoseGraphic poseGraphic = new PoseGraphic(overlay, pose, false, true, false);
                                 Paint paint = new Paint();
                                 paint.setStyle(Paint.Style.STROKE);
                                 paint.setColor(getColor(R.color.black));
@@ -124,19 +139,41 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity {
 
                                 Canvas canvas = new Canvas(bitmapImage);
 
-                                poseGraphic.draw(canvas);
+                                // left arm
+                                PoseLandmark leftWrist = pose.getPoseLandmark(PoseLandmark.LEFT_WRIST);
+                                PoseLandmark leftElbow = pose.getPoseLandmark(PoseLandmark.LEFT_ELBOW);
+                                PoseLandmark leftShoulder = pose.getPoseLandmark(PoseLandmark.LEFT_SHOULDER);
 
-                                PoseLandmark firstPoint = pose.getPoseLandmark(PoseLandmark.LEFT_WRIST);
-                                PoseLandmark midPoint = pose.getPoseLandmark(PoseLandmark.LEFT_ELBOW);
-                                PoseLandmark lastPoint = pose.getPoseLandmark(PoseLandmark.LEFT_SHOULDER);
+                                // right arm
+                                PoseLandmark rightWrist = pose.getPoseLandmark(PoseLandmark.RIGHT_WRIST);
+                                PoseLandmark rightElbow = pose.getPoseLandmark(PoseLandmark.RIGHT_ELBOW);
+                                PoseLandmark rightShoulder = pose.getPoseLandmark(PoseLandmark.RIGHT_SHOULDER);
 
-                                if (firstPoint != null && midPoint != null && lastPoint != null && firstPoint.getPosition().y < lastPoint.getPosition().y) {
+                                if (((leftWrist != null) && (leftElbow != null) && (leftShoulder != null) && (leftWrist.getPosition().y < leftElbow.getPosition().y))
+                                        && ((rightWrist != null) && (rightElbow != null) && (rightShoulder != null) && (rightWrist.getPosition().y < rightElbow.getPosition().y))) {
+                                    int leftAngleResult = (int) Math.toDegrees(
+                                            atan2(leftShoulder.getPosition().y - leftElbow.getPosition().y,
+                                                    leftShoulder.getPosition().x - leftElbow.getPosition().x)
+                                                    - atan2(leftWrist.getPosition().y - leftElbow.getPosition().y,
+                                                    leftWrist.getPosition().x - leftElbow.getPosition().x));
 
-                                    int result = (int) Math.toDegrees(
-                                            atan2(lastPoint.getPosition().y - midPoint.getPosition().y,
-                                                    lastPoint.getPosition().x - midPoint.getPosition().x)
-                                                    - atan2(firstPoint.getPosition().y - midPoint.getPosition().y,
-                                                    firstPoint.getPosition().x - midPoint.getPosition().x));//
+                                    int rightAngleResult = (int) Math.toDegrees(
+                                            atan2(rightShoulder.getPosition().y - rightElbow.getPosition().y,
+                                                    rightShoulder.getPosition().x - rightElbow.getPosition().x)
+                                                    - atan2(rightWrist.getPosition().y - rightElbow.getPosition().y,
+                                                    rightWrist.getPosition().x - rightElbow.getPosition().x));
+
+                                    leftAngleResult = Math.abs(leftAngleResult);
+                                    rightAngleResult = Math.abs(rightAngleResult);
+
+                                    if (leftAngleResult > 180) {
+                                        leftAngleResult = (360 - leftAngleResult);
+                                    }
+                                    if (rightAngleResult > 180) {
+                                        rightAngleResult = (360 - rightAngleResult);
+                                    }
+
+
 
 
 //                                    // compute the distances of the given points
@@ -150,25 +187,14 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity {
 //
 //                                    double result = initialRes / pow(pointA, 2);
 
-
-                                    if (result > 180) {
-                                        result = (360 - result); // Always get the acute representation of the angle
-                                    }
-                                    result = Math.abs(result);
-
-                                    Log.i("Tagerista", "Angle Result: " + result);
-
-                                    if (result < 90) {
-                                        onHold = false;
-                                    }
-                                    if (result > 150 && !onHold) {
-                                        String tempText = getString(R.string.count_0) + count++;
-                                        counter.setText(tempText);
-                                        onHold = true;
-                                    }
-
+                                    checkForm(leftAngleResult);
+                                    checkForm(rightAngleResult);
+                                    leftAccuracy = calculateAccuracy(leftAngleResult);
+                                    rightAccuracy = calculateAccuracy(rightAngleResult);
                                 }
-
+                                poseGraphic.draw(canvas, leftAccuracy, rightAccuracy, exercise);
+                                leftAccuracy = 0.0;
+                                rightAccuracy = 0.0;
                                 imageView.setImageMatrix(setTextureTransform(characteristics));
                                 imageView.setImageBitmap(bitmapImage);
 
@@ -179,6 +205,48 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity {
             }
         });
 
+    }
+
+    private double calculateAccuracy(double angleResult){
+        if (!curLoc.equals("") && (curLoc.equals("MB") || curLoc.equals("BM"))) {
+            return (100.0 - ((90.0 - angleResult) / 90.0) * 100.0);
+        }
+        return 0.0;
+    }
+    private void checkForm(double angleResult) {
+        // the down state is reached update the direction
+        // direction is from middle to bottom
+        if (angleResult < 70.0 && didPass){
+            directionFrom = 0;
+            didPass = false;
+            curLoc = "BM";
+            return;
+        }
+
+        // middle point is reached
+        if (angleResult >= 90.0 && angleResult <= 110.0 && !didPass){
+            // middle point is hit and the direction is from bottom to middle
+            if (directionFrom == 0){
+                didPass = true;
+                curLoc = "MT";
+                return;
+            }
+
+            // direction is from top to middle
+            if (directionFrom == 1){
+                didPass = true;
+                curLoc = "MB";
+                return;
+            }
+            didPass = true;
+        }
+
+        // upstate reached and the direction is from middle to top
+        if (angleResult > 150.0 && didPass) {
+            directionFrom = 1;
+            didPass = false;
+            curLoc = "TM";
+        }
     }
 
     private Matrix setTextureTransform(CameraCharacteristics characteristics) {
