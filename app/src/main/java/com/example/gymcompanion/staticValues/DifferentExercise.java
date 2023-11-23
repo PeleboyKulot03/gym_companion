@@ -17,7 +17,7 @@ public class DifferentExercise {
     private int shoulderPressBottomToMiddleMin = 60;
     private int shoulderPressBottomToMiddleMax = 90;
     private int shoulderPressMiddleToTopMin = 95;
-    private int shoulderPressMiddleToTopeMax = 150;
+    private int shoulderPressMiddleToTopMax = 150;
 
     private int shoulderPressTopToMiddleMin = 116;
     private int shoulderPressTopToMiddleMax = 157;
@@ -120,8 +120,8 @@ public class DifferentExercise {
         return shoulderPressMiddleToTopMin;
     }
 
-    public int getShoulderPressMiddleToTopeMax() {
-        return shoulderPressMiddleToTopeMax;
+    public int getShoulderPressMiddleToTopMax() {
+        return shoulderPressMiddleToTopMax;
     }
 
     public int getShoulderPressTopToMiddleMin() {

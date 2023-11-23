@@ -63,25 +63,20 @@ public class PoseGraphic extends GraphicOverlay.Graphic {
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(Canvas canvas, double leftAccuracy, double rightAccuracy, String exercise) {
         List<PoseLandmark> landmarks = pose.getAllPoseLandmarks();
         if (landmarks.isEmpty()) {
             return;
         }
 
-
         // Draw all the points
         for (PoseLandmark landmark : landmarks) {
             drawPoint(canvas, landmark, whitePaint);
-            if (visualizeZ && rescaleZForVisualization) {
-                zMin = min(zMin, landmark.getPosition3D().getZ());
-                zMax = max(zMax, landmark.getPosition3D().getZ());
-            }
         }
 
         PoseLandmark nose = pose.getPoseLandmark(PoseLandmark.NOSE);
-        PoseLandmark lefyEyeInner = pose.getPoseLandmark(PoseLandmark.LEFT_EYE_INNER);
-        PoseLandmark lefyEye = pose.getPoseLandmark(PoseLandmark.LEFT_EYE);
+        PoseLandmark leftEyeInner = pose.getPoseLandmark(PoseLandmark.LEFT_EYE_INNER);
+        PoseLandmark leftEye = pose.getPoseLandmark(PoseLandmark.LEFT_EYE);
         PoseLandmark leftEyeOuter = pose.getPoseLandmark(PoseLandmark.LEFT_EYE_OUTER);
         PoseLandmark rightEyeInner = pose.getPoseLandmark(PoseLandmark.RIGHT_EYE_INNER);
         PoseLandmark rightEye = pose.getPoseLandmark(PoseLandmark.RIGHT_EYE);
@@ -116,9 +111,9 @@ public class PoseGraphic extends GraphicOverlay.Graphic {
         PoseLandmark rightFootIndex = pose.getPoseLandmark(PoseLandmark.RIGHT_FOOT_INDEX);
 
         // Face
-        drawLine(canvas, nose, lefyEyeInner, whitePaint);
-        drawLine(canvas, lefyEyeInner, lefyEye, whitePaint);
-        drawLine(canvas, lefyEye, leftEyeOuter, whitePaint);
+        drawLine(canvas, nose, leftEyeInner, whitePaint);
+        drawLine(canvas, leftEyeInner, leftEye, whitePaint);
+        drawLine(canvas, leftEye, leftEyeOuter, whitePaint);
         drawLine(canvas, leftEyeOuter, leftEar, whitePaint);
         drawLine(canvas, nose, rightEyeInner, whitePaint);
         drawLine(canvas, rightEyeInner, rightEye, whitePaint);
@@ -129,31 +124,67 @@ public class PoseGraphic extends GraphicOverlay.Graphic {
         drawLine(canvas, leftShoulder, rightShoulder, whitePaint);
         drawLine(canvas, leftHip, rightHip, whitePaint);
 
-        // Left body
-        drawLine(canvas, leftShoulder, leftElbow, leftPaint);
-        drawLine(canvas, leftElbow, leftWrist, leftPaint);
-        drawLine(canvas, leftShoulder, leftHip, leftPaint);
-        drawLine(canvas, leftHip, leftKnee, leftPaint);
-        drawLine(canvas, leftKnee, leftAnkle, leftPaint);
-        drawLine(canvas, leftWrist, leftThumb, leftPaint);
-        drawLine(canvas, leftWrist, leftPinky, leftPaint);
-        drawLine(canvas, leftWrist, leftIndex, leftPaint);
-        drawLine(canvas, leftIndex, leftPinky, leftPaint);
-        drawLine(canvas, leftAnkle, leftHeel, leftPaint);
-        drawLine(canvas, leftHeel, leftFootIndex, leftPaint);
+        if (exercise != null
+                && exercise.equals("Dumbbell Shoulder Press")
+                && leftAccuracy != 0.0
+                && rightAccuracy != 0.0) {
+            // Left body
+            drawLineWithAccuracy(canvas, leftShoulder, leftElbow, leftPaint,leftAccuracy);
+            drawLineWithAccuracy(canvas, leftElbow, leftWrist, leftPaint,leftAccuracy);
+            drawLineWithAccuracy(canvas, leftWrist, leftThumb, leftPaint,leftAccuracy);
+            drawLineWithAccuracy(canvas, leftWrist, leftPinky, leftPaint,leftAccuracy);
+            drawLineWithAccuracy(canvas, leftWrist, leftIndex, leftPaint,leftAccuracy);
+            drawLineWithAccuracy(canvas, leftIndex, leftPinky, leftPaint,leftAccuracy);
 
-        // Right body
-        drawLine(canvas, rightShoulder, rightElbow, rightPaint);
-        drawLine(canvas, rightElbow, rightWrist, rightPaint);
-        drawLine(canvas, rightShoulder, rightHip, rightPaint);
-        drawLine(canvas, rightHip, rightKnee, rightPaint);
-        drawLine(canvas, rightKnee, rightAnkle, rightPaint);
-        drawLine(canvas, rightWrist, rightThumb, rightPaint);
-        drawLine(canvas, rightWrist, rightPinky, rightPaint);
-        drawLine(canvas, rightWrist, rightIndex, rightPaint);
-        drawLine(canvas, rightIndex, rightPinky, rightPaint);
-        drawLine(canvas, rightAnkle, rightHeel, rightPaint);
-        drawLine(canvas, rightHeel, rightFootIndex, rightPaint);
+            drawLine(canvas, leftShoulder, leftHip, leftPaint);
+            drawLine(canvas, leftHip, leftKnee, leftPaint);
+            drawLine(canvas, leftKnee, leftAnkle, leftPaint);
+            drawLine(canvas, leftAnkle, leftHeel, leftPaint);
+            drawLine(canvas, leftHeel, leftFootIndex, leftPaint);
+
+            // Right body
+            drawLineWithAccuracy(canvas, rightShoulder, rightElbow, rightPaint, rightAccuracy);
+            drawLineWithAccuracy(canvas, rightElbow, rightWrist, rightPaint, rightAccuracy);
+            drawLineWithAccuracy(canvas, rightWrist, rightThumb, rightPaint, rightAccuracy);
+            drawLineWithAccuracy(canvas, rightWrist, rightPinky, rightPaint, rightAccuracy);
+            drawLineWithAccuracy(canvas, rightWrist, rightIndex, rightPaint, rightAccuracy);
+            drawLineWithAccuracy(canvas, rightIndex, rightPinky, rightPaint, rightAccuracy);
+
+            drawLine(canvas, rightShoulder, rightHip, rightPaint);
+            drawLine(canvas, rightHip, rightKnee, rightPaint);
+            drawLine(canvas, rightKnee, rightAnkle, rightPaint);
+            drawLine(canvas, rightAnkle, rightHeel, rightPaint);
+            drawLine(canvas, rightHeel, rightFootIndex, rightPaint);
+        }
+        else {
+            // Left body
+            drawLine(canvas, leftShoulder, leftElbow, leftPaint);
+            drawLine(canvas, leftElbow, leftWrist, leftPaint);
+            drawLine(canvas, leftWrist, leftThumb, leftPaint);
+            drawLine(canvas, leftWrist, leftPinky, leftPaint);
+            drawLine(canvas, leftWrist, leftIndex, leftPaint);
+            drawLine(canvas, leftIndex, leftPinky, leftPaint);
+
+            drawLine(canvas, leftShoulder, leftHip, leftPaint);
+            drawLine(canvas, leftHip, leftKnee, leftPaint);
+            drawLine(canvas, leftKnee, leftAnkle, leftPaint);
+            drawLine(canvas, leftAnkle, leftHeel, leftPaint);
+            drawLine(canvas, leftHeel, leftFootIndex, leftPaint);
+
+            // Right body
+            drawLine(canvas, rightShoulder, rightElbow, rightPaint);
+            drawLine(canvas, rightElbow, rightWrist, rightPaint);
+            drawLine(canvas, rightWrist, rightThumb, rightPaint);
+            drawLine(canvas, rightWrist, rightPinky, rightPaint);
+            drawLine(canvas, rightWrist, rightIndex, rightPaint);
+            drawLine(canvas, rightIndex, rightPinky, rightPaint);
+
+            drawLine(canvas, rightShoulder, rightHip, rightPaint);
+            drawLine(canvas, rightHip, rightKnee, rightPaint);
+            drawLine(canvas, rightKnee, rightAnkle, rightPaint);
+            drawLine(canvas, rightAnkle, rightHeel, rightPaint);
+            drawLine(canvas, rightHeel, rightFootIndex, rightPaint);
+        }
 
         // Draw inFrameLikelihood for all points
         if (showInFrameLikelihood) {
@@ -170,7 +201,7 @@ public class PoseGraphic extends GraphicOverlay.Graphic {
     void drawPoint(Canvas canvas, PoseLandmark landmark, Paint paint) {
         PointF3D point = landmark.getPosition3D();
         updatePaintColorByZValue(
-                paint, canvas, visualizeZ, rescaleZForVisualization, point.getZ(), zMin, zMax);
+                paint, canvas, visualizeZ, rescaleZForVisualization, -1.0, zMin, zMax);
 
         canvas.drawCircle(translateX(point.getX()), translateY(point.getY()), DOT_RADIUS, paint);
     }
@@ -180,9 +211,8 @@ public class PoseGraphic extends GraphicOverlay.Graphic {
         PointF3D end = endLandmark.getPosition3D();
 
         // Gets average z for the current body line
-        float avgZInImagePixel = (start.getZ() + end.getZ()) / 2;
         updatePaintColorByZValue(
-                paint, canvas, visualizeZ, rescaleZForVisualization, avgZInImagePixel, zMin, zMax);
+                paint, canvas, visualizeZ, rescaleZForVisualization, 50.0, zMin, zMax);
 
         canvas.drawLine(
                 translateX(start.getX()),
@@ -191,6 +221,24 @@ public class PoseGraphic extends GraphicOverlay.Graphic {
                 translateY(end.getY()),
                 paint);
     }
+
+    void drawLineWithAccuracy(Canvas canvas, PoseLandmark startLandmark, PoseLandmark endLandmark, Paint paint, double accuracy) {
+        PointF3D start = startLandmark.getPosition3D();
+        PointF3D end = endLandmark.getPosition3D();
+
+        updatePaintColorByZValue(
+                paint, canvas, visualizeZ, rescaleZForVisualization, accuracy, zMin, zMax);
+
+        canvas.drawLine(
+                translateX(start.getX()),
+                translateY(start.getY()),
+                translateX(end.getX()),
+                translateY(end.getY()),
+                paint);
+    }
+
+
+
 
 
 }

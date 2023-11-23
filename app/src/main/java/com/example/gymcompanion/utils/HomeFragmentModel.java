@@ -12,6 +12,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class HomeFragmentModel {
@@ -24,7 +26,9 @@ public class HomeFragmentModel {
     private String time;
     private DatabaseReference databaseReference;
     private FirebaseAuth auth;
-
+    private boolean hasInfo = false;
+    private String currentDay;
+    private String date;
 
     public HomeFragmentModel(){
         databaseReference = FirebaseDatabase.getInstance().getReference("users");
@@ -86,31 +90,79 @@ public class HomeFragmentModel {
         ArrayList<HomeFragmentModel> tempModels = new ArrayList<>();
 
         final int[] count = {0};
-        databaseReference.child(Objects.requireNonNull(auth.getCurrentUser()).getUid()).child("currentExercise").addListenerForSingleValueEvent(new ValueEventListener() {
+
+        databaseReference.child("informations").child("age").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot exercise: snapshot.getChildren()){
-                    HomeFragmentModel model = exercise.getValue(HomeFragmentModel.class);
-                    Objects.requireNonNull(model).setProgram(exercise.getKey());
-                    if (model.getIsDone()){
-                        tempModels.add(model);
-                        count[0]++;
-                        continue;
-                    }
-                    models.add(model);
+                if (snapshot.getValue(String.class) != null) {
+                    hasInfo = true;
                 }
 
-                models.addAll(tempModels);
-                onGetExercise.isSuccess(true, models, count[0]);
+                databaseReference.child(Objects.requireNonNull(auth.getCurrentUser()).getUid()).child("currentExercise").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot exercise: snapshot.getChildren()){
+                            HomeFragmentModel model = exercise.getValue(HomeFragmentModel.class);
+                            Objects.requireNonNull(model).setProgram(exercise.getKey());
+                            if (model.getIsDone()){
+                                tempModels.add(model);
+                                count[0]++;
+                                continue;
+                            }
+                            models.add(model);
+                        }
+
+                        models.addAll(tempModels);
+                        databaseReference = databaseReference.getRoot();
+                        databaseReference.child("users").child(auth.getCurrentUser().getUid()).child("quickInformation").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                date = snapshot.child("currentDate").getValue(String.class);
+                                currentDay = snapshot.child("currentDay").getValue(String.class);
+                                Log.i("TAGEROS", "onDataChange: " + snapshot.child("currentDate").getValue(String.class));
+                                onGetExercise.isSuccess(true, models, count[0], hasInfo, currentDay, date);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        onGetExercise.isSuccess(false, models, count[0], hasInfo, "", "");
+                    }
+                });
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                onGetExercise.isSuccess(false, models, count[0]);
+
             }
         });
+
+    }
+
+    public void getNewExercise(final onGetExercise onGetExercise, String day) {
+        databaseReference.getRoot().child("exercises").child(day).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                onGetExercise.isDone(true, snapshot);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                onGetExercise.isDone(false, null);
+            }
+        });
+
     }
     public interface onGetExercise {
-        void isSuccess(boolean verdict, ArrayList<HomeFragmentModel> models, int finished);
+        void isSuccess(boolean verdict, ArrayList<HomeFragmentModel> models, int finished, boolean hasInfo, String currentDay, String date);
+        void isDone(boolean verdict, DataSnapshot snapshot);
     }
 }

@@ -78,7 +78,7 @@ public class GraphicOverlay extends View {
          *
          * @param canvas drawing canvas
          */
-        public abstract void draw(Canvas canvas);
+        public abstract void draw(Canvas canvas, double leftAccuracy, double rightAccuracy, String exercise);
 
         protected void drawRect(
                 Canvas canvas, float left, float top, float right, float bottom, Paint paint) {
@@ -151,7 +151,7 @@ public class GraphicOverlay extends View {
                 Canvas canvas,
                 boolean visualizeZ,
                 boolean rescaleZForVisualization,
-                float zInImagePixel,
+                double zInImagePixel,
                 float zMin,
                 float zMax) {
             if (!visualizeZ) {
@@ -173,22 +173,18 @@ public class GraphicOverlay extends View {
                 zUpperBoundInScreenPixel = defaultRangeFactor * canvas.getWidth();
             }
 
-            float zInScreenPixel = scale(zInImagePixel);
+            double zInScreenPixel = scale((float) zInImagePixel);
 
-            if (zInScreenPixel < 0) {
-                // Sets up the paint to be red if the item is in front of the z origin.
-                // Maps values within [zLowerBoundInScreenPixel, 0) to [255, 0) and use it to control the
-                // color. The larger the value is, the more red it will be.
-                int v = (int) (zInScreenPixel / zLowerBoundInScreenPixel * 255);
-                v = Ints.constrainToRange(v, 0, 255);
-                paint.setARGB(255, 255, 255 - v, 255 - v);
+            if (zInScreenPixel == -1.0){
+                paint.setARGB(255, 0, 0, 0);
+            }
+            else if (zInScreenPixel < 40) {
+                paint.setARGB(255, 255, 0, 0);
+            } else if (zInScreenPixel < 60) {
+                paint.setARGB(255, 255, 255, 255);
+
             } else {
-                // Sets up the paint to be blue if the item is behind the z origin.
-                // Maps values within [0, zUpperBoundInScreenPixel] to [0, 255] and use it to control the
-                // color. The larger the value is, the more blue it will be.
-                int v = (int) (zInScreenPixel / zUpperBoundInScreenPixel * 255);
-                v = Ints.constrainToRange(v, 0, 255);
-                paint.setARGB(255, 255 - v, 255 - v, 255);
+                paint.setARGB(255, 0, 255, 0);
             }
         }
     }
@@ -290,7 +286,7 @@ public class GraphicOverlay extends View {
             updateTransformationIfNeeded();
 
             for (Graphic graphic : graphics) {
-                graphic.draw(canvas);
+                graphic.draw(canvas, 0.0, 0.0, "");
             }
         }
     }

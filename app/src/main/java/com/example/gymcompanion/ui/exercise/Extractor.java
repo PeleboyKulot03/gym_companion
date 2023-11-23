@@ -162,7 +162,7 @@ public class Extractor extends AppCompatActivity implements IVideoFrameExtractor
                 countReps(angleResult);
                 checkForm(angleResult);
             }
-            poseGraphic.draw(canvas);
+//            poseGraphic.draw(canvas);
             String childName = filePrefix + String.format(Locale.getDefault(), "%07d", count) + fileExtn;
             String path = dir.getAbsolutePath() + File.separator + "TempPictures";
             src = new File(path, childName);

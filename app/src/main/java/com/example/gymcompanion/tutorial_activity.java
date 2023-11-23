@@ -67,7 +67,9 @@ public class tutorial_activity extends AppCompatActivity {
         });
 
         startLiveFeed.setOnClickListener(view -> {
-            startActivity(new Intent(getApplicationContext(), ExercisePageActivityLiveFeed.class));
+            Intent intent1 = new Intent(getApplicationContext(), ExercisePageActivityLiveFeed.class);
+            intent1.putExtra("exercise", exercise);
+            startActivity(intent1);
         });
 
         startRecording.setOnClickListener(view -> {
