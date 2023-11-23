@@ -1,10 +1,6 @@
 package com.example.gymcompanion.ui.exercise;
 
-import static java.lang.Math.acos;
 import static java.lang.Math.atan2;
-import static java.lang.Math.pow;
-import static java.lang.Math.sqrt;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -30,22 +26,17 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.util.Log;
 import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.example.gymcompanion.R;
-import com.example.gymcompanion.staticValues.DifferentExercise;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.pose.PoseDetection;
 import com.google.mlkit.vision.pose.PoseDetector;
 import com.google.mlkit.vision.pose.PoseLandmark;
 import com.google.mlkit.vision.pose.defaults.PoseDetectorOptions;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
@@ -61,11 +52,9 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity {
     private PoseDetector poseDetector;
     private int count = 1;
     private boolean onHold = true;
-    private TextView counter;
     private ImageView imageView;
     private boolean didPass = false;
     private int directionFrom = 0;
-    DifferentExercise differentExercise;
 
     private String exercise;
     private double leftAccuracy = 0.0;
@@ -80,9 +69,7 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity {
         if (intent != null) {
             exercise = intent.getStringExtra("exercise");
         }
-        differentExercise = new DifferentExercise(getApplicationContext());
         textureView = findViewById(R.id.textureView);
-        counter = findViewById(R.id.counter);
         imageView = findViewById(R.id.imageView);
 
         HandlerThread handlerThread = new HandlerThread("Video Thread");

@@ -1,5 +1,7 @@
 package com.example.gymcompanion.utils;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.example.gymcompanion.staticValues.DifferentExercise;
@@ -105,7 +107,7 @@ public class RegistrationPageModel {
         });
     }
 
-    public void createNewUser(final onRegister onRegister, String email, String password, RegistrationPageModel model) {
+    public void createNewUser(final onRegister onRegister, String email, String password, RegistrationPageModel model, boolean isUser) {
         ArrayList<String> pushDay = new ArrayList<>();
         pushDay.add("Flat Bench press");
         pushDay.add("Dips");
@@ -122,10 +124,28 @@ public class RegistrationPageModel {
             exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
         }
+        if (isUser) {
+            reference.child(Objects.requireNonNull(auth.getCurrentUser()).getUid()).child("informations").setValue(model).addOnCompleteListener(task1 -> {
+                if (task1.isSuccessful()){
+                    FirebaseUser user = auth.getCurrentUser();
+                    for (int i = 0; i < pushDay.size(); i++) {
+                        reference = reference.getRoot();
+                        reference.child("users").child(user.getUid()).child("currentExercise").child(pushDay.get(i)).setValue(exerciseModels.get(i));
+                    }
+                    reference = reference.getRoot();
+                    reference.child("users").child(user.getUid()).child("quickInformation").child("currentDay").setValue("Push Day");
+                    reference = reference.getRoot();
+                    reference.child("users").child(user.getUid()).child("quickInformation").child("date").setValue(model.getDate());
+                    onRegister.isSuccess(true, "");
+
+                }
+            }).addOnFailureListener(e -> onRegister.isSuccess(false, e.getLocalizedMessage()));
+            return;
+        }
 
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()){
-
+                Log.i("tageristo", "createNewUser: " + auth.getCurrentUser().getUid());
                 reference.child(Objects.requireNonNull(auth.getCurrentUser()).getUid()).child("informations").setValue(model).addOnCompleteListener(task1 -> {
                     if (task1.isSuccessful()){
                         FirebaseUser user = auth.getCurrentUser();
@@ -144,7 +164,7 @@ public class RegistrationPageModel {
                                         reference.child("users").child(user.getUid()).child("quickInformation").child("currentDay").setValue("Push Day");
                                         reference = reference.getRoot();
                                         reference.child("users").child(user.getUid()).child("quickInformation").child("date").setValue(model.getDate());
-
+                                        onRegister.isSuccess(true, "");
                                     }
                                 }).addOnFailureListener(e -> onRegister.isSuccess(false, e.getLocalizedMessage()));
                         user.sendEmailVerification();

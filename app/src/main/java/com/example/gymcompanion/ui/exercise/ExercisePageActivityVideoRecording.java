@@ -76,9 +76,9 @@ import java.util.concurrent.Executors;
 
 public class ExercisePageActivityVideoRecording extends AppCompatActivity implements IVideoFrameExtractor {
 
-    ExecutorService service;
-    Recording recording = null;
-    VideoCapture<Recorder> videoCapture = null;
+    private ExecutorService service;
+    private Recording recording = null;
+    private VideoCapture<Recorder> videoCapture = null;
     private Button finishSet;
     private PreviewView previewView;
     int cameraFacing = CameraSelector.LENS_FACING_FRONT;
@@ -97,6 +97,8 @@ public class ExercisePageActivityVideoRecording extends AppCompatActivity implem
     private int directionFrom = 0;
     private boolean didPass = false;
     private boolean onHold = true;
+    private double leftAccuracy = 0.0;
+    private double rightAccuracy = 0.0;
     private ArrayList<ArrayList<Integer>> bottomToMiddle = new ArrayList<>();
     private ArrayList<ArrayList<Integer>> middleToTop = new ArrayList<>();
     private ArrayList<ArrayList<Integer>> topToMiddle = new ArrayList<>();
@@ -115,6 +117,8 @@ public class ExercisePageActivityVideoRecording extends AppCompatActivity implem
     private File src;
     private int counter = 0;
     private int testCount = 0;
+    private String exercise = "";
+    private String curLoc = "BM";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +126,7 @@ public class ExercisePageActivityVideoRecording extends AppCompatActivity implem
         setContentView(R.layout.activity_exercise_page_video_recording);
 
         Intent intent = getIntent();
-        String exercise = intent.getStringExtra("exercise");
+        exercise = intent.getStringExtra("exercise");
 
         dir = getApplicationContext().getFilesDir();
 
@@ -290,20 +294,19 @@ public class ExercisePageActivityVideoRecording extends AppCompatActivity implem
     @Override
     public void onAllFrameExtracted(int processedFrameCount, Long processedTimeMs) {
         addPoseDetections();
-
-        DifferentExercise differentExercise = new DifferentExercise(getApplicationContext());
-        int max = differentExercise.getShoulderPressBottomToMiddleMax();
-        int min = differentExercise.getShoulderPressBottomToMiddleMin();
-        ArrayList<Boolean> accuracy = new ArrayList<>();
-        for (ArrayList<Integer> angles: bottomToMiddle) {
-            for (Integer angle: angles){
-                if (angle >= min && angle <= max){
-                    accuracy.add(true);
-                    continue;
-                }
-                accuracy.add(false);
-            }
-        }
+//        DifferentExercise differentExercise = new DifferentExercise(getApplicationContext());
+//        int max = differentExercise.getShoulderPressBottomToMiddleMax();
+//        int min = differentExercise.getShoulderPressBottomToMiddleMin();
+//        ArrayList<Boolean> accuracy = new ArrayList<>();
+//        for (ArrayList<Integer> angles: bottomToMiddle) {
+//            for (Integer angle: angles){
+//                if (angle >= min && angle <= max){
+//                    accuracy.add(true);
+//                    continue;
+//                }
+//                accuracy.add(false);
+//            }
+//        }
         runOnUiThread(() -> {
             progressBar.setProgress(100);
             progressText.setText(getString(R.string.thirdPhase));
@@ -368,7 +371,7 @@ public class ExercisePageActivityVideoRecording extends AppCompatActivity implem
             progressText.setText(getString(R.string.second_phase));
             progressBar.setProgress(0);
         });
-        int iterator = 100 / bitmaps.size();
+        progressBar.setMax(bitmaps.size());
         while (i < bitmaps.size()){
             if (isDone) {
                 isDone = false;
@@ -420,21 +423,28 @@ public class ExercisePageActivityVideoRecording extends AppCompatActivity implem
 
                             countReps(leftAngleResult);
                             checkForm(leftAngleResult);
+                            leftAccuracy = calculateAccuracy(leftAngleResult);
+                            rightAccuracy = calculateAccuracy(rightAngleResult);
+
                         }
-//                        poseGraphic.draw(canvas);
+                        poseGraphic.draw(canvas, leftAccuracy, rightAccuracy, exercise);
+
                         String childName = filePrefix + String.format(Locale.getDefault(), "%07d", count) + fileExtn;
                         String path = dir.getAbsolutePath() + File.separator + "TempPictures";
                         src = new File(path, childName);
                         try (FileOutputStream out = new FileOutputStream(src)) {
                             outputBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
                             count++;
+
                         } catch (IOException e) {
                             e.printStackTrace();
                         } finally {
                             Log.i("tagerista", "detection complete at frame: " + i);
                             i++;
                             isDone = true;
-                            runOnUiThread(() -> progressBar.setProgress(progressBar.getProgress() + iterator));
+                            runOnUiThread(() -> {
+                                progressBar.setProgress(progressBar.getProgress() + 1);
+                            });
                         }
                     }
 
@@ -447,6 +457,13 @@ public class ExercisePageActivityVideoRecording extends AppCompatActivity implem
                 });
             }
         }
+    }
+
+    private double calculateAccuracy(double angleResult){
+        if (!curLoc.equals("") && (curLoc.equals("MB") || curLoc.equals("BM"))) {
+            return (100.0 - ((90.0 - angleResult) / 90.0) * 100.0);
+        }
+        return 0.0;
     }
 
     private void countReps(int angleResult) {
@@ -462,42 +479,79 @@ public class ExercisePageActivityVideoRecording extends AppCompatActivity implem
             Log.i("ggggg", tempText);
         }
     }
-    private void checkForm(int angleResult) {
+    private void checkForm(double angleResult) {
         // the down state is reached update the direction
-        if (angleResult < 70 && didPass){
-            middleToBottom.add(tempHolder);
-            tempHolder = new ArrayList<>();
+        // direction is from middle to bottom
+        if (angleResult < 70.0 && didPass){
             directionFrom = 0;
             didPass = false;
-            direction = "hit the down state";
-            Log.i("testing", direction);
+            curLoc = "BM";
+            return;
         }
 
         // middle point is reached
-        if (angleResult >= 90 && angleResult <= 110 && !didPass){
+        if (angleResult >= 90.0 && angleResult <= 110.0 && !didPass){
+            // middle point is hit and the direction is from bottom to middle
             if (directionFrom == 0){
-                bottomToMiddle.add(tempHolder);
-                direction = "passed the middle while going up";
+                didPass = true;
+                curLoc = "MT";
+                return;
             }
+
+            // direction is from top to middle
             if (directionFrom == 1){
-                topToMiddle.add(tempHolder);
-                direction = "passed the middle while going down";
+                didPass = true;
+                curLoc = "MB";
+                return;
             }
-            tempHolder = new ArrayList<>();
             didPass = true;
-            Log.i("testing", direction);
         }
 
-        // upstate reached
-        if (angleResult > 150 && didPass) {
-            middleToTop.add(tempHolder);
-            tempHolder = new ArrayList<>();
+        // upstate reached and the direction is from middle to top
+        if (angleResult > 150.0 && didPass) {
             directionFrom = 1;
             didPass = false;
-            direction = "hit the up state";
-            Log.i("testing", direction);
+            curLoc = "TM";
         }
-        tempHolder.add(angleResult);
-        Log.i("ggggg", "Angle Result: " + angleResult);
     }
+
+
+//    private void checkForm(int angleResult) {
+//        // the down state is reached update the direction
+//        if (angleResult < 70 && didPass){
+//            middleToBottom.add(tempHolder);
+//            tempHolder = new ArrayList<>();
+//            directionFrom = 0;
+//            didPass = false;
+//            direction = "hit the down state";
+//            Log.i("testing", direction);
+//        }
+//
+//        // middle point is reached
+//        if (angleResult >= 90 && angleResult <= 110 && !didPass){
+//            if (directionFrom == 0){
+//                bottomToMiddle.add(tempHolder);
+//                direction = "passed the middle while going up";
+//            }
+//            if (directionFrom == 1){
+//                topToMiddle.add(tempHolder);
+//                direction = "passed the middle while going down";
+//            }
+//            tempHolder = new ArrayList<>();
+//            didPass = true;
+//            Log.i("testing", direction);
+//        }
+//
+//        // upstate reached
+//        if (angleResult > 150 && didPass) {
+//            middleToTop.add(tempHolder);
+//            tempHolder = new ArrayList<>();
+//            directionFrom = 1;
+//            didPass = false;
+//            direction = "hit the up state";
+//            Log.i("testing", direction);
+//        }
+//        tempHolder.add(angleResult);
+//        Log.i("ggggg", "Angle Result: " + angleResult);
+//    }
 }

@@ -70,8 +70,18 @@
 
     </LinearLayout>
 
+    <include
+        android:id="@+id/loader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/loading_layout"
+        android:layout_below="@+id/header"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        />
+
     <LinearLayout
-        android:visibility="visible"
+        android:visibility="gone"
         android:id="@+id/emptyState"
         android:gravity="center"
         android:orientation="vertical"
@@ -126,11 +136,10 @@
         android:layout_below="@+id/header"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="6dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="5dp"
-        android:visibility="invisible"
-        />
+        android:layout_marginEnd="3dp"
+        android:visibility="invisible" />
 
     <ImageView
         android:id="@+id/customProgressBar"

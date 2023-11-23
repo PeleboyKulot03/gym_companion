@@ -123,6 +123,6 @@
     <string name="empty_state_prompt">empty state</string>
     <string name="empty_state_description">Resting is part of the training so do it!</string>
     <string name="addInformationPrompt">click here to start your fitness journey!</string>
-    <string name="empty_state_description_1">Information is required!</string>
+    <string name="empty_state_description_1">Health information is required!</string>
 
 </resources>

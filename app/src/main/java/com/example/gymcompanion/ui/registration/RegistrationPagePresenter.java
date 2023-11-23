@@ -24,7 +24,7 @@ public class RegistrationPagePresenter {
         }, email);
     }
 
-    public void createNewUser(String email, String password, RegistrationPageModel model) {
+    public void createNewUser(String email, String password, RegistrationPageModel model, boolean isUser) {
         RegistrationPageModel registrationPageModel = new RegistrationPageModel();
         registrationPageModel.createNewUser(new RegistrationPageModel.onRegister() {
             @Override
@@ -36,6 +36,6 @@ public class RegistrationPagePresenter {
             public void hasUser(boolean verdict) {
 
             }
-        }, email, password, model);
+        }, email, password, model, isUser);
     }
 }

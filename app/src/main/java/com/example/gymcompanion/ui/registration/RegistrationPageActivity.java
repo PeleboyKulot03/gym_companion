@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -27,6 +28,8 @@ import com.example.gymcompanion.ui.homepage.HomePageActivity;
 import com.example.gymcompanion.utils.RegistrationPageModel;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,12 +54,15 @@ public class RegistrationPageActivity extends AppCompatActivity implements IRegi
     private ImageView customProgressBar;
     private Animation animation;
     private static final String REGEX_EMAIL = "^[a-z0-9](\\.?[a-z0-9]){5,}@g(oogle)?mail\\.com$";
-
+    private boolean isUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration_page);
+
+        Intent intent = getIntent();
+        isUser = intent.getBooleanExtra("key", false);
 
         MaterialToolbar toolbar = findViewById(R.id.materialToolbar);
 
@@ -156,15 +162,15 @@ public class RegistrationPageActivity extends AppCompatActivity implements IRegi
             if (isCorrect()){
                 if (currentLevel >= 7){
                     customProgressBar.startAnimation(animation);
-                    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+                    SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
                     Date date = new Date();
                     RegistrationPageModel model = new RegistrationPageModel(finalName, finalMiddleName, finalSurname, finalName, finalWeight, finalHeight, finalBirthday, finalAge, finalGender, finalExperience, finalEmail, formatter.format(date));
-                    presenter.createNewUser(finalEmail, finalPassword, model);
+                    presenter.createNewUser(finalEmail, finalPassword, model, isUser);
                     return;
                 }
                 progressView(levels.get(currentLevel), R.color.white);
                 progressLayout(prompts.get(currentLevel), 0);
-                currentLevel++;
+                currentLevel = (currentLevel == 4 && isUser) ? currentLevel + 2 : currentLevel + 1;
                 String levelText = ((currentLevel + 1) * 12.5) + "%";
                 progress.setText(levelText);
                 progressView(levels.get(currentLevel), R.color.lightPrimary);
@@ -254,6 +260,17 @@ public class RegistrationPageActivity extends AppCompatActivity implements IRegi
 
             builder.show();
         });
+
+        if (isUser) {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            assert user != null;
+            emailET.setText(user.getEmail());
+            finalEmail = user.getEmail();
+            Log.i("tageristo", "onCreate: " + finalEmail);
+            emailET.setClickable(false);
+            emailET.setEnabled(false);
+            isValid = true;
+        }
 
     }
 
@@ -349,7 +366,7 @@ public class RegistrationPageActivity extends AppCompatActivity implements IRegi
                     builder.show();
                     return false;
                 }
-                navButton.setText(getString(R.string.validate));
+                navButton.setText(isUser? "Next": getString(R.string.validate));
                 break;
 
             case 5:

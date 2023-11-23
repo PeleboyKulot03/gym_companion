@@ -3,6 +3,8 @@ package com.example.gymcompanion.ui.homepage;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import android.os.Bundle;
+import android.widget.LinearLayout;
+
 import com.example.gymcompanion.R;
 import com.example.gymcompanion.ui.homepage.fragments.AccountFragment;
 import com.example.gymcompanion.ui.homepage.fragments.ExploreFragment;
@@ -17,7 +19,6 @@ public class HomePageActivity extends AppCompatActivity {
     private static final int home = R.id.home;
     private static final int findFriends = R.id.findFriend;
     private static final int account = R.id.account;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
