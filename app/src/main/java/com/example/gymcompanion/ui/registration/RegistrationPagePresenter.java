@@ -9,7 +9,7 @@ public class RegistrationPagePresenter {
         this.registrationPageInterface = registrationPageInterface;
     }
 
-    public void hasUser(String email) {
+    public void hasUser(String toValid, String value) {
         RegistrationPageModel model = new RegistrationPageModel();
         model.hasUser(new RegistrationPageModel.onRegister() {
             @Override
@@ -21,7 +21,7 @@ public class RegistrationPagePresenter {
             public void hasUser(boolean verdict) {
                 registrationPageInterface.hasUser(verdict);
             }
-        }, email);
+        }, toValid, value);
     }
 
     public void createNewUser(String email, String password, RegistrationPageModel model, boolean isUser) {

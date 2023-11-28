@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.bumptech.glide.Glide;
 import com.example.gymcompanion.R;
 import com.example.gymcompanion.ui.SavedVideos.SaveVideosActivity;
 import com.example.gymcompanion.ui.loginpage.LoginPageActivity;
+import com.example.gymcompanion.ui.settings.PrivacySettingsActivity;
+import com.example.gymcompanion.ui.settings.UserSettingsActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -31,11 +34,17 @@ public class AccountFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_account, container, false);
 
-
         TextView savedVideos = view.findViewById(R.id.savedVideos);
         TextView displayName = view.findViewById(R.id.displayName);
         TextView logout = view.findViewById(R.id.logout);
+        TextView userSettings = view.findViewById(R.id.userProfile);
+        TextView privacySettings = view.findViewById(R.id.privacySetting);
+        TextView settings = view.findViewById(R.id.settings);
         ImageView profilePicture = view.findViewById(R.id.profilePicture);
+
+
+        userSettings.setOnClickListener(v -> startActivity(new Intent(getContext(), UserSettingsActivity.class)));
+        privacySettings.setOnClickListener(v -> startActivity(new Intent(getContext(), PrivacySettingsActivity.class)));
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {

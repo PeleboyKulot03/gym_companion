@@ -46,12 +46,11 @@
                 android:layout_height="wrap_content"
                 app:hintEnabled="false">
                 <EditText
-                    android:drawableStart="@drawable/baseline_email_24"
+                    android:drawableStart="@drawable/baseline_person_24"
                     android:drawablePadding="10dp"
-                    android:drawableTint="@color/white"
-                    android:hint="@string/email"
+                    android:hint="@string/username"
                     android:textColorHint="@color/gray"
-                    android:id="@+id/emailET"
+                    android:id="@+id/usernameET"
                     android:autofillHints="username"
                     android:layout_width="match_parent"
                     android:background="@drawable/round_edit_text"
@@ -59,7 +58,7 @@
                     android:singleLine="true"
                     android:padding="10dp"
                     android:inputType="textEmailAddress"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="18sp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -77,11 +76,9 @@
                 app:passwordToggleEnabled="true"
                 app:passwordToggleDrawable="@drawable/show_password"
                 app:hintEnabled="false"
-                app:passwordToggleTint="@color/white"
                 >
 
                 <EditText
-                    android:drawableTint="@color/white"
                     android:drawableStart="@drawable/baseline_lock_24"
                     android:drawablePadding="10dp"
                     android:id="@+id/passwordET"
@@ -91,7 +88,7 @@
                     android:background="@drawable/round_edit_text"
                     android:hint="@string/password"
                     android:textColorHint="@color/gray"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:padding="10dp"
                     android:inputType="textPassword"
                     android:textSize="18sp"/>

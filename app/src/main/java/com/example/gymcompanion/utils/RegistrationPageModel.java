@@ -23,15 +23,17 @@ import java.util.Objects;
 
 public class RegistrationPageModel {
 
-    private String firstName, middleName, surname, displayName, weight, height, birthday, age, gender, experience, email, date;
+    private String firstName, middleName, surname, displayName, weight, height, birthday, age, gender, experience, username, email, date;
     private DatabaseReference reference;
     private FirebaseAuth auth;
+    private boolean isDone = false;
+
     public RegistrationPageModel() {
         reference = FirebaseDatabase.getInstance().getReference("users");
         auth = FirebaseAuth.getInstance();
     }
 
-    public RegistrationPageModel(String firstName, String middleName, String surname, String displayName, String weight, String height, String birthday, String age, String gender, String experience, String email, String date) {
+    public RegistrationPageModel(String firstName, String middleName, String surname, String displayName, String weight, String height, String birthday, String age, String gender, String experience, String username, String email, String date) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.surname = surname;
@@ -42,6 +44,7 @@ public class RegistrationPageModel {
         this.age = age;
         this.gender = gender;
         this.experience = experience;
+        this.username = username;
         this.email = email;
         this.date = date;
     }
@@ -49,6 +52,11 @@ public class RegistrationPageModel {
     public String getDisplayName() {
         return displayName;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -84,37 +92,39 @@ public class RegistrationPageModel {
         return date;
     }
 
-    public void hasUser(final onRegister onRegister, String email) {
+    public void hasUser(final onRegister onRegister, String toValid, String value) {
+        isDone = false;
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot user: snapshot.getChildren()) {
-                    String usersEmail = user.child("email").getValue(String.class);
-                    if (usersEmail != null){
-                        if (usersEmail.equals(email)) {
-                            onRegister.hasUser(false);
-                            return;
-                        }
+                    if (Objects.equals(user.child("informations").child(toValid).getValue(String.class), value)){
+                        onRegister.hasUser(false);
+                        isDone = true;
+                        break;
                     }
                 }
-                onRegister.hasUser(true);
+                if (!isDone) {
+                    onRegister.hasUser(true);
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                onRegister.hasUser(false);
             }
         });
     }
 
     public void createNewUser(final onRegister onRegister, String email, String password, RegistrationPageModel model, boolean isUser) {
         ArrayList<String> pushDay = new ArrayList<>();
-        pushDay.add("Flat Bench press");
+        pushDay.add("Flat Bench Press");
         pushDay.add("Dips");
-        pushDay.add("Dumbbell shoulder press");
-        pushDay.add("Incline Bench press");
+        pushDay.add("Dumbbell Shoulder Press");
+        pushDay.add("Incline Bench Press");
         pushDay.add("Side Lateral Raises");
         pushDay.add("Skull Crushers");
+
         ArrayList<ExerciseModel> exerciseModels = new ArrayList<>();
         if (model.getExperience().equals("Beginner")){
             exerciseModels.add(new ExerciseModel(false, 12, 3, 10));

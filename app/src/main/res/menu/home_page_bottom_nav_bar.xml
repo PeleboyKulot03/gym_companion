@@ -9,9 +9,9 @@
         android:title="@string/home"
         android:enabled="true"/>
     <item
-        android:id="@+id/frag1"
+        android:id="@+id/dashboard"
         android:contentDescription="@string/home_fragment"
-        android:icon="@drawable/baseline_home_24"
+        android:icon="@drawable/baseline_space_dashboard_24"
         app:showAsAction="ifRoom"
         android:title="@string/home" />
     <item
@@ -20,12 +20,7 @@
         android:icon="@drawable/baseline_people_alt_24"
         app:showAsAction="ifRoom"
         android:title="@string/friend" />
-    <item
-        android:id="@+id/frag3"
-        android:contentDescription="@string/home_fragment"
-        android:icon="@drawable/baseline_home_24"
-        app:showAsAction="ifRoom"
-        android:title="@string/home" />
+
     <item
         android:id="@+id/account"
         android:contentDescription="@string/person_fragment"

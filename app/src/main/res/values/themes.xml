@@ -9,8 +9,10 @@
         <item name="colorSurface">@color/white</item>
 
 <!--        for  text and icons-->
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimary">@color/black</item>
         <item name="colorOnSecondary">@color/black</item>
+        <item name="android:datePickerDialogTheme">@style/date_picker</item>
+
     </style>
 
     <style name="Theme.GymCompanion" parent="Base.Theme.GymCompanion" />

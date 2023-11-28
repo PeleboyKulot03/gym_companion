@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="app_custom_indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">@color/lightPrimaryVariant</item>
+    </style>
+
+    <style name="date_picker" parent="android:Theme.Material.Light.Dialog">
+        <item name="android:colorAccent">@color/lightPrimary</item>
+
     </style>
 
 </resources>

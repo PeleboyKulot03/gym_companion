@@ -28,7 +28,7 @@
                 android:layout_marginEnd="10dp"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:src="@drawable/man"
+                android:src="@drawable/male_person"
                 android:contentDescription="@string/profile_photo"
                 />
 
@@ -57,11 +57,11 @@
                     android:drawablePadding="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/active"
+                    android:text="@string/level"
                     android:textSize="18sp"
                     android:textColor="@color/white"
-                    app:drawableStartCompat="@drawable/baseline_circle_24"
-                    />
+                    app:drawableStartCompat="@drawable/baseline_stacked_bar_chart_24"
+                    app:drawableTint="@color/green" />
 
             </LinearLayout>
         </LinearLayout>
@@ -95,34 +95,13 @@
                     android:drawablePadding="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/current_level"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
-                    android:fontFamily="@font/poppins_medium"
-                    android:gravity="center_vertical"
-                    app:drawableStartCompat="@drawable/icons8_level_48"
-                    app:drawableEndCompat="@drawable/baseline_navigate_next_24" />
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardElevation="3dp"
-                app:cardCornerRadius="10dp"
-                app:cardUseCompatPadding="true"
-                >
-                <TextView
-                    android:padding="10dp"
-                    android:drawablePadding="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:text="@string/current_weight"
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:fontFamily="@font/poppins_medium"
                     android:gravity="center_vertical"
                     app:drawableStartCompat="@drawable/icons8_scale_48"
-                    app:drawableEndCompat="@drawable/baseline_navigate_next_24"/>
+                    app:drawableEndCompat="@drawable/baseline_keyboard_arrow_down_24"/>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
@@ -143,7 +122,7 @@
                     android:fontFamily="@font/poppins_medium"
                     android:gravity="center_vertical"
                     app:drawableStartCompat="@drawable/icons8_weight_lifting_48"
-                    app:drawableEndCompat="@drawable/baseline_navigate_next_24"/>
+                    app:drawableEndCompat="@drawable/baseline_keyboard_arrow_down_24"/>
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
@@ -189,6 +168,7 @@
             />
 
         <TextView
+            android:id="@+id/userProfile"
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
@@ -202,6 +182,7 @@
             app:drawableStartCompat="@drawable/baseline_edit_24" />
 
         <TextView
+            android:id="@+id/privacySetting"
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
@@ -215,19 +196,7 @@
             app:drawableStartCompat="@drawable/baseline_lock_24" />
 
         <TextView
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/get_verified"
-            android:textSize="18sp"
-            android:drawablePadding="20dp"
-            android:textColor="@color/black"
-            android:fontFamily="@font/poppins"
-            app:drawableStartCompat="@drawable/baseline_verified_24" />
-
-        <TextView
+            android:id="@+id/settings"
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
@@ -248,6 +217,7 @@
             android:layout_height="60dp"
             android:text="@string/logout"
             android:textSize="18sp"
+            android:textColor="@color/white"
             />
     </LinearLayout>
 

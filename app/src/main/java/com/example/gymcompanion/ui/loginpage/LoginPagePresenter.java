@@ -22,7 +22,7 @@ public class LoginPagePresenter {
         }, model, UId);
     }
 
-    public void signIn(String email, String password) {
+    public void signIn(String username, String password) {
         LoginPageModel model = new LoginPageModel();
         model.signIn(new LoginPageModel.onCreateUser() {
             @Override
@@ -34,7 +34,7 @@ public class LoginPagePresenter {
             public void isCorrectCredentials(boolean verdict, String errorMessage, String displayName) {
                 loginPageInterface.signResult(verdict, errorMessage, displayName);
             }
-        }, email, password);
+        }, username, password);
     }
 
 }

@@ -1,6 +1,8 @@
 package com.example.gymcompanion.utils;
 
 import android.net.Uri;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -24,6 +26,8 @@ public class LoginPageModel {
     private String displayName;
     private String email;
     private String photoURL;
+    private boolean checker = false;
+    private boolean isDone = false;
 
     public LoginPageModel() {
         reference = FirebaseDatabase.getInstance().getReference("users");
@@ -49,31 +53,76 @@ public class LoginPageModel {
     }
 
     public void createNewUser(final onCreateUser onCreateUser, LoginPageModel model, String userId){
-        reference.child(userId).child("informations").setValue(model).addOnCompleteListener(task -> {
-            if (task.isSuccessful()){
-                onCreateUser.isSuccess(true);
-                return;
-            }
-            onCreateUser.isSuccess(false);
-        });
-    }
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot user: snapshot.getChildren()) {
+                    if (!Objects.equals(user.child(userId).getValue(String.class), userId)) {
+                        onCreateUser.isSuccess(true);
+                        isDone = true;
+                        break;
+                    }
+                }
 
-    public void signIn(final onCreateUser onCreateUser, String email, String password) {
-        auth.signInWithEmailAndPassword(email, password)
-                .addOnSuccessListener(authResult -> {
-                    reference.child(Objects.requireNonNull(authResult.getUser()).getUid()).child("displayName").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            onCreateUser.isCorrectCredentials(true, "", snapshot.getValue(String.class));
+                if (!isDone) {
+                    reference.child(userId).child("informations").setValue(model).addOnCompleteListener(task -> {
+                        if (task.isSuccessful()){
+                            onCreateUser.isSuccess(true);
+                            return;
                         }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
+                        onCreateUser.isSuccess(false);
                     });
-                })
-                .addOnFailureListener(authResult -> onCreateUser.isCorrectCredentials(false, authResult.getMessage(), ""));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                onCreateUser.isSuccess(false);
+            }
+        });
+        }
+
+    public void signIn(final onCreateUser onCreateUser, String username, String password) {
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot users: snapshot.getChildren()){
+                    Log.i(TAG, "onDataChange: " + users.child("informations").child("username").getValue(String.class));
+                    if (Objects.equals(users.child("informations").child("username").getValue(String.class), username)) {
+                        String email = users.child("informations").child("email").getValue(String.class);
+                        if (email != null){
+                            auth.signInWithEmailAndPassword(email, password)
+                                    .addOnSuccessListener(authResult -> reference.child(Objects.requireNonNull(authResult.getUser()).getUid()).child("displayName").addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            onCreateUser.isCorrectCredentials(true, "", snapshot.getValue(String.class));
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                            onCreateUser.isCorrectCredentials(false, error.getMessage(), "");
+                                        }
+                                    })).addOnFailureListener(authResult -> {
+                                        checker = true;
+                                        onCreateUser.isCorrectCredentials(false, "invalid username or password", "");
+                                    });
+                        }
+                        checker = true;
+                        break;
+                    }
+                }
+                if (!checker) {
+                    onCreateUser.isCorrectCredentials(false, "invalid username or password", "");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                onCreateUser.isCorrectCredentials(false, error.getMessage(), "");
+            }
+        });
+
     }
     public interface onCreateUser {
         void isSuccess(boolean verdict);

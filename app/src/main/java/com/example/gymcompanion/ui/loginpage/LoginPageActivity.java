@@ -53,7 +53,7 @@ public class LoginPageActivity extends AppCompatActivity implements ILoginPage {
     private RelativeLayout activityRoot;
     private ImageView customProgressBar;
     private Animation animation;
-    private EditText passwordET, emailET;
+    private EditText passwordET, usernameET;
     private TextInputLayout textInputLayout;
     private static final String REGEX_EMAIL = "^[a-z0-9](\\.?[a-z0-9]){5,}@g(oogle)?mail\\.com$";
 
@@ -68,7 +68,7 @@ public class LoginPageActivity extends AppCompatActivity implements ILoginPage {
         animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate);
 
         customProgressBar = findViewById(R.id.customProgressBar);
-        emailET = findViewById(R.id.emailET);
+        usernameET = findViewById(R.id.usernameET);
         passwordET = findViewById(R.id.passwordET);
         textInputLayout = findViewById(R.id.textInputLayout);
         TextView signUp = findViewById(R.id.signUp);
@@ -105,11 +105,11 @@ public class LoginPageActivity extends AppCompatActivity implements ILoginPage {
 
 
         loginButton.setOnClickListener(view -> {
-            String email = emailET.getText().toString();
+            String username = usernameET.getText().toString();
             String password = passwordET.getText().toString();
-            if (isInputCorrect(email, password)){
+            if (isInputCorrect(username, password)){
                 customProgressBar.startAnimation(animation);
-                presenter.signIn(email, password);
+                presenter.signIn(username, password);
             }
         });
 
@@ -212,22 +212,22 @@ public class LoginPageActivity extends AppCompatActivity implements ILoginPage {
 
     private boolean isInputCorrect(String username, String password){
         if (username.isEmpty()){
-            emailET.setError("username cannot be empty!");
-            emailET.requestFocus();
+            usernameET.setError("Username cannot be empty!");
+            usernameET.requestFocus();
             return false;
         }
-        if (!username.matches(REGEX_EMAIL)){
-            emailET.requestFocus();
-            emailET.setError("Please enter valid email address");
+        if (username.length() < 6){
+            usernameET.requestFocus();
+            usernameET.setError("Please enter at least 6 characters");
             return false;
         }
         if (password.isEmpty()){
             textInputLayout.setEndIconMode(TextInputLayout.END_ICON_NONE);
-            passwordET.setError("password cannot be empty!");
+            passwordET.setError("Password cannot be empty!");
             passwordET.requestFocus();
             return false;
         }
-        hideSoftKeyboard(emailET);
+        hideSoftKeyboard(usernameET);
         return true;
     }
 

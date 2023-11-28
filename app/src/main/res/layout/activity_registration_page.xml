@@ -111,7 +111,7 @@
                     android:id="@+id/progress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:text="@string/progress"
                     android:textSize="18sp"
                     android:layout_marginStart="10dp"
@@ -184,7 +184,7 @@
 
             <EditText
                 android:textColorHint="@color/gray"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:id="@+id/nameET"
                 android:padding="10dp"
                 android:layout_width="match_parent"
@@ -195,7 +195,7 @@
                 />
             <EditText
                 android:textColorHint="@color/gray"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:id="@+id/middleNameET"
                 android:padding="10dp"
                 android:layout_width="match_parent"
@@ -206,7 +206,7 @@
                 />
             <EditText
                 android:textColorHint="@color/gray"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:id="@+id/surnameET"
                 android:padding="10dp"
                 android:layout_width="match_parent"
@@ -252,7 +252,7 @@
                     >
                     <EditText
                         android:textColorHint="@color/gray"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:id="@+id/weightET"
                         android:inputType="number"
                         android:layout_marginStart="10dp"
@@ -286,7 +286,7 @@
                     >
                     <EditText
                         android:textColorHint="@color/gray"
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:id="@+id/heightET"
                         android:inputType="number"
                         android:layout_marginStart="10dp"
@@ -358,7 +358,7 @@
 
                 <EditText
                     android:textColorHint="@color/gray"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0"
@@ -743,13 +743,37 @@
                 android:layout_height="1dp"
                 android:background="?android:attr/listDivider" />
 
+
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:hintEnabled="false">
                 <EditText
                     android:textColorHint="@color/gray"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
+                    android:drawableStart="@drawable/baseline_person_24"
+                    android:drawablePadding="10dp"
+                    android:drawableTint="@color/material_on_surface_emphasis_medium"
+                    android:hint="@string/username"
+                    android:id="@+id/usernameET"
+                    android:autofillHints="username"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/round_edit_text"
+                    android:layout_height="55dp"
+                    android:singleLine="true"
+                    android:padding="10dp"
+                    android:inputType="text"
+                    android:textSize="18sp"
+                    android:layout_marginBottom="10dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintEnabled="false">
+                <EditText
+                    android:textColorHint="@color/gray"
+                    android:textColor="@color/black"
                     android:drawableStart="@drawable/baseline_email_24"
                     android:drawablePadding="10dp"
                     android:drawableTint="@color/material_on_surface_emphasis_medium"
@@ -780,7 +804,7 @@
 
                 <EditText
                     android:textColorHint="@color/gray"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:drawableTint="@color/material_on_surface_emphasis_medium"
                     android:drawableStart="@drawable/baseline_lock_24"
                     android:drawablePadding="10dp"
@@ -872,6 +896,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/condition"
+                android:textSize="18sp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/black"
+                android:layout_marginBottom="10dp"
+                />
+
+            <CheckBox
+                android:id="@+id/none"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/none"
                 android:textSize="18sp"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"

@@ -25,6 +25,15 @@
         android:theme="@style/Theme.GymCompanion"
         tools:targetApi="31">
         <activity
+            android:name=".ui.settings.UserSettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.settings.PrivacySettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.settings.UserSettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.exercise.Extractor"
             android:exported="false" />
         <activity
@@ -37,20 +46,11 @@
             android:name=".ui.SavedVideos.SaveVideosActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.testActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.exercise.ExercisePageActivityVideoRecording"
             android:exported="false" />
         <activity
             android:name=".tutorial_activity"
             android:exported="false" />
-        <activity
-            android:name=".ui.exercise.ExercisePageActivity3"
-            android:exported="true" />
-        <activity
-            android:name=".ui.exercise.ExercisePageActivity2"
-            android:exported="true" />
         <activity
             android:name=".ui.exercise.ExercisePageActivityLiveFeed"
             android:exported="true" />

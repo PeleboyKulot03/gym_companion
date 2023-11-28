@@ -161,8 +161,6 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity {
                                     }
 
 
-
-
 //                                    // compute the distances of the given points
 //                                    double pointA = sqrt(pow((firstPoint.getPosition().x - midPoint.getPosition().x), 2) + pow((firstPoint.getPosition().y - midPoint.getPosition().y), 2));
 //                                    double pointB =  sqrt(pow((lastPoint.getPosition().x - midPoint.getPosition().x), 2) + pow((lastPoint.getPosition().y - midPoint.getPosition().y), 2));
@@ -198,6 +196,11 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity {
         if (!curLoc.equals("") && (curLoc.equals("MB") || curLoc.equals("BM"))) {
             return (100.0 - ((90.0 - angleResult) / 90.0) * 100.0);
         }
+
+        if (!curLoc.equals("") && (curLoc.equals("MT") || curLoc.equals("TM"))) {
+            return (100.0 - ((170.0 - angleResult) / 170.0) * 100.0);
+        }
+
         return 0.0;
     }
     private void checkForm(double angleResult) {
