@@ -21,7 +21,7 @@ public class HomeFragmentModel {
     private int set;
     private int reps;
     private int weight;
-    private boolean isDone;
+    private boolean done;
     private double accuracy;
     private String time;
     private DatabaseReference databaseReference;
@@ -34,12 +34,12 @@ public class HomeFragmentModel {
         databaseReference = FirebaseDatabase.getInstance().getReference("users");
         auth = FirebaseAuth.getInstance();
     }
-    public HomeFragmentModel(/*String image, */int set, int reps, int weight, boolean isDone, double accuracy, String time) {
+    public HomeFragmentModel(/*String image, */int set, int reps, int weight, boolean done, double accuracy, String time) {
 //        this.image = image;
         this.reps = reps;
         this.set = set;
         this.weight = weight;
-        this.isDone = isDone;
+        this.done = done;
         this.accuracy = accuracy;
         this.time = time;
     }
@@ -49,12 +49,8 @@ public class HomeFragmentModel {
 //    }
 
 
-    public boolean getIsDone() {
-        return isDone;
-    }
-
-    public void setDone(boolean done) {
-        isDone = done;
+    public boolean getDone() {
+        return done;
     }
 
     public int getWeight() {
@@ -104,7 +100,7 @@ public class HomeFragmentModel {
                         for (DataSnapshot exercise: snapshot.getChildren()){
                             HomeFragmentModel model = exercise.getValue(HomeFragmentModel.class);
                             Objects.requireNonNull(model).setProgram(exercise.getKey());
-                            if (model.getIsDone()){
+                            if (model.getDone()){
                                 tempModels.add(model);
                                 count[0]++;
                                 continue;

@@ -203,6 +203,7 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity {
 
         return 0.0;
     }
+
     private void checkForm(double angleResult) {
         // the down state is reached update the direction
         // direction is from middle to bottom

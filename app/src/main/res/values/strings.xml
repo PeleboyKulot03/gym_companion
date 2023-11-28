@@ -96,7 +96,7 @@
     <string name="new_image">new image</string>
     <string name="finish_set">Finish Set</string>
     <string name="count_0">Count: </string>
-    <string name="note_lorem_ipsum_dollor_amet_simet_shfjakhfyjh_f_asjkhfajskfsa"><font color="#c4c45a">Note:</font> Lorem Ipsum dollor, amet simet shfjakhfyjh.,f asjkhfajskfsa,.</string>
+    <string name="note_lorem_ipsum_dollor_amet_simet_shfjakhfyjh_f_asjkhfajskfsa"><font color="#c4c45a">Note:</font> Lorem Ipsum dollor, amet simet shfjak yjh.,f asjkhfajskfsa,.</string>
     <string name="sample_weight">15lbs</string>
     <string name="medical_condition_prompt">How is your health status?</string>
     <string name="instruction">Please check the box if you have the condition listed below</string>
