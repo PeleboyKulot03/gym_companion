@@ -25,6 +25,9 @@
         android:theme="@style/Theme.GymCompanion"
         tools:targetApi="31">
         <activity
+            android:name=".ui.CustomViewActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.settings.UserSettingsActivity"
             android:exported="false" />
         <activity

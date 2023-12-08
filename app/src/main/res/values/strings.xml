@@ -95,7 +95,7 @@
     <string name="sample_count">1/13</string>
     <string name="new_image">new image</string>
     <string name="finish_set">Finish Set</string>
-    <string name="count_0">Count: </string>
+    <string name="count_0">Count: 0</string>
     <string name="note_lorem_ipsum_dollor_amet_simet_shfjakhfyjh_f_asjkhfajskfsa"><font color="#c4c45a">Note:</font> Lorem Ipsum dollor, amet simet shfjak yjh.,f asjkhfajskfsa,.</string>
     <string name="sample_weight">15lbs</string>
     <string name="medical_condition_prompt">How is your health status?</string>
@@ -105,7 +105,7 @@
     <string name="high_blood">High blood</string>
     <string name="tutorial_animation">tutorial animation for this exercise</string>
     <string name="completed">Completed</string>
-    <string name="dummy_accuracy">Accuracy: 80%</string>
+    <string name="dummy_accuracy">Accuracy: 100%</string>
     <string name="dummy_time_spent">Time spent: 2min</string>
     <string name="back_button">back button</string>
     <string name="live_feed">Start Live Feed</string>
@@ -130,5 +130,9 @@
     <string name="height_weight">Height and Weight</string>
     <string name="note_prompt">changes will be permanently applied until 30day. \nMake sure that the provided information is correct.</string>
     <string name="display_name">Display Name</string>
+    <string name="alert_title">Alert Notice</string>
+    <string name="instruction_dialog">Before you start the exercise make sure to place your phone upfront and eye level to you. Make sure that your head is inside the bounding box and stay for that position for at least 3 seconds to start the exercise.</string>
+    <string name="don_t_show_again">Don\'t show this again</string>
+    <string name="okay">Okay</string>
 
 </resources>

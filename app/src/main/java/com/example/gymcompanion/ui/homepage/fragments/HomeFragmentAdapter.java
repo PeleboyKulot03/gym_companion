@@ -55,7 +55,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<HomeFragmentAdapte
         holder.reps.setText(reps);
         holder.weights.setText(weight);
         holder.image.setImageDrawable(Objects.requireNonNull(differentExercise.getDRAWABLES().get(model.getProgram())).get(0));
-        Log.i("TAGle", "onBindViewHolder: " + model.getDone());
+
         if (model.getDone()) {
             holder.finishInfos.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0));
             String timeValue = "Time Spent: " + model.getTime();
@@ -68,6 +68,7 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<HomeFragmentAdapte
             Intent intent = new Intent(context, tutorial_activity.class);
             intent.putExtra("exercise", model.getProgram());
             intent.putExtra("isDone", model.getDone());
+            intent.putExtra("sets", model.getSet());
             activity.startActivity(intent);
         });
 

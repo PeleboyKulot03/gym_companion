@@ -2,8 +2,13 @@ package com.example.gymcompanion;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.gymcompanion.staticValues.DifferentExercise;
+import com.example.gymcompanion.ui.CustomViewActivity;
 import com.example.gymcompanion.ui.exercise.ExercisePageActivityLiveFeed;
 import com.example.gymcompanion.ui.exercise.ExercisePageActivityVideoRecording;
 
@@ -21,20 +27,22 @@ import java.util.Map;
 import java.util.Objects;
 
 public class tutorial_activity extends AppCompatActivity {
-    private ImageView imageView, back;
+    private ImageView imageView;
     private AnimationDrawable anim;
     private Map<String, ArrayList<Drawable>> DRAWABLES;
-
+    private int setNumber;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorial);
 
+
+
         Intent intent = getIntent();
         DifferentExercise differentExercise = new DifferentExercise(getApplicationContext());
 
         imageView = findViewById(R.id.action_image);
-        back = findViewById(R.id.back);
+        ImageView back = findViewById(R.id.back);
 
         TextView program = findViewById(R.id.program);
         Button startLiveFeed = findViewById(R.id.startLiveFeed);
@@ -42,14 +50,15 @@ public class tutorial_activity extends AppCompatActivity {
 
 
         String exercise = intent.getStringExtra("exercise");
+        setNumber = intent.getIntExtra("sets", 1);
         boolean isDone = intent.getBooleanExtra("isDone", false);
+
 
         DRAWABLES = new HashMap<>();
         DRAWABLES.putAll(differentExercise.getDRAWABLES());
 
         if (isDone) {
             startLiveFeed.setVisibility(View.GONE);
-
             startRecording.setBackgroundColor(getColor(R.color.gray));
             startRecording.setText(getString(R.string.completed));
             startRecording.setEnabled(false);
@@ -68,8 +77,19 @@ public class tutorial_activity extends AppCompatActivity {
 
         startLiveFeed.setOnClickListener(view -> {
             Intent intent1 = new Intent(getApplicationContext(), ExercisePageActivityLiveFeed.class);
+            setNumber = 4 - setNumber;
+
             intent1.putExtra("exercise", exercise);
-            startActivity(intent1);
+            intent1.putExtra("sets", "set" + setNumber);
+            SharedPreferences dialogPreferences = getSharedPreferences(getPackageName() + "_preferences", Context.MODE_PRIVATE);
+            String check = dialogPreferences.getString("showDialog", "");
+            if (check.equals("1")) {
+                startActivity(intent1);
+            } else {
+                CustomViewActivity cdd = new CustomViewActivity(tutorial_activity.this, intent1);
+                Objects.requireNonNull(cdd.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                cdd.show();
+            }
         });
 
         startRecording.setOnClickListener(view -> {
