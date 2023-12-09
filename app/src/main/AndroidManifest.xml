@@ -52,7 +52,7 @@
             android:name=".ui.exercise.ExercisePageActivityVideoRecording"
             android:exported="false" />
         <activity
-            android:name=".tutorial_activity"
+            android:name=".ui.tutorial_activity"
             android:exported="false" />
         <activity
             android:name=".ui.exercise.ExercisePageActivityLiveFeed"

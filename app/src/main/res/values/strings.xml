@@ -118,7 +118,7 @@
     <string name="play">play</string>
     <string name="forward">forward</string>
     <string name="repeat">repeat</string>
-    <string name="dummy_time">0:00</string>
+    <string name="dummy_time">not yet aligned</string>
     <string name="thirdPhase">compressing frames…</string>
     <string name="empty_state_prompt">empty state</string>
     <string name="empty_state_description">Resting is part of the training so do it!</string>
@@ -134,5 +134,9 @@
     <string name="instruction_dialog">Before you start the exercise make sure to place your phone upfront and eye level to you. Make sure that your head is inside the bounding box and stay for that position for at least 3 seconds to start the exercise.</string>
     <string name="don_t_show_again">Don\'t show this again</string>
     <string name="okay">Okay</string>
+    <string name="start_exercise">Start the exercise!</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="date_prompt">January, 2023</string>
+    <string name="weight_loss">Weight Loss</string>
 
 </resources>

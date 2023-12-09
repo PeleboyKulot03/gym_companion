@@ -3,7 +3,6 @@ package com.example.gymcompanion.ui.homepage.fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gymcompanion.R;
 import com.example.gymcompanion.staticValues.DifferentExercise;
-import com.example.gymcompanion.tutorial_activity;
+import com.example.gymcompanion.ui.tutorial_activity;
 import com.example.gymcompanion.utils.HomeFragmentModel;
 
 import java.util.ArrayList;

@@ -64,7 +64,7 @@
             android:padding="10dp"
             android:textSize="20sp"
             android:fontFamily="@font/poppins_bold"
-            android:textColor="@color/black"
+            android:textColor="@color/red"
             />
 
     </LinearLayout>
@@ -77,10 +77,8 @@
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="128sp"
-        android:text="3"
         android:layout_centerInParent="true"
         android:background="@drawable/round_edit_text"
-        android:backgroundTint="@color/gray"
         />
 
 </RelativeLayout>

@@ -1,8 +1,7 @@
-package com.example.gymcompanion;
+package com.example.gymcompanion.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,8 +15,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.gymcompanion.R;
 import com.example.gymcompanion.staticValues.DifferentExercise;
-import com.example.gymcompanion.ui.CustomViewActivity;
 import com.example.gymcompanion.ui.exercise.ExercisePageActivityLiveFeed;
 import com.example.gymcompanion.ui.exercise.ExercisePageActivityVideoRecording;
 

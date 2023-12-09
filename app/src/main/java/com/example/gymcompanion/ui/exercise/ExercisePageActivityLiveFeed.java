@@ -37,7 +37,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.gymcompanion.R;
 import com.example.gymcompanion.utils.LiveFeedExerciseModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.pose.Pose;
 import com.google.mlkit.vision.pose.PoseDetection;
 import com.google.mlkit.vision.pose.PoseDetector;
 import com.google.mlkit.vision.pose.PoseLandmark;
@@ -75,6 +78,7 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
     private final Handler countDownHandler = new Handler();
     private int countDown = 3;
     private Canvas canvas;
+    private Paint paint;
     private final Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
@@ -94,16 +98,19 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
         public void run() {
             countDownTV.setText(String.valueOf(countDown));
             countDown--;
-            if (countDown == 0) {
+            if (countDown == -1) {
                 countDownTV.setVisibility(View.GONE);
                 isAligned = true;
+                isInTheBox = true;
+                timer.setTextColor(getColor(R.color.black));
+                timer.setText(getString(R.string.start_exercise));
                 handler.removeCallbacks(this);
                 return;
             }
             countDownHandler.postDelayed(this, 1000);
         }
     };
-    private boolean isFirst = false, isAligned = false;
+    private boolean isFirst = false, isInTheBox = false, isAligned = false, isDone = true;
 
 
     @Override
@@ -116,6 +123,10 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
             exercise = intent.getStringExtra("exercise");
             setNumber = intent.getStringExtra("sets");
         }
+        paint = new Paint();
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(10);
+        paint.setTextSize(30);
 
         countDownTV = findViewById(R.id.countDownTV);
         textureView = findViewById(R.id.textureView);
@@ -164,79 +175,83 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
                 width = textureView.getWidth();
                 height = textureView.getHeight();
                 Bitmap bitmapImage = textureView.getBitmap();
-                if (bitmapImage != null && textureView.isAvailable()) {
+                if (bitmapImage != null && textureView.isAvailable() && isDone) {
                     InputImage inputImage = InputImage.fromBitmap(textureView.getBitmap(), getDisplayRotation());
                     poseDetector.process(inputImage)
                             .addOnSuccessListener(pose -> {
+                                isDone = false;
+                                paint.setColor(getColor(R.color.red));
                                 GraphicOverlay overlay = new GraphicOverlay(getApplicationContext());
                                 PoseGraphic poseGraphic = new PoseGraphic(overlay, pose, false, true, false);
-                                Paint paint = new Paint();
-                                paint.setStyle(Paint.Style.STROKE);
-                                paint.setColor(getColor(R.color.red));
-                                paint.setStrokeWidth(10);
-                                paint.setTextSize(30);
-
-
                                 canvas = new Canvas(bitmapImage);
 
-                                if (!isAligned) {
-                                    PoseLandmark leftEye = pose.getPoseLandmark(PoseLandmark.LEFT_EYE);
-                                    PoseLandmark rightEye = pose.getPoseLandmark(PoseLandmark.RIGHT_EYE);
-                                    PoseLandmark lips = pose.getPoseLandmark(PoseLandmark.RIGHT_MOUTH);
-                                    PoseLandmark leftEars = pose.getPoseLandmark(PoseLandmark.LEFT_EAR);
-                                    PoseLandmark rightEars = pose.getPoseLandmark(PoseLandmark.RIGHT_EAR);
-                                    PoseLandmark leftHands = pose.getPoseLandmark(PoseLandmark.RIGHT_INDEX);
-                                    PoseLandmark rightHands = pose.getPoseLandmark(PoseLandmark.LEFT_INDEX);
-                                    PoseLandmark rightShoulders = pose.getPoseLandmark(PoseLandmark.LEFT_SHOULDER);
-                                    PoseLandmark leftShoulders = pose.getPoseLandmark(PoseLandmark.RIGHT_SHOULDER);
+                                // check if the position is eye level and the user is facing front
+                                if (!isInTheBox) {
+                                    if (!isAligned) {
+                                        PoseLandmark leftEye = pose.getPoseLandmark(PoseLandmark.LEFT_EYE);
+                                        PoseLandmark rightEye = pose.getPoseLandmark(PoseLandmark.RIGHT_EYE);
+                                        PoseLandmark lips = pose.getPoseLandmark(PoseLandmark.RIGHT_MOUTH);
+                                        PoseLandmark leftEars = pose.getPoseLandmark(PoseLandmark.LEFT_EAR);
+                                        PoseLandmark rightEars = pose.getPoseLandmark(PoseLandmark.RIGHT_EAR);
+                                        PoseLandmark leftHands = pose.getPoseLandmark(PoseLandmark.RIGHT_INDEX);
+                                        PoseLandmark rightHands = pose.getPoseLandmark(PoseLandmark.LEFT_INDEX);
+                                        PoseLandmark rightShoulders = pose.getPoseLandmark(PoseLandmark.LEFT_SHOULDER);
+                                        PoseLandmark leftShoulders = pose.getPoseLandmark(PoseLandmark.RIGHT_SHOULDER);
 
-                                    if (leftEye != null && rightEye != null && lips != null && leftEars != null && rightEars != null
-                                            && leftHands != null && rightHands != null && leftShoulders != null && rightShoulders != null
-                                            && leftHands.getPosition().x > 0 && rightHands.getPosition().x < width
-                                            && leftShoulders.getPosition().x > 150 && rightShoulders.getPosition().x < width - 150) {
-                                        Log.i("testing eyes", "left shoulder: " + leftShoulders.getPosition().x + "right shoulder: " + rightShoulders.getPosition().x);
+                                        if (leftEye != null && rightEye != null && lips != null && leftEars != null && rightEars != null
+                                                && leftHands != null && rightHands != null && leftShoulders != null && rightShoulders != null
+                                                && leftHands.getPosition().x > 0 && rightHands.getPosition().x < width
+                                                && leftShoulders.getPosition().x > 150 && rightShoulders.getPosition().x < width - 150) {
+                                            Log.i("testing eyes", "left shoulder: " + leftShoulders.getPosition().x + "right shoulder: " + rightShoulders.getPosition().x);
 
-                                        int faceWidth = (int) abs(leftEars.getPosition().x - rightEars.getPosition().x) / 2;
-                                        int centerX = width / 2;
-                                        int length = abs((int) ((leftEye.getPosition().y - 100) - (lips.getPosition().y + 100)));
+                                            int faceWidth = (int) abs(leftEars.getPosition().x - rightEars.getPosition().x) / 2;
+                                            int centerX = width / 2;
+                                            int length = abs((int) ((leftEye.getPosition().y - 100) - (lips.getPosition().y + 100)));
 
-                                        int leftPoint = centerX - faceWidth - 50;
-                                        int topPoint = height / 4;
-                                        int rightPoint = centerX + faceWidth + 50;
-                                        int bottomPoint = topPoint + length;
+                                            int leftPoint = centerX - faceWidth - 50;
+                                            int topPoint = height / 4;
+                                            int rightPoint = centerX + faceWidth + 50;
+                                            int bottomPoint = topPoint + length;
 
-                                        if (rightEye.getPosition().x - 40 > leftPoint
-                                                && leftEye.getPosition().x + 40 < rightPoint
-                                                && leftEye.getPosition().y - 50 > topPoint
-                                                && lips.getPosition().y + 50 < bottomPoint) {
+                                            if (rightEye.getPosition().x - 40 > leftPoint
+                                                    && leftEye.getPosition().x + 40 < rightPoint
+                                                    && leftEye.getPosition().y - 50 > topPoint
+                                                    && lips.getPosition().y + 50 < bottomPoint) {
 
-                                            if (firstBox) {
-                                                countDownTV.setVisibility(View.VISIBLE);
-                                                countDownHandler.postDelayed(countDownRunnable, 0);
-                                                firstBox = false;
+                                                if (firstBox) {
+                                                    countDownTV.setVisibility(View.VISIBLE);
+                                                    countDownHandler.postDelayed(countDownRunnable, 0);
+                                                    firstBox = false;
+                                                }
+                                                paint.setColor(getColor(R.color.green));
                                             }
-                                            paint.setColor(getColor(R.color.green));
+                                            else {
+                                                countDownTV.setVisibility(View.GONE);
+                                                countDownHandler.removeCallbacks(countDownRunnable);
+                                                countDown = 3;
+                                                firstBox = true;
+                                            }
+                                            canvas.drawRect(
+                                                    leftPoint,
+                                                    topPoint,
+                                                    rightPoint,
+                                                    bottomPoint,
+                                                    paint);
                                         }
                                         else {
                                             countDownTV.setVisibility(View.GONE);
-                                            countDownHandler.removeCallbacks(countDownRunnable);
                                             countDown = 3;
-                                            firstBox = true;
+                                            countDownHandler.removeCallbacks(countDownRunnable);
                                         }
-                                        canvas.drawRect(
-                                                leftPoint,
-                                                topPoint,
-                                                rightPoint,
-                                                bottomPoint,
-                                                paint);
                                     }
-                                    else {
-                                        countDownTV.setVisibility(View.GONE);
-                                        countDown = 3;
-                                        countDownHandler.removeCallbacks(countDownRunnable);
-                                    }
-
+                                    poseGraphic.draw(canvas, leftAccuracy, rightAccuracy, exercise);
+                                    imageView.setImageMatrix(setTextureTransform(characteristics));
+                                    imageView.setImageBitmap(bitmapImage);
+                                    return;
                                 }
+
+                                // user is aligned within eye level and can now continue to do the exercise
+
                                 // left arm
                                 PoseLandmark leftWrist = pose.getPoseLandmark(PoseLandmark.LEFT_WRIST);
                                 PoseLandmark leftElbow = pose.getPoseLandmark(PoseLandmark.LEFT_ELBOW);
@@ -274,18 +289,6 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
                                         rightAngleResult = (360 - rightAngleResult);
                                     }
 
-
-//                                    // compute the distances of the given points
-//                                    double pointA = sqrt(pow((firstPoint.getPosition().x - midPoint.getPosition().x), 2) + pow((firstPoint.getPosition().y - midPoint.getPosition().y), 2));
-//                                    double pointB =  sqrt(pow((lastPoint.getPosition().x - midPoint.getPosition().x), 2) + pow((lastPoint.getPosition().y - midPoint.getPosition().y), 2));
-//
-//                                    // apply pythagorean theorem to get the hypotenuse
-//                                    double pointC = pow(pointA, 2) + pow(pointB, 2);
-//
-//                                    double initialRes = (pow(pointB, 2) + pow(pointC, 2)) - ((2 * pointB) * pointB);
-//
-//                                    double result = initialRes / pow(pointA, 2);
-
                                     checkForm(leftAngleResult);
                                     checkForm(rightAngleResult);
                                     leftAccuracy = calculateAccuracy(leftAngleResult);
@@ -296,9 +299,13 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
                                 rightAccuracy = 0.0;
                                 imageView.setImageMatrix(setTextureTransform(characteristics));
                                 imageView.setImageBitmap(bitmapImage);
-
-                            }).
-                            addOnFailureListener(e -> Toast.makeText(ExercisePageActivityLiveFeed.this, "Sorry but " + e.getLocalizedMessage() + ". Please Try again later!", Toast.LENGTH_SHORT).show());
+                            })
+                            .addOnCompleteListener(task -> {
+                                if (task.isComplete()) {
+                                    isDone = true;
+                                }
+                            })
+                            .addOnFailureListener(e -> Toast.makeText(ExercisePageActivityLiveFeed.this, "Sorry but " + e.getLocalizedMessage() + ". Please Try again later!", Toast.LENGTH_SHORT).show());
                 }
 
             }

@@ -2,38 +2,17 @@ package com.example.gymcompanion.staticValues;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-
 import androidx.appcompat.content.res.AppCompatResources;
-
 import com.example.gymcompanion.R;
-import com.example.gymcompanion.utils.HomeFragmentModel;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class DifferentExercise {
-    private Map<String, ArrayList<Drawable>> DRAWABLES;
-    private ArrayList<String> pushDay;
-    private ArrayList<String> pullDay;
-    private ArrayList<String> legDay;
-
-    private int shoulderPressBottomToMiddleMin = 60;
-    private int shoulderPressBottomToMiddleMax = 90;
-    private int shoulderPressMiddleToTopMin = 95;
-    private int shoulderPressMiddleToTopMax = 150;
-
-    private int shoulderPressTopToMiddleMin = 116;
-    private int shoulderPressTopToMiddleMax = 157;
-    private int shoulderPressMiddleToBottomMin = 73;
-    private int shoulderPressMiddleToBottomMax = 110;
+    private final Map<String, ArrayList<Drawable>> DRAWABLES;
 
 
     public DifferentExercise (Context context) {
-        pullDay = new ArrayList<>();
-        pushDay = new ArrayList<>();
-        legDay = new ArrayList<>();
-
 
 
         DRAWABLES = new HashMap<>();
@@ -116,49 +95,5 @@ public class DifferentExercise {
 
     public Map<String, ArrayList<Drawable>> getDRAWABLES() {
         return DRAWABLES;
-    }
-
-    public int getShoulderPressBottomToMiddleMin() {
-        return shoulderPressBottomToMiddleMin;
-    }
-
-    public int getShoulderPressBottomToMiddleMax() {
-        return shoulderPressBottomToMiddleMax;
-    }
-
-    public int getShoulderPressMiddleToTopMin() {
-        return shoulderPressMiddleToTopMin;
-    }
-
-    public int getShoulderPressMiddleToTopMax() {
-        return shoulderPressMiddleToTopMax;
-    }
-
-    public int getShoulderPressTopToMiddleMin() {
-        return shoulderPressTopToMiddleMin;
-    }
-
-    public int getShoulderPressTopToMiddleMax() {
-        return shoulderPressTopToMiddleMax;
-    }
-
-    public int getShoulderPressMiddleToBottomMin() {
-        return shoulderPressMiddleToBottomMin;
-    }
-
-    public int getShoulderPressMiddleToBottomMax() {
-        return shoulderPressMiddleToBottomMax;
-    }
-
-    public ArrayList<String> getPushDay() {
-        return pushDay;
-    }
-
-    public ArrayList<String> getPullDay() {
-        return pullDay;
-    }
-
-    public ArrayList<String> getLegDay() {
-        return legDay;
     }
 }
