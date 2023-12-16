@@ -27,8 +27,8 @@
     <string name="age_prompt">How old are you?</string>
     <string name="birthday_sample">03/28/02</string>
     <string name="bmi_prompt">What is your current height and weight?</string>
-    <string name="weight">weight</string>
-    <string name="height">height</string>
+    <string name="weight">Weight</string>
+    <string name="height">Height</string>
     <string name="kg">kg</string>
     <string name="cm">cm</string>
     <string name="gender_prompt">How do you define your gender?</string>
@@ -137,6 +137,17 @@
     <string name="start_exercise">Start the exercise!</string>
     <string name="dashboard">Dashboard</string>
     <string name="date_prompt">January, 2023</string>
-    <string name="weight_loss">Weight Loss</string>
+    <string name="weight_lost">Lost Weight</string>
+    <string name="nav_open">open</string>
+    <string name="nav_close">close</string>
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
+    <string name="menu">menu</string>
+    <string name="sample_date">December, 2023</string>
+    <string name="weekly">Weekly</string>
+    <string name="pass_weight_sample">Past</string>
+    <string name="current_weight_sample">Current Weight</string>
+    <string name="pass_weight">90KG</string>
+
 
 </resources>

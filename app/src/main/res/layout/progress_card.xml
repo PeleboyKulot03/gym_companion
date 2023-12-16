@@ -56,7 +56,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/weight_loss"
+                android:text="@string/weight_lost"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:fontFamily="@font/poppins"

@@ -36,15 +36,6 @@ android {
         resources.pickFirsts.add  ("lib/arm64-v8a/libc++_shared.so")
     }
 
-
-//    splits {
-//        abi {
-//            isEnable = true
-//            reset()
-//            include("x86", "armeabi")
-//            isUniversalApk = false
-//        }
-//    }
 }
 
 dependencies {
@@ -75,7 +66,7 @@ dependencies {
 
     implementation ("com.google.mlkit:pose-detection:18.0.0-beta3")
     implementation ("com.google.mlkit:pose-detection-accurate:18.0.0-beta3")
-    implementation ("com.google.code.gson:gson:2.8.6")
+    implementation ("com.google.code.gson:gson:2.8.9")
     implementation ("com.google.guava:guava:27.1-android")
 
     implementation ("com.github.wseemann:FFmpegMediaMetadataRetriever-core:1.0.19")
@@ -83,4 +74,7 @@ dependencies {
     implementation ("org.jcodec:jcodec-android:0.2.5")
     implementation ("org.jcodec:jcodec-javase:0.2.5")
     implementation ("com.arthenica:ffmpeg-kit-full:6.0-2")
+
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
 }

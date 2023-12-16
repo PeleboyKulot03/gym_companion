@@ -1,75 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.homepage.fragments.DashBoardFragment"
-    android:scrollbars="none"
-    android:background="@color/lightPrimary"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".ui.homepage.fragments.DashBoardFragment">
+    <include layout="@layout/toolbar"/>
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/round_edit_text"
+        android:backgroundTint="@color/lightPrimary"
+        android:drawablePadding="10dp"
+        android:padding="10dp"
+        android:text="@string/sample_date"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:drawableEndCompat="@drawable/baseline_keyboard_arrow_down_24"
+        app:drawableTint="@color/white" />
+
+<!--    <TextView-->
+<!--        android:id="@+id/filterGap"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_below="@+id/toolbar"-->
+<!--        android:layout_alignParentEnd="true"-->
+<!--        android:layout_marginStart="10dp"-->
+<!--        android:layout_marginTop="10dp"-->
+<!--        android:layout_marginEnd="10dp"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        android:background="@drawable/round_edit_text"-->
+<!--        android:drawablePadding="10dp"-->
+<!--        android:padding="10dp"-->
+<!--        android:text="@string/weekly"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textSize="18sp"-->
+<!--        app:drawableEndCompat="@drawable/baseline_keyboard_arrow_down_24" />-->
+
+    <LinearLayout
+        android:layout_below="@+id/filter"
+        android:id="@+id/holder"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="210dp"
+        android:orientation="horizontal"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:fontFamily="@font/poppins_bold"
-            android:text="@string/dashboard"
-            android:textColor="@color/white"
-            android:textSize="24sp" />
-
-        <TextView
-            android:layout_margin="10dp"
-            android:id="@+id/dateFilter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:text="@string/date_prompt"
-            android:background="@drawable/selector_border"
-            android:padding="10dp"
-            android:gravity="end"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentTop="true"
-            android:drawablePadding="5dp"
-            app:drawableEndCompat="@drawable/baseline_keyboard_arrow_down_24" />
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:paddingStart="10dp"
-            android:layout_marginTop="10dp"
-            android:id="@+id/horizontalRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/dateFilter"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChart"
+            android:background="@drawable/round_edit_text"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             />
+        <Space
+            android:layout_width="10dp"
+            android:layout_height="0dp" />
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:background="@color/white"
-            android:padding="10dp"
-            android:layout_marginBottom="10dp"
-            android:id="@+id/verticalRecyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/horizontalRecyclerView"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            />
-    </RelativeLayout>
+            <LinearLayout
+                android:id="@+id/currentHolder"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/round_edit_text"
+                android:orientation="horizontal"
+                android:backgroundTint="#6666ff"
+                android:layout_marginBottom="10dp"
+                android:gravity="center">
+
+                <ImageView
+                    android:contentDescription="@string/current_weight_sample"
+                    android:layout_marginStart="10dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/baseline_event_24"
+                    app:tint="@color/white" />
+
+                <LinearLayout
+                    android:layout_marginStart="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="@string/current_weight_sample"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/poppins_bold"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pass_weight"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/poppins"
+                        />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lossHolder"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/round_edit_text"
+                android:orientation="horizontal"
+                android:backgroundTint="#ff6666"
+                android:gravity="center">
+                <ImageView
+                    android:contentDescription="@string/weight_lost"
+                    android:layout_marginStart="10dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/baseline_keyboard_double_arrow_down_24"
+                    app:tint="@color/white" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginStart="10dp"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="@string/weight_lost"
+                        android:textColor="@color/white"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/poppins_bold"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="@string/pass_weight"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/poppins"
+                        />
+
+                </LinearLayout>
+            </LinearLayout>
 
 
+        </LinearLayout>
 
+    </LinearLayout>
 
-</ScrollView>
+    <com.github.mikephil.charting.charts.HorizontalBarChart
+        android:id="@+id/chart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/holder"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/lightPrimary" />
+
+</RelativeLayout>

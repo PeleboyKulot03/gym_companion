@@ -34,9 +34,6 @@
             android:name=".ui.settings.PrivacySettingsActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.settings.UserSettingsActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.exercise.Extractor"
             android:exported="false" />
         <activity
