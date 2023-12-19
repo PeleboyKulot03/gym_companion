@@ -169,6 +169,7 @@
     </LinearLayout>
 
     <com.github.mikephil.charting.charts.HorizontalBarChart
+        android:visibility="gone"
         android:id="@+id/chart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -4,17 +4,17 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.example.gymcompanion.R;
 import com.example.gymcompanion.staticValues.DifferentExercise;
-import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -23,18 +23,17 @@ import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
-public class DashBoardFragment extends Fragment {
+public class DashBoardFragment extends Fragment implements IDashBoardFragment{
 
     private HorizontalBarChart chart;
     private PieChart pieChart;
     private int color;
     private Context context;
+    private int counter = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,20 +55,14 @@ public class DashBoardFragment extends Fragment {
             color = context.getColor(R.color.white);
         }
 
-        // setting the bar chart
-        ArrayList<BarEntry> barEntries = new ArrayList<>();
-        for (int i = 0; i < 17; i++) {
-            float val = (float) (Math.random() * 100);
-            barEntries.add(new BarEntry(i, val));
-        }
-        DifferentExercise differentExercise = new DifferentExercise(getContext());
-        ArrayList<String> exercises = new ArrayList<>(differentExercise.getDRAWABLES().keySet());
+        DashBoardFragmentPresenter presenter = new DashBoardFragmentPresenter(this);
+        presenter.getData("Monthly", "2023", "12");
 
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
         Map<String, Float> typeAmountMap = new HashMap<>();
 
         // function for setting up the chart
-        SetUpHorizontalBarChart(barEntries, exercises);
+
         SetUpPieChart(pieEntries, typeAmountMap);
         return view;
     }
@@ -159,7 +152,7 @@ public class DashBoardFragment extends Fragment {
         XAxis xAxis = chart.getXAxis();
         xAxis.setTextSize(10f);
         xAxis.setTextColor(color);
-        xAxis.setLabelCount(17);
+        xAxis.setLabelCount(arrayList.size());
         xAxis.setAxisMinimum(barData.getXMin()-.5f);
         xAxis.setAxisMaximum(barData.getXMax()+.5f);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -167,5 +160,24 @@ public class DashBoardFragment extends Fragment {
         xAxis.setDrawGridLines(false);
 
         chart.setData(barData);
+    }
+
+    @Override
+    public void onGetData(boolean verdict, Map<String, Map<Double, Long>> stats) {
+        // setting the bar chart
+        ArrayList<BarEntry> barEntries = new ArrayList<>();
+
+        for (String key: stats.keySet()) {
+            for (Double accuracy: stats.get(key).keySet()){
+                counter += 1;
+                barEntries.add(new BarEntry(counter, (float) (Math.round((accuracy / 3) * 100.0) / 100.0)));
+                Log.i("tegeelelele", key + ": " + accuracy / 3);
+            }
+        }
+
+        if (!stats.keySet().isEmpty()) {
+            SetUpHorizontalBarChart(barEntries, new ArrayList<>(stats.keySet()));
+            chart.setVisibility(View.VISIBLE);
+        }
     }
 }
