@@ -148,6 +148,8 @@
     <string name="pass_weight_sample">Past</string>
     <string name="current_weight_sample">Current Weight</string>
     <string name="pass_weight">90KG</string>
+    <string name="filter">filter</string>
+    <string name="progress_title">Progress</string>
 
 
 </resources>

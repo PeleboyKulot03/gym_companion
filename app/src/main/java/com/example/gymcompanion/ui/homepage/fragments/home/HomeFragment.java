@@ -1,4 +1,4 @@
-package com.example.gymcompanion.ui.homepage.fragments;
+package com.example.gymcompanion.ui.homepage.fragments.home;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.gymcompanion.R;
-import com.example.gymcompanion.staticValues.DifferentExercise;
 import com.example.gymcompanion.ui.registration.RegistrationPageActivity;
 import com.example.gymcompanion.utils.HomeFragmentModel;
 

@@ -1,4 +1,4 @@
-package com.example.gymcompanion.ui.homepage.fragments;
+package com.example.gymcompanion.ui.homepage.fragments.dashboard;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -33,7 +33,6 @@ public class DashBoardFragment extends Fragment {
 
     private HorizontalBarChart chart;
     private PieChart pieChart;
-    private BarChart barChart;
     private int color;
     private Context context;
 

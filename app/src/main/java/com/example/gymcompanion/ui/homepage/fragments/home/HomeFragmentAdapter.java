@@ -1,4 +1,4 @@
-package com.example.gymcompanion.ui.homepage.fragments;
+package com.example.gymcompanion.ui.homepage.fragments.home;
 
 import android.app.Activity;
 import android.content.Context;

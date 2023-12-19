@@ -1,12 +1,10 @@
-package com.example.gymcompanion.ui.homepage.fragments;
+package com.example.gymcompanion.ui.homepage.fragments.account;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
-import android.provider.Settings;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +19,6 @@ import com.example.gymcompanion.ui.settings.PrivacySettingsActivity;
 import com.example.gymcompanion.ui.settings.UserSettingsActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.io.File;
 
 public class AccountFragment extends Fragment {
     private AccountFragmentPresenter presenter;

@@ -6,6 +6,7 @@
         <menu>
             <group android:checkableBehavior="single">
                 <item
+                    android:id="@+id/test"
                     android:icon="@drawable/baseline_navigate_next_24"
                     android:title="Test exercise"
                     app:showAsAction="always"
