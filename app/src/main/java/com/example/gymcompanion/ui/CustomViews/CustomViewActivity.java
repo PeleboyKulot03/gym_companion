@@ -1,4 +1,4 @@
-package com.example.gymcompanion.ui;
+package com.example.gymcompanion.ui.CustomViews;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -37,6 +37,7 @@ public class CustomViewActivity extends Dialog {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_custom_view);
+
         okay = findViewById(R.id.okay);
         checkBox = findViewById(R.id.neverShowAgain);
         okay.setOnClickListener(v -> {
@@ -50,7 +51,6 @@ public class CustomViewActivity extends Dialog {
             dismiss();
             c.startActivity(intent);
             c.finish();
-
         });
     }
 }

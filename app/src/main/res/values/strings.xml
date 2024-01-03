@@ -1,9 +1,5 @@
 <resources>
     <string name="app_name">Gym Companion</string>
-    <string name="client_id">877860165323-lm0a789crttfb62mot4jc1beesldtauf.apps.googleusercontent.com</string>
-    <string name="facebook_app_id">1234</string>
-    <string name="fb_login_protocol_scheme">fb1234</string>
-    <string name="facebook_client_token">56789</string>
     <string name="google_s_logo">Google\'s Logo</string>
     <string name="google_signin_prompt">Sign in with Google</string>
     <string name="sign_up">Sign up</string>
@@ -64,19 +60,15 @@
     <string name="friend_fragment">Friend Fragment</string>
     <string name="friend">Friend</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="profile_photo">profile photo</string>
     <string name="sample_name">Julius Andrie</string>
-    <string name="sample_email">juliusandrie28@gmail.com</string>
     <string name="icon">icon</string>
     <string name="dummy_title">Lorem Ipsum</string>
     <string name="logout">Logout</string>
     <string name="current_weight">Current BMI</string>
-    <string name="current_level">Current Level</string>
     <string name="personal_best">Personal Records</string>
     <string name="user_settings">USER SETTINGS</string>
     <string name="user_profile">User Profile</string>
-    <string name="get_verified">Get Verified</string>
     <string name="records">RECORDS</string>
     <string name="privacy_settings">Privacy Settings</string>
     <string name="save_videos">Save Videos</string>
@@ -93,7 +85,6 @@
     <string name="sample_set">3 sets</string>
     <string name="sample_reps">12 reps</string>
     <string name="sample_count">1/13</string>
-    <string name="new_image">new image</string>
     <string name="finish_set">Finish Set</string>
     <string name="count_0">Count: 0</string>
     <string name="note_lorem_ipsum_dollor_amet_simet_shfjakhfyjh_f_asjkhfajskfsa"><font color="#c4c45a">Note:</font> Lorem Ipsum dollor, amet simet shfjak yjh.,f asjkhfajskfsa,.</string>
@@ -138,18 +129,25 @@
     <string name="dashboard">Dashboard</string>
     <string name="date_prompt">January, 2023</string>
     <string name="weight_lost">Lost Weight</string>
-    <string name="nav_open">open</string>
-    <string name="nav_close">close</string>
-    <string name="drawer_open">open</string>
-    <string name="drawer_close">close</string>
     <string name="menu">menu</string>
     <string name="sample_date">December, 2023</string>
     <string name="weekly">Weekly</string>
-    <string name="pass_weight_sample">Past</string>
     <string name="current_weight_sample">Current Weight</string>
     <string name="pass_weight">90KG</string>
-    <string name="filter">filter</string>
-    <string name="progress_title">Progress</string>
+    <string name="filter">Filter</string>
+    <string name="progress_title">Monthly Progress</string>
+    <string name="progress_title1">Detailed Progress</string>
+    <string name="sort_by">Sort by</string>
+    <string name="monthly">Monthly</string>
+    <string name="custom">Custom</string>
+    <string name="apply">APPLY</string>
+    <string name="cancel">CANCEL</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="sample_month">Jan</string>
+    <string name="sample_year">2024</string>
+    <string name="filter_image">filter image</string>
+    <string name="yearly">Yearly</string>
 
 
 </resources>

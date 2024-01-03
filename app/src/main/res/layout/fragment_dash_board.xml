@@ -8,28 +8,63 @@
     tools:context=".ui.homepage.fragments.dashboard.DashBoardFragment">
     <include layout="@layout/toolbar"/>
 
-    <TextView
-        android:id="@+id/filter"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:id="@+id/filterHolder"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolbar"
+        android:orientation="horizontal"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/round_edit_text"
-        android:backgroundTint="@color/lightPrimary"
-        android:drawablePadding="10dp"
-        android:padding="10dp"
-        android:text="@string/sample_date"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:drawableEndCompat="@drawable/baseline_keyboard_arrow_down_24"
-        app:drawableTint="@color/white" />
+        android:layout_below="@+id/toolbar">
+        <ImageView
+            android:id="@+id/filter"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/setting"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="@string/filter_image"
+            />
+
+        <TextView
+            android:id="@+id/monthFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/round_edit_text"
+            android:backgroundTint="@color/lightPrimary"
+            android:drawablePadding="10dp"
+            android:padding="10dp"
+            android:text="@string/sample_month"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:drawableEndCompat="@drawable/baseline_keyboard_arrow_down_24"
+            app:drawableTint="@color/white" />
+
+        <TextView
+            android:id="@+id/yearFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/round_edit_text"
+            android:backgroundTint="@color/lightPrimary"
+            android:drawablePadding="10dp"
+            android:padding="10dp"
+            android:text="@string/sample_year"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            app:drawableEndCompat="@drawable/baseline_keyboard_arrow_down_24"
+            app:drawableTint="@color/white" />
+    </LinearLayout>
 
 <!--    <TextView-->
-<!--        android:id="@+id/filterGap"-->
+<!--        android:id="@+id/monthFilterGap"-->
 <!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"-->
 <!--        android:layout_below="@+id/toolbar"-->
@@ -47,7 +82,7 @@
 <!--        app:drawableEndCompat="@drawable/baseline_keyboard_arrow_down_24" />-->
 
     <LinearLayout
-        android:layout_below="@+id/filter"
+        android:layout_below="@+id/filterHolder"
         android:id="@+id/holder"
         android:layout_width="match_parent"
         android:layout_height="210dp"

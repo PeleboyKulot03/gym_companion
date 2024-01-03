@@ -2,19 +2,23 @@ package com.example.gymcompanion.ui.homepage.fragments.dashboard;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
-
+import androidx.fragment.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import com.example.gymcompanion.R;
-import com.example.gymcompanion.staticValues.DifferentExercise;
+import com.example.gymcompanion.ui.CustomViews.CustomFilterDialogV1;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -24,39 +28,94 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
-public class DashBoardFragment extends Fragment implements IDashBoardFragment{
+public class DashBoardFragment extends Fragment implements IDashBoardFragment {
 
     private HorizontalBarChart chart;
     private PieChart pieChart;
     private int color;
     private Context context;
-    private int counter = 0;
+    private float counter = 0f;
+    private TextView monthPicker;
+    private int detailedPickedYear;
+    private int detailedPickedMonth;
+    private BarData barData;
+    private BarDataSet barDataSet;
+    private final ArrayList<String> months = new ArrayList<>(
+            Arrays.asList("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Nov", "Oct", "Dec")
+    );
+    private String mode = "Monthly";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
     }
-
+    private FragmentManager fragmentManager;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
 
         View view = inflater.inflate(R.layout.fragment_dash_board, container, false);
+        DashBoardFragmentPresenter presenter = new DashBoardFragmentPresenter(this);
+
+        if (getActivity() != null) {
+            fragmentManager = getActivity().getSupportFragmentManager();
+        }
+
         pieChart = view.findViewById(R.id.pieChart);
         chart = view.findViewById(R.id.chart);
+        ImageView filter = view.findViewById(R.id.filter);
+        monthPicker = view.findViewById(R.id.monthFilter);
+        TextView yearPicker = view.findViewById(R.id.yearFilter);
 
+        detailedPickedYear = Calendar.getInstance().get(Calendar.YEAR);
+        detailedPickedMonth = Calendar.getInstance().get(Calendar.MONTH);
+        yearPicker.setText(String.valueOf(detailedPickedYear));
+        monthPicker.setText(months.get(detailedPickedMonth));
+
+        monthPicker.setOnClickListener(v -> {
+            MonthYearPickerDialog newFragment = new MonthYearPickerDialog();
+            newFragment.setListener((view1, year, month, dayOfMonth) -> {
+                monthPicker.setText(months.get(month - 1));
+                detailedPickedMonth = month;
+
+                // TODO: SETUP THE BAR CHART
+                presenter.getData(mode, String.valueOf(detailedPickedYear), String.valueOf(detailedPickedMonth));
+            }, "Month");
+            newFragment.show(fragmentManager, "DatePicker");
+        });
+
+        yearPicker.setOnClickListener(v -> {
+            MonthYearPickerDialog newFragment = new MonthYearPickerDialog();
+            newFragment.setListener((view1, year, month, dayOfMonth) -> {
+                yearPicker.setText(String.valueOf(year));
+                detailedPickedYear = year;
+
+                // TODO: SETUP BARCHART
+                presenter.getData(mode, String.valueOf(detailedPickedYear), String.valueOf(detailedPickedMonth));
+
+            }, "Year");
+            newFragment.show(fragmentManager, "DatePicker");
+        });
+
+        filter.setOnClickListener(v -> {
+            CustomFilterDialogV1 cdd = new CustomFilterDialogV1(getActivity(), DashBoardFragment.this);
+            Objects.requireNonNull(cdd.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            cdd.show();
+        });
         context = getContext();
         if (context != null) {
             color = context.getColor(R.color.white);
         }
 
-        DashBoardFragmentPresenter presenter = new DashBoardFragmentPresenter(this);
-        presenter.getData("Monthly", "2023", "12");
+        presenter.getData(mode, String.valueOf(detailedPickedYear), String.valueOf(detailedPickedMonth));
 
         ArrayList<PieEntry> pieEntries = new ArrayList<>();
         Map<String, Float> typeAmountMap = new HashMap<>();
@@ -71,7 +130,7 @@ public class DashBoardFragment extends Fragment implements IDashBoardFragment{
         String label = "type";
 
         //initializing data
-        typeAmountMap.put("Muscle",30.0f);
+        typeAmountMap.put("Muscle", 30.0f);
         typeAmountMap.put("Body Fat", 50.0f);
 
         //initializing colors for the entries
@@ -82,8 +141,11 @@ public class DashBoardFragment extends Fragment implements IDashBoardFragment{
         colors.add(Color.parseColor("#DDE6ED"));
 
         //input data and fit data into pie chart entry
-        for(String type: typeAmountMap.keySet()){
-            pieEntries.add(new PieEntry(typeAmountMap.get(type), type));
+        for(String key: typeAmountMap.keySet()){
+            Float val = typeAmountMap.get(key);
+            if (val != null) {
+                pieEntries.add(new PieEntry(val, key));
+            }
         }
 
         //collecting the entries with label name
@@ -120,7 +182,7 @@ public class DashBoardFragment extends Fragment implements IDashBoardFragment{
         pieChart.setCenterTextSize(12f);
         pieChart.setCenterTextColor(Color.BLACK);
     }
-    private void SetUpHorizontalBarChart(ArrayList<BarEntry> arrayList, final ArrayList<String> xAxisValues){
+    private void SetUpHorizontalBarChart(ArrayList<BarEntry> arrayList, ArrayList<String> xAxisValues){
         chart.setDrawBarShadow(false);
         chart.setDrawValueAboveBar(true);
         chart.getDescription().setEnabled(false);
@@ -135,12 +197,13 @@ public class DashBoardFragment extends Fragment implements IDashBoardFragment{
         chart.getAxisRight().setTextColor(color);
         chart.getLegend().setTextColor(color);
         chart.getDescription().setTextColor(color);
+        chart.setDrawValueAboveBar(true);
 
 
         // the data for the chart
-        BarDataSet barDataSet = new BarDataSet(arrayList, "Accuracies");
+        barDataSet = new BarDataSet(arrayList, "Accuracies");
         barDataSet.setColor(context.getColor(R.color.white));
-        BarData barData = new BarData(barDataSet);
+        barData = new BarData(barDataSet);
         barData.setBarWidth(0.9f);
         barData.setValueTextColor(color);
 
@@ -159,25 +222,41 @@ public class DashBoardFragment extends Fragment implements IDashBoardFragment{
         xAxis.setValueFormatter(new IndexAxisValueFormatter(xAxisValues));
         xAxis.setDrawGridLines(false);
 
+        YAxis y = chart.getAxisLeft();
+        y.setAxisMaximum(barDataSet.getYMax() + 20);
+        y.setAxisMinimum(0);
         chart.setData(barData);
     }
 
     @Override
-    public void onGetData(boolean verdict, Map<String, Map<Double, Long>> stats) {
+    public void onGetData(boolean verdict, Map<String, Map<Double, Long>> stats,  Map<String, Integer> occurrence) {
         // setting the bar chart
+        counter = 0f;
+        chart.setVisibility(View.INVISIBLE);
         ArrayList<BarEntry> barEntries = new ArrayList<>();
 
         for (String key: stats.keySet()) {
-            for (Double accuracy: stats.get(key).keySet()){
-                counter += 1;
-                barEntries.add(new BarEntry(counter, (float) (Math.round((accuracy / 3) * 100.0) / 100.0)));
-                Log.i("tegeelelele", key + ": " + accuracy / 3);
+            for (Double accuracy: Objects.requireNonNull(stats.get(key)).keySet()){
+                barEntries.add(new BarEntry(counter, (float) (Math.round((accuracy / occurrence.get(key)) * 100.0) / 100.0)));
+                counter += 1f;
             }
         }
 
         if (!stats.keySet().isEmpty()) {
             SetUpHorizontalBarChart(barEntries, new ArrayList<>(stats.keySet()));
             chart.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    @Override
+    public void onChangeFilter(String mode) {
+        this.mode = mode;
+        if (mode.equals("Yearly")) {
+            monthPicker.setVisibility(View.GONE);
+        }
+        if (mode.equals("Monthly")) {
+            monthPicker.setVisibility(View.VISIBLE);
         }
     }
 }

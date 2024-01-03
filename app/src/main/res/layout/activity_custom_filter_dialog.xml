@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:background="@drawable/round_edit_text"
+    android:backgroundTint="@color/white"
+    tools:context=".ui.CustomViews.CustomFilterDialog"
+    android:layout_margin="10dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/filter"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:fontFamily="@font/poppins_bold"
+        android:layout_gravity="center"
+        />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/lightGray"
+        />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sort_by"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        />
+
+    <Space
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/monthly"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:background="@drawable/round_edit_text"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:text="@string/monthly"
+            android:gravity="center"
+            android:layout_marginEnd="10dp"
+            />
+
+        <TextView
+            android:id="@+id/weekly"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="10dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:background="@drawable/rounded_border"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:text="@string/weekly"
+            android:gravity="center"
+            android:layout_marginEnd="10dp"
+            />
+
+        <TextView
+            android:id="@+id/custom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:background="@drawable/rounded_border"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:text="@string/custom"
+            android:gravity="center"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/customHolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/from"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:text="@string/date_prompt"
+                android:gravity="center"
+                android:layout_marginEnd="10dp"
+                app:drawableEndCompat="@drawable/baseline_keyboard_arrow_down_24" />
+
+        </LinearLayout>
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/to"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:text="@string/sample_date"
+                android:gravity="center"
+                android:layout_marginEnd="10dp"
+                app:drawableEndCompat="@drawable/baseline_keyboard_arrow_down_24" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end">
+
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/cancel"
+            />
+        <Space
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:id="@+id/apply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/poppins_bold"
+            android:text="@string/apply"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

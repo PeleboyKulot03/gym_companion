@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.gymcompanion.R;
 import com.example.gymcompanion.staticValues.DifferentExercise;
+import com.example.gymcompanion.ui.CustomViews.CustomViewActivity;
 import com.example.gymcompanion.ui.exercise.ExercisePageActivityLiveFeed;
 import com.example.gymcompanion.ui.exercise.ExercisePageActivityVideoRecording;
 
