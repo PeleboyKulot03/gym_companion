@@ -2,88 +2,123 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     >
-    <item android:title="Exercises">
+    <item android:title="@string/push_day"
+        app:showAsAction="ifRoom">
         <menu>
             <group android:checkableBehavior="single">
                 <item
-                    android:id="@+id/test"
+                    android:id="@+id/dips"
                     android:icon="@drawable/baseline_navigate_next_24"
-                    android:title="Test exercise"
-                    app:showAsAction="always"
+                    android:title="@string/Dips"
+                    app:showAsAction="ifRoom"
                     />
                 <item
                     android:icon="@drawable/baseline_navigate_next_24"
-                    android:title="Test exercise"
-                    app:showAsAction="always"
+                    android:title="@string/db_press"
+                    app:showAsAction="ifRoom"
+                    android:id="@+id/dumbbellPress"
                     />
                 <item
+                    android:id="@+id/flatBenchPress"
                     android:icon="@drawable/baseline_navigate_next_24"
-                    android:title="Test exercise"
-                    app:showAsAction="always"
+                    android:title="@string/flat_bench_press"
+                    app:showAsAction="ifRoom"
                     />
                 <item
+                    android:id="@+id/inclineBenchPress"
                     android:icon="@drawable/baseline_navigate_next_24"
-                    android:title="Test exercise"
-                    app:showAsAction="always"
+                    android:title="@string/incline_bench"
+                    app:showAsAction="ifRoom"
                     />
                 <item
+                    android:id="@+id/sideLateral"
                     android:icon="@drawable/baseline_navigate_next_24"
-                    android:title="Test exercise"
-                    app:showAsAction="always"
+                    android:title="@string/side_lateral"
+                    app:showAsAction="ifRoom"
                     />
                 <item
+                    android:id="@+id/skullCursher"
                     android:icon="@drawable/baseline_navigate_next_24"
-                    android:title="Test exercise"
-                    app:showAsAction="always"
+                    android:title="@string/skull_crushers"
+                    app:showAsAction="ifRoom"
                     />
-                <item
-                    android:icon="@drawable/baseline_navigate_next_24"
-                    android:title="Test exercise"
-                    app:showAsAction="always"
-                    />
-                <item
-                    android:icon="@drawable/baseline_navigate_next_24"
-                    android:title="Test exercise"
-                    app:showAsAction="always"
-                    />
-                <item
-                    android:icon="@drawable/baseline_navigate_next_24"
-                    android:title="Test exercise"
-                    app:showAsAction="always"
-                    />
-                <item
-                    android:icon="@drawable/baseline_navigate_next_24"
-                    android:title="Test exercise"
-                    app:showAsAction="always"
-                    />
-                <item
-                    android:icon="@drawable/baseline_navigate_next_24"
-                    android:title="Test exercise"
-                    app:showAsAction="always"
-                    />
-                <item
-                    android:icon="@drawable/baseline_navigate_next_24"
-                    android:title="Test exercise"
-                    app:showAsAction="always"
-                    />
-                <item
-                    android:icon="@drawable/baseline_navigate_next_24"
-                    android:title="Test exercise"
-                    app:showAsAction="always"
-                    />
-                <item
-                    android:icon="@drawable/baseline_navigate_next_24"
-                    android:title="Test exercise"
-                    app:showAsAction="always"
-                    />
-                <item
-                    android:icon="@drawable/baseline_navigate_next_24"
-                    android:title="Test exercise"
-                    app:showAsAction="always"
-                    />
-
             </group>
         </menu>
     </item>
 
+    <item android:title="@string/pull_day"
+        app:showAsAction="ifRoom">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/barbellCurls"
+                    android:icon="@drawable/baseline_navigate_next_24"
+                    android:title="@string/barbell_curls"
+                    app:showAsAction="ifRoom"
+                    />
+                <item
+                    android:id="@+id/barbellRows"
+                    android:icon="@drawable/baseline_navigate_next_24"
+                    android:title="@string/barbell_rows"
+                    app:showAsAction="ifRoom"
+                    />
+                <item
+                    android:id="@+id/deadLift"
+                    android:icon="@drawable/baseline_navigate_next_24"
+                    android:title="@string/deadlift"
+                    app:showAsAction="ifRoom"
+                    />
+                <item
+                    android:id="@+id/dumbbellRows"
+                    android:icon="@drawable/baseline_navigate_next_24"
+                    android:title="@string/dumbbell_rows"
+                    app:showAsAction="ifRoom"
+                    />
+                <item
+                    android:id="@+id/latPullDown"
+                    android:icon="@drawable/baseline_navigate_next_24"
+                    android:title="@string/lat_pull_down"
+                    app:showAsAction="ifRoom"
+                    />
+                <item
+                    android:id="@+id/preacherCurls"
+                    android:icon="@drawable/baseline_navigate_next_24"
+                    android:title="@string/preacher_curls"
+                    app:showAsAction="ifRoom"
+                    />
+            </group>
+        </menu>
+    </item>
+
+    <item android:title="@string/leg_day"
+        app:showAsAction="ifRoom">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/legExtension"
+                    android:icon="@drawable/baseline_navigate_next_24"
+                    android:title="@string/leg_extension"
+                    app:showAsAction="ifRoom"
+                    />
+                <item
+                    android:id="@+id/lunges"
+                    android:icon="@drawable/baseline_navigate_next_24"
+                    android:title="@string/lunges"
+                    app:showAsAction="ifRoom"
+                    />
+                <item
+                    android:id="@+id/rdl"
+                    android:icon="@drawable/baseline_navigate_next_24"
+                    android:title="@string/rdl"
+                    app:showAsAction="ifRoom"
+                    />
+                <item
+                    android:id="@+id/squats"
+                    android:icon="@drawable/baseline_navigate_next_24"
+                    android:title="@string/squats"
+                    app:showAsAction="ifRoom"
+                    />
+            </group>
+        </menu>
+    </item>
 </menu>

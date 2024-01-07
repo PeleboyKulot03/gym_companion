@@ -10,10 +10,7 @@ import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.example.gymcompanion.R;
-import com.example.gymcompanion.ui.homepage.fragments.dashboard.IDetailedDashBoard;
-import com.prolificinteractive.materialcalendarview.CalendarMode;
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
-
+import com.example.gymcompanion.ui.Homepage.fragments.dashboard.IDetailedDashBoard;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;

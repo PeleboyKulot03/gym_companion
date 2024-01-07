@@ -76,6 +76,5 @@ dependencies {
     implementation ("com.arthenica:ffmpeg-kit-full:6.0-2")
 
     implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
-    implementation ("com.github.prolificinteractive:material-calendarview:2.0.0")
 
 }

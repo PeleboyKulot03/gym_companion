@@ -23,7 +23,7 @@ import java.util.Objects;
 
 public class RegistrationPageModel {
 
-    private String firstName, middleName, surname, displayName, weight, height, birthday, age, gender, experience, username, email, date;
+    private String firstName, middleName, surname, displayName, weight, height, birthday, age, gender, experience, username, email, date, imageSrc;
     private DatabaseReference reference;
     private FirebaseAuth auth;
     private boolean isDone = false;
@@ -33,7 +33,7 @@ public class RegistrationPageModel {
         auth = FirebaseAuth.getInstance();
     }
 
-    public RegistrationPageModel(String firstName, String middleName, String surname, String displayName, String weight, String height, String birthday, String age, String gender, String experience, String username, String email, String date) {
+    public RegistrationPageModel(String firstName, String middleName, String surname, String displayName, String weight, String height, String birthday, String age, String gender, String experience, String username, String email, String date, String imageSrc) {
         this.firstName = firstName;
         this.middleName = middleName;
         this.surname = surname;
@@ -47,6 +47,11 @@ public class RegistrationPageModel {
         this.username = username;
         this.email = email;
         this.date = date;
+        this.imageSrc = imageSrc;
+    }
+
+    public String getImageSrc() {
+        return imageSrc;
     }
 
     public String getDisplayName() {

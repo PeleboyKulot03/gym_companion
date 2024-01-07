@@ -31,7 +31,7 @@ public class ForgotPasswordModel {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot user: snapshot.getChildren()) {
-                    String usersEmail = user.child("email").getValue(String.class);
+                    String usersEmail = user.child("informations").child("email").getValue(String.class);
                     if (usersEmail != null){
                         if (usersEmail.equals(email)) {
                             onRegister.hasUser(true);

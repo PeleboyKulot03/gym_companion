@@ -25,7 +25,7 @@ public class LoginPageModel {
     private FirebaseAuth auth;
     private String displayName;
     private String email;
-    private String photoURL;
+    private String imageSrc;
     private boolean checker = false;
     private boolean isDone = false;
 
@@ -34,10 +34,10 @@ public class LoginPageModel {
         auth = FirebaseAuth.getInstance();
     }
 
-    public LoginPageModel(String displayName, String email, String photoURL) {
+    public LoginPageModel(String displayName, String email, String imageSrc) {
         this.displayName = displayName;
         this.email = email;
-        this.photoURL = photoURL;
+        this.imageSrc = imageSrc;
     }
 
     public String getDisplayName() {
@@ -48,8 +48,8 @@ public class LoginPageModel {
         return email;
     }
 
-    public String getPhotoURL() {
-        return photoURL;
+    public String getImageSrc() {
+        return imageSrc;
     }
 
     public void createNewUser(final onCreateUser onCreateUser, LoginPageModel model, String userId){

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.homepage.HomePageActivity"
+    tools:context=".ui.Homepage.HomePageActivity"
     android:id="@+id/drawerLayout"
     >
 
@@ -32,8 +32,6 @@
             android:minHeight="?attr/actionBarSize"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             android:background="@color/white"
-            app:title="@string/dashboard"
-            app:menu="@menu/hamburger_menu"
             app:titleTextColor="@color/black"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"

@@ -29,7 +29,7 @@ public class DashBoardFragmentModel {
     public DashBoardFragmentModel() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            reference = FirebaseDatabase.getInstance().getReference("users").child(user.getUid()).child("history");
+            reference = FirebaseDatabase.getInstance().getReference("users").child(user.getUid());
         }
         stats = new HashMap<>();
         occurrence = new HashMap<>();
@@ -43,12 +43,15 @@ public class DashBoardFragmentModel {
     public void getData(final onGetData onGetData, String filter, String year, String month) {
 
         if (filter.equals("Yearly")) {
-            reference.child(year).addListenerForSingleValueEvent(new ValueEventListener() {
+            reference.child("history").child(year).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for (DataSnapshot months: snapshot.getChildren()) {
                         for (DataSnapshot days: months.getChildren()) {
                             for (DataSnapshot exercise: days.getChildren()) {
+                                // pang debug
+//                                Log.i("tagel", "onDataChange: " + months.getKey() + " :" + days.getKey() + " :" +exercise.getKey());
+
                                 String key = exercise.getKey();
                                 tempAcc = 0.0;
                                 tempTime = 0;
@@ -94,7 +97,7 @@ public class DashBoardFragmentModel {
             });
         }
         if (filter.equals("Monthly")){
-            reference.child(year).child(month).addListenerForSingleValueEvent(new ValueEventListener() {
+            reference.child("history").child(year).child(month).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for (DataSnapshot days: snapshot.getChildren()) {
@@ -152,7 +155,23 @@ public class DashBoardFragmentModel {
         return time;
     }
 
+    public void getWeight(final onGetData onGetData) {
+        reference.child("informations").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String curWeight = snapshot.child("weight").getValue(String.class);
+                onGetData.onGetWeight(true, curWeight, "");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                onGetData.onGetWeight(false, "", "");
+            }
+        });
+    }
+
     public interface onGetData {
         void isSuccess(boolean verdict, Map<String, Map<Double, Long>> data, Map<String, Integer> occurrence);
+        void onGetWeight(boolean verdict, String currentWeight, String lostWeight);
     }
 }

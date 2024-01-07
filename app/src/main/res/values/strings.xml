@@ -148,6 +148,34 @@
     <string name="sample_year">2024</string>
     <string name="filter_image">filter image</string>
     <string name="yearly">Yearly</string>
+    <string name="search_title">search view</string>
+    <string name="explore">Explore</string>
+    <string name="level_beginner">Level</string>
+    <string name="sample_height">150cm</string>
+    <string name="follow">Follow</string>
+
+    <string name="Dips">Dips</string>
+    <string name="db_press">Dumbbell Shoulder Press</string>
+    <string name="flat_bench_press">Flat Bench Press</string>
+    <string name="incline_bench">Incline Bench Press</string>
+    <string name="side_lateral">Side Lateral Raises</string>
+    <string name="skull_crushers">Skull Crushers</string>
 
 
+    <string name="barbell_curls">Barbell Curls</string>
+    <string name="barbell_rows">Barbell Rows</string>
+    <string name="deadlift">Deadlift</string>
+    <string name="dumbbell_rows">Dumbbell Rows</string>
+    <string name="lat_pull_down">Lat Pull down</string>
+    <string name="preacher_curls">Preacher Curls</string>
+
+
+    <string name="leg_extension">Leg Extension</string>
+    <string name="lunges">Lunges</string>
+    <string name="rdl">Romanian Deadlift</string>
+    <string name="squats">Squats</string>
+
+    <string name="push_day">Push Day</string>
+    <string name="pull_day">Pull Day</string>
+    <string name="leg_day">Leg Day</string>
 </resources>

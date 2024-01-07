@@ -3,7 +3,6 @@ package com.example.gymcompanion.ui.SavedVideos;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
@@ -21,7 +20,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.gymcompanion.R;
-import com.example.gymcompanion.ui.exercise.PreviewVideoActivity;
 
 import java.io.File;
 import java.util.ArrayList;

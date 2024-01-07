@@ -13,4 +13,11 @@
         <item name="android:textColorPrimary">@color/lightPrimaryVariant</item> // you can change the color of the yearPiker dialog
     </style>
 
+    <style name="MySearchViewStyle" parent="Widget.AppCompat.SearchView">
+    <item name="closeIcon">@drawable/baseline_close_24</item>
+    <!-- Search button icon -->
+<!--    <item name="searchIcon">...</item>-->
+    <!-- Go/commit button icon -->
+</style>
+
 </resources>

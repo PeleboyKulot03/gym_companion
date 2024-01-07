@@ -1,20 +1,16 @@
 package com.example.gymcompanion.ui.CustomViews;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.content.res.AppCompatResources;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Window;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.gymcompanion.R;
-import com.example.gymcompanion.ui.homepage.fragments.dashboard.IDashBoardFragment;
-import com.example.gymcompanion.ui.homepage.fragments.dashboard.IDetailedDashBoard;
+import com.example.gymcompanion.ui.Homepage.fragments.dashboard.IDashBoardFragment;
 
 import java.util.HashMap;
 import java.util.Map;

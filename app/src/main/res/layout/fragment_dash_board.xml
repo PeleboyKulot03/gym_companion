@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".ui.homepage.fragments.dashboard.DashBoardFragment">
+    tools:context=".ui.Homepage.fragments.dashboard.DashBoardFragment">
     <include layout="@layout/toolbar"/>
 
 
@@ -142,6 +142,7 @@
                         android:fontFamily="@font/poppins_bold"
                         />
                     <TextView
+                        android:id="@+id/currWeight"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/pass_weight"
@@ -204,7 +205,6 @@
     </LinearLayout>
 
     <com.github.mikephil.charting.charts.HorizontalBarChart
-        android:visibility="gone"
         android:id="@+id/chart"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
