@@ -123,29 +123,83 @@ public class RegistrationPageModel {
 
     public void createNewUser(final onRegister onRegister, String email, String password, RegistrationPageModel model, boolean isUser) {
         ArrayList<String> pushDay = new ArrayList<>();
-        pushDay.add("Flat Bench Press");
         pushDay.add("Dips");
         pushDay.add("Dumbbell Shoulder Press");
+        pushDay.add("Flat Bench Press");
         pushDay.add("Incline Bench Press");
         pushDay.add("Side Lateral Raises");
         pushDay.add("Skull Crushers");
 
+        ArrayList<String> pullDay = new ArrayList<>();
+        pullDay.add("Barbell Curls");
+        pullDay.add("Barbell Rows");
+        pullDay.add("Deadlift");
+        pullDay.add("Dumbbell Rows");
+        pullDay.add("Lat Pull Down");
+        pullDay.add("Preacher Curls");
+
+        ArrayList<String> legDay = new ArrayList<>();
+        legDay.add("Leg Extension");
+        legDay.add("Lunges");
+        legDay.add("Romanian Deadlift");
+        legDay.add("Squats");
+
         ArrayList<ExerciseModel> exerciseModels = new ArrayList<>();
         if (model.getExperience().equals("Beginner")){
+            // for push day
             exerciseModels.add(new ExerciseModel(false, 12, 3, 10));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 10));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 10));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
+
+            // for pull day
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 10));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 10));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 10));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
+
+            // for leg day
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 10));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 10));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
         }
         if (isUser) {
             reference.child(Objects.requireNonNull(auth.getCurrentUser()).getUid()).child("informations").setValue(model).addOnCompleteListener(task1 -> {
                 if (task1.isSuccessful()){
+                    int counter = 0;
+                    int pushCounter = 0;
+                    int pullCounter = 0;
+                    int legCounter = 0;
+
                     FirebaseUser user = auth.getCurrentUser();
                     for (int i = 0; i < pushDay.size(); i++) {
                         reference = reference.getRoot();
                         reference.child("users").child(user.getUid()).child("currentExercise").child(pushDay.get(i)).setValue(exerciseModels.get(i));
+                    }
+                    while (counter < pushDay.size() + pullDay.size() + legDay.size()) {
+                        if (counter < pushDay.size()) {
+                            reference = reference.getRoot();
+                            reference.child("users").child(user.getUid()).child("currentProgram").child("pushDay").child(pushDay.get(pushCounter)).setValue(exerciseModels.get(counter));
+                            counter++;
+                            pushCounter++;
+                            continue;
+                        }
+                        if (counter < pushDay.size() + pullDay.size()) {
+                            reference = reference.getRoot();
+                            reference.child("users").child(user.getUid()).child("currentProgram").child("pullDay").child(pullDay.get(pullCounter)).setValue(exerciseModels.get(counter));
+                            counter++;
+                            pullCounter++;
+                            continue;
+                        }
+                        reference = reference.getRoot();
+                        reference.child("users").child(user.getUid()).child("currentProgram").child("legDay").child(legDay.get(legCounter)).setValue(exerciseModels.get(counter));
+                        counter++;
+                        legCounter++;
                     }
                     reference = reference.getRoot();
                     reference.child("users").child(user.getUid()).child("quickInformation").child("currentDay").setValue("Push Day");

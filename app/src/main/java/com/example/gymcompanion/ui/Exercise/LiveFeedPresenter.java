@@ -9,7 +9,7 @@ public class LiveFeedPresenter {
         this.liveFeedInterface = liveFeedInterface;
     }
 
-    public void addData(String program, LiveFeedExerciseModel model, String setNumber) {
+    public void addData(String program, LiveFeedExerciseModel model, int setNumber) {
         LiveFeedExerciseModel liveFeedExerciseModel = new LiveFeedExerciseModel();
         liveFeedExerciseModel.addData((verdict, message) -> liveFeedInterface.onAddData(verdict, message), program, model, setNumber);
     }

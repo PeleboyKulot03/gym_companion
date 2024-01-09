@@ -178,4 +178,8 @@
     <string name="push_day">Push Day</string>
     <string name="pull_day">Pull Day</string>
     <string name="leg_day">Leg Day</string>
+    <string name="followers">Followers</string>
+    <string name="sample_follower">100</string>
+    <string name="separator">|</string>
+    <string name="current_program">Current Program</string>
 </resources>

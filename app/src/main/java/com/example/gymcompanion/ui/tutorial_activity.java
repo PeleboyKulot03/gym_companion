@@ -50,7 +50,7 @@ public class tutorial_activity extends AppCompatActivity {
 
 
         String exercise = intent.getStringExtra("exercise");
-        setNumber = intent.getIntExtra("sets", 1);
+        setNumber = intent.getIntExtra("sets", 0);
         boolean isDone = intent.getBooleanExtra("isDone", false);
 
 
@@ -77,10 +77,9 @@ public class tutorial_activity extends AppCompatActivity {
 
         startLiveFeed.setOnClickListener(view -> {
             Intent intent1 = new Intent(getApplicationContext(), ExercisePageActivityLiveFeed.class);
-            setNumber = 4 - setNumber;
 
             intent1.putExtra("exercise", exercise);
-            intent1.putExtra("sets", "set" + setNumber);
+            intent1.putExtra("sets", setNumber);
             SharedPreferences dialogPreferences = getSharedPreferences(getPackageName() + "_preferences", Context.MODE_PRIVATE);
             String check = dialogPreferences.getString("showDialog", "");
             if (check.equals("1")) {

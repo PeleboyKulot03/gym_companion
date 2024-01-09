@@ -42,6 +42,9 @@ import com.google.mlkit.vision.pose.PoseDetection;
 import com.google.mlkit.vision.pose.PoseDetector;
 import com.google.mlkit.vision.pose.PoseLandmark;
 import com.google.mlkit.vision.pose.defaults.PoseDetectorOptions;
+
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Locale;
@@ -70,7 +73,7 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
     long millis, seconds, minutes;
     private ArrayList<Double> accuracies;
     private LiveFeedPresenter presenter;
-    private String setNumber;
+    private int setNumber;
     private final Handler timerHandler = new Handler();
     private final Handler countDownHandler = new Handler();
     private int countDown = 3;
@@ -118,7 +121,7 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
         accuracies = new ArrayList<>();
         if (intent != null) {
             exercise = intent.getStringExtra("exercise");
-            setNumber = intent.getStringExtra("sets");
+            setNumber = intent.getIntExtra("sets", 3);
         }
         paint = new Paint();
         paint.setStyle(Paint.Style.STROKE);
@@ -375,13 +378,16 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
             String temp = "Count: " + count;
             counter.setText(temp);
             if (count == 12) {
+                DecimalFormat decimalFormat = new DecimalFormat("0.00");
+                decimalFormat.setRoundingMode(RoundingMode.UP);
                 timerHandler.removeCallbacks(timerRunnable);
                 double averageAccuracy = 0.0;
                 for (Double accuracy: accuracies){
                     averageAccuracy += accuracy;
                 }
-                LiveFeedExerciseModel model = new LiveFeedExerciseModel(millis, String.valueOf(averageAccuracy / (double) accuracies.size()));
-//                Log.i("engeTea", "checkForm: Time: " + tempTime + "Accuracy: " + averageAccuracy / accuracies.size());
+                averageAccuracy /= accuracies.size();
+
+                LiveFeedExerciseModel model = new LiveFeedExerciseModel(millis, Double.parseDouble(decimalFormat.format(averageAccuracy)));
                 presenter.addData(exercise, model, setNumber);
             }
         }

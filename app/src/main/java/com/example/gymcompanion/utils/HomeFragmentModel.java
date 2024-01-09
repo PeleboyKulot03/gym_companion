@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class HomeFragmentModel {
-    private String /*image,*/ program;
+    private String program;
     private int set;
     private int reps;
     private int weight;
@@ -34,8 +34,7 @@ public class HomeFragmentModel {
         databaseReference = FirebaseDatabase.getInstance().getReference("users");
         auth = FirebaseAuth.getInstance();
     }
-    public HomeFragmentModel(/*String image, */int set, int reps, int weight, boolean done, double accuracy, String time) {
-//        this.image = image;
+    public HomeFragmentModel(int set, int reps, int weight, boolean done, double accuracy, String time) {
         this.reps = reps;
         this.set = set;
         this.weight = weight;
@@ -43,11 +42,6 @@ public class HomeFragmentModel {
         this.accuracy = accuracy;
         this.time = time;
     }
-
-//    public int getImage() {
-//        return image;
-//    }
-
 
     public boolean getDone() {
         return done;

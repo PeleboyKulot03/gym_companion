@@ -11,12 +11,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Objects;
 
 public class LiveFeedExerciseModel {
     private long time;
-    private String accuracy;
+    private double accuracy;
     private DatabaseReference databaseReference;
     private FirebaseUser user;
     private ArrayList<Double> accuracies;
@@ -29,7 +33,7 @@ public class LiveFeedExerciseModel {
         accuracies = new ArrayList<>();
         times = new ArrayList<>();
     }
-    public LiveFeedExerciseModel(long time, String accuracy) {
+    public LiveFeedExerciseModel(long time, double accuracy) {
         this.time = time;
         this.accuracy = accuracy;
     }
@@ -38,65 +42,73 @@ public class LiveFeedExerciseModel {
         return time;
     }
 
-    public String getAccuracy() {
+    public double getAccuracy() {
         return accuracy;
     }
 
-    public void addData(final onSuccess onSuccess, String program, LiveFeedExerciseModel model, String setNumber) {
-        String uID = user.getUid();
+    public void addData(final onSuccess onSuccess, String program, LiveFeedExerciseModel model, int setNumber) {
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        decimalFormat.setRoundingMode(RoundingMode.UP);
 
-        int set = 3 - Character.getNumericValue(setNumber.charAt(setNumber.length() - 1));
+        String uID = user.getUid();
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        int set = 3 - (setNumber - 1);
+        String tempSet = "set" + set;
+        Log.i("hester", "addData: " + set);
+        Log.i("hester", "addData: " + setNumber);
         // record the set's time and accuracy
-        databaseReference.child(uID).child("currentExercise").child(program).child("sets").child(setNumber).setValue(model).addOnCompleteListener(task -> {
+        databaseReference.child(uID).child("history").child(String.valueOf(year)).child(String.valueOf(month + 1)).child(String.valueOf(day)).child(program).child(tempSet).setValue(model).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 onSuccess.onAddData(true, "");
+                // change the number of remaining set
+                if (setNumber-1 == 0) {
+                    databaseReference.child(uID).child("currentExercise").child(program).child("set").setValue(3);
+                    databaseReference.child(uID).child("currentExercise").child(program).child("done").setValue(true);
+                    databaseReference.child(uID).child("history").child(String.valueOf(year)).child(String.valueOf(month + 1)).child(String.valueOf(day)).child(program).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot models: snapshot.getChildren()){
+                                LiveFeedExerciseModel exerciseModel = models.getValue(LiveFeedExerciseModel.class);
+                                accuracies.add(Objects.requireNonNull(exerciseModel).getAccuracy());
+                                times.add(exerciseModel.getTime());
+                            }
+                            for (Long time: times) {
+                                aveTime += time;
+                            }
+                            for (Double accuracy: accuracies){
+                                aveAccuracy += accuracy;
+                            }
+
+                            aveAccuracy /= 3;
+                            aveTime /= 3;
+
+                            databaseReference.child(uID).child("currentExercise").child(program).child("accuracy").setValue(Double.parseDouble(decimalFormat.format(aveAccuracy)));
+                            int seconds = (int) (aveTime / 1000);
+                            int minutes = seconds / 60;
+                            seconds = seconds % 60;
+
+                            String tempTime = (minutes > 0 ? minutes + " Minutes and " + seconds + " Seconds": seconds + " Seconds");
+                            databaseReference.child(uID).child("currentExercise").child(program).child("time").setValue(tempTime);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+                else {
+                    databaseReference.child(uID).child("currentExercise").child(program).child("set").setValue(setNumber - 1);
+                }
             }
             task.addOnFailureListener(e -> onSuccess.onAddData(false, e.getLocalizedMessage()));
         });
-
-
-        // change the number of remaining set
-        if (set == 0) {
-            databaseReference.child(uID).child("currentExercise").child(program).child("set").setValue(3);
-            databaseReference.child(uID).child("currentExercise").child(program).child("done").setValue(true);
-            databaseReference.child(uID).child("currentExercise").child(program).child("sets").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for (DataSnapshot models: snapshot.getChildren()){
-                        LiveFeedExerciseModel exerciseModel = models.getValue(LiveFeedExerciseModel.class);
-                        accuracies.add(Double.valueOf(Objects.requireNonNull(exerciseModel).getAccuracy()));
-                        times.add(exerciseModel.getTime());
-                    }
-                    for (Long time: times) {
-                        Log.i("teggss", "onDataChange: " + time);
-                        aveTime += time;
-                    }
-                    for (Double accuracy: accuracies){
-                        Log.i("teggss", "onDataChange: " + accuracy);
-                        aveAccuracy += accuracy;
-                    }
-
-                    aveAccuracy /= 3;
-                    aveTime /= 3;
-
-                    databaseReference.child(uID).child("currentExercise").child(program).child("accuracy").setValue(aveAccuracy);
-                    int seconds = (int) (aveTime / 1000);
-                    int minutes = seconds / 60;
-                    seconds = seconds % 60;
-
-                    String tempTime = (minutes > 0 ? minutes + " Minutes and " + seconds + " Seconds": seconds + " Seconds");
-                    databaseReference.child(uID).child("currentExercise").child(program).child("time").setValue(tempTime);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-        }
-        else {
-            databaseReference.child(uID).child("currentExercise").child(program).child("set").setValue(set);
-        }
 
 
     }

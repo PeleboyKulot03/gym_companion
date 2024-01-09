@@ -13,7 +13,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class ExploreFragmentModel {
-    private String displayName, weight, height, experience, imageSrc;
+    private String ID, displayName, weight, height, experience, imageSrc;
     private FirebaseUser user;
     private DatabaseReference reference;
 
@@ -24,7 +24,8 @@ public class ExploreFragmentModel {
         }
     }
 
-    public ExploreFragmentModel(String displayName, String weight, String height, String experience, String imageSrc) {
+    public ExploreFragmentModel(String ID, String displayName, String weight, String height, String experience, String imageSrc) {
+        this.ID = ID;
         this.displayName = displayName;
         this.weight = weight;
         this.height = height;
@@ -50,6 +51,14 @@ public class ExploreFragmentModel {
         return imageSrc;
     }
 
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String ID) {
+        this.ID = ID;
+    }
+
     public void getUser(final onGetUsers onGetUsers) {
         ArrayList<ExploreFragmentModel> models = new ArrayList<>();
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -58,6 +67,9 @@ public class ExploreFragmentModel {
                 for (DataSnapshot users: snapshot.getChildren()) {
                     if (!user.getUid().equals(users.getKey())) {
                         ExploreFragmentModel model = users.child("informations").getValue(ExploreFragmentModel.class);
+                        if (model != null) {
+                            model.setID(users.getKey());
+                        }
                         models.add(model);
                     }
                 }

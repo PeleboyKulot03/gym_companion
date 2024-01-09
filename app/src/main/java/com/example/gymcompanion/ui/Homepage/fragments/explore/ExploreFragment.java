@@ -35,7 +35,7 @@ public class ExploreFragment extends Fragment implements IExploreFragment{
 
     @Override
     public void onGetData(boolean verdict, ArrayList<ExploreFragmentModel> models) {
-        ExploreFragmentAdapter adapter = new ExploreFragmentAdapter(getContext(), models);
+        ExploreFragmentAdapter adapter = new ExploreFragmentAdapter(getContext(), getActivity(), models);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
     }

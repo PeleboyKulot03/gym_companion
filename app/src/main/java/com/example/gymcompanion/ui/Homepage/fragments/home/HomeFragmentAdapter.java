@@ -79,10 +79,10 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<HomeFragmentAdapte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView reps;
-        private final TextView sets;
-        private final TextView program;
-        private final TextView weights;
+            private final TextView reps;
+            private final TextView sets;
+            private final TextView program;
+            private final TextView weights;
         private final TextView accuracy;
         private final TextView timeSpent;
 

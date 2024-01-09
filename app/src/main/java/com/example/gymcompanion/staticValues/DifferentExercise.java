@@ -52,7 +52,7 @@ public class DifferentExercise {
             add(AppCompatResources.getDrawable(context, R.drawable.deadlift_1));
             add(AppCompatResources.getDrawable(context, R.drawable.deadlift_2));
         }});
-        DRAWABLES.put("Lat Pull down", new ArrayList<Drawable>(){{
+        DRAWABLES.put("Lat Pull Down", new ArrayList<Drawable>(){{
             add(AppCompatResources.getDrawable(context, R.drawable.lat_pulldown_1));
             add(AppCompatResources.getDrawable(context, R.drawable.lat_pulldown_2));
         }});
