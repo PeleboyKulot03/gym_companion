@@ -3,6 +3,7 @@ package com.example.gymcompanion.ui.Homepage.fragments.home;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,8 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<HomeFragmentAdapte
         holder.sets.setText(sets);
         holder.reps.setText(reps);
         holder.weights.setText(weight);
-        holder.image.setImageDrawable(Objects.requireNonNull(differentExercise.getDRAWABLES().get(model.getProgram())).get(0));
+        Log.i("testtt", "onBindViewHolder: " + model.getProgram());
+        holder.image.setImageDrawable(Objects.requireNonNull(differentExercise.getDRAWABLES().get(model.getProgram())).get(1));
 
         if (model.getDone()) {
             holder.finishInfos.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0));
@@ -68,6 +70,8 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<HomeFragmentAdapte
             intent.putExtra("exercise", model.getProgram());
             intent.putExtra("isDone", model.getDone());
             intent.putExtra("sets", model.getSet());
+            intent.putExtra("reps", model.getReps());
+            intent.putExtra("weight", model.getWeight());
             activity.startActivity(intent);
         });
 

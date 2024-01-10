@@ -1,14 +1,7 @@
 package com.example.gymcompanion.utils;
 
 import android.util.Log;
-
 import androidx.annotation.NonNull;
-
-import com.example.gymcompanion.staticValues.DifferentExercise;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -145,7 +138,7 @@ public class RegistrationPageModel {
         legDay.add("Squats");
 
         ArrayList<ExerciseModel> exerciseModels = new ArrayList<>();
-        if (model.getExperience().equals("Beginner")){
+        if (model.getExperience().equals("Beginner") && (model.getGender().equals("Male") || model.getGender().equals("Others"))){
             // for push day
             exerciseModels.add(new ExerciseModel(false, 12, 3, 10));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 10));
@@ -167,6 +160,172 @@ public class RegistrationPageModel {
             exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 10));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
+        }
+
+        if (model.getExperience().equals("Beginner") && model.getGender().equals("Female")){
+            // for push day
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 2.5));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 2.5));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 2.5));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 2.5));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 2.5));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 2.5));
+
+            // for pull day
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
+
+            // for leg day
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 2.5));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 10));
+        }
+
+        if (model.getExperience().equals("Advance") && (model.getGender().equals("Male") || model.getGender().equals("Others"))){
+            // for push day
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 50));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 80));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 30));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 60));
+
+            // for pull day
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 60));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 130));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 40));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 60));
+
+            // for leg day
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 30));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 60));
+        }
+
+        if (model.getExperience().equals("Advance") && model.getGender().equals("Female")){
+            // for push day
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 30));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 50));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 60));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 60));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 20));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 30));
+
+            // for pull day
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 30));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 60));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 20));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 60));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 30));
+
+            // for leg day
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 30));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 60));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 60));
+        }
+        if (model.getExperience().equals("Proficient") && (model.getGender().equals("Male") || model.getGender().equals("Others"))){
+            // for push day
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 160));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 160));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 40));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
+
+            // for pull day
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 140));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 150));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 60));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 150));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 80));
+
+            // for leg day
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 150));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 80));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 150));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 80));
+        }
+
+        if (model.getExperience().equals("Proficient") && model.getGender().equals("Female")){
+            // for push day
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 60));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 30));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 60));
+
+            // for pull day
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 60));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 30));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 40));
+
+            // for leg day
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 130));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 80));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 150));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 80));
+        }
+
+        if (model.getExperience().equals("Expert") && (model.getGender().equals("Male") || model.getGender().equals("Others"))){
+            // for push day
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 120));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 120));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 200));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 200));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 40));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 120));
+
+            // for pull day
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 130));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 200));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 200));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 80));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 200));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
+
+            // for leg day
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 200));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 200));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
+        }
+        if (model.getExperience().equals("Expert") && model.getGender().equals("Female")){
+            // for push day
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 80));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 120));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 120));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 120));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 40));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 60));
+
+            // for pull day
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 80));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 150));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 40));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 120));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 30));
+
+            // for leg day
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 150));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 180));
+            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
         }
         if (isUser) {
             reference.child(Objects.requireNonNull(auth.getCurrentUser()).getUid()).child("informations").setValue(model).addOnCompleteListener(task1 -> {
@@ -202,7 +361,7 @@ public class RegistrationPageModel {
                         legCounter++;
                     }
                     reference = reference.getRoot();
-                    reference.child("users").child(user.getUid()).child("quickInformation").child("currentDay").setValue("Push Day");
+                    reference.child("users").child(user.getUid()).child("quickInformation").child("currentDay").setValue("pushDay");
                     reference = reference.getRoot();
                     reference.child("users").child(user.getUid()).child("quickInformation").child("date").setValue(model.getDate());
                     onRegister.isSuccess(true, "");
@@ -214,7 +373,7 @@ public class RegistrationPageModel {
 
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()){
-                Log.i("tageristo", "createNewUser: " + auth.getCurrentUser().getUid());
+                Log.i("tageristo", "createNewUser: " + Objects.requireNonNull(auth.getCurrentUser()).getUid());
                 reference.child(Objects.requireNonNull(auth.getCurrentUser()).getUid()).child("informations").setValue(model).addOnCompleteListener(task1 -> {
                     if (task1.isSuccessful()){
                         FirebaseUser user = auth.getCurrentUser();

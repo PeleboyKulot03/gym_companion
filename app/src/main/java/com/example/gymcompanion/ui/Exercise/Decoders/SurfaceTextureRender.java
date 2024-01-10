@@ -1,4 +1,4 @@
-package com.example.gymcompanion.ui.Exercise.decoders;
+package com.example.gymcompanion.ui.Exercise.Decoders;
 
 import android.graphics.SurfaceTexture;
 import android.opengl.GLES11Ext;

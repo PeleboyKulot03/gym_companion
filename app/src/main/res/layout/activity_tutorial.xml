@@ -99,7 +99,8 @@
         android:layout_height="wrap_content"
         android:text="@string/dummy_text"
         android:textColor="@color/black"
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="10dp"
+        android:justificationMode="inter_word"
         />
 
     <Button

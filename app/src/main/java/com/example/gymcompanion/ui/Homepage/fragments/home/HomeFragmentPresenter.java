@@ -8,7 +8,7 @@ import com.google.firebase.database.DataSnapshot;
 import java.util.ArrayList;
 
 public class HomeFragmentPresenter {
-    private IHomeFragment homeFragmentInterface;
+    private final IHomeFragment homeFragmentInterface;
 
     public HomeFragmentPresenter(IHomeFragment homeFragmentInterface) {
         this.homeFragmentInterface = homeFragmentInterface;
@@ -23,26 +23,54 @@ public class HomeFragmentPresenter {
             }
 
             @Override
-            public void isDone(boolean verdict, DataSnapshot snapshot) {
+            public void isDone(boolean verdict) {
+
+            }
+
+            @Override
+            public void onGetProgram(String day, String date) {
 
             }
         });
     }
 
-    public void getNewExercise(String day) {
+    public void getProgram() {
         HomeFragmentModel model = new HomeFragmentModel();
-        model.getNewExercise(new HomeFragmentModel.onGetExercise() {
+        model.getCurrentProgram(new HomeFragmentModel.onGetExercise() {
             @Override
             public void isSuccess(boolean verdict, ArrayList<HomeFragmentModel> models, int finished, boolean hasInfo, String currentDay, String date) {
 
             }
 
             @Override
-            public void isDone(boolean verdict, DataSnapshot snapshot) {
-                if (verdict) {
-                    Log.i("tesaurus", "isDone: " + snapshot.getValue());
-                }
+            public void isDone(boolean verdict) {
+
             }
-        }, day);
+
+            @Override
+            public void onGetProgram(String date, String day) {
+                homeFragmentInterface.getProgram(day, date);
+            }
+        });
+
+    }
+    public void setNewExercise(String day, String date) {
+        HomeFragmentModel model = new HomeFragmentModel();
+        model.setNewExercise(new HomeFragmentModel.onGetExercise() {
+            @Override
+            public void isSuccess(boolean verdict, ArrayList<HomeFragmentModel> models, int finished, boolean hasInfo, String currentDay, String date) {
+
+            }
+
+            @Override
+            public void isDone(boolean verdict) {
+                homeFragmentInterface.setNewExercise(verdict);
+            }
+
+            @Override
+            public void onGetProgram(String date, String day) {
+
+            }
+        }, day, date);
     }
 }

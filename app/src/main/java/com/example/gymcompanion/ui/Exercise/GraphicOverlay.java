@@ -12,6 +12,7 @@ import com.google.common.base.Preconditions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A view which renders a series of custom graphics to be overlayed on top of an associated preview
@@ -77,7 +78,7 @@ public class GraphicOverlay extends View {
          *
          * @param canvas drawing canvas
          */
-        public abstract void draw(Canvas canvas, double leftAccuracy, double rightAccuracy, String exercise);
+        public abstract void draw(Canvas canvas, double leftAccuracy, double rightAccuracy, String exercise, ArrayList<ArrayList<Double>> accuracies);
 
         protected void drawRect(
                 Canvas canvas, float left, float top, float right, float bottom, Paint paint) {
@@ -174,13 +175,13 @@ public class GraphicOverlay extends View {
 
             double zInScreenPixel = scale((float) zInImagePixel);
 
-            if (zInScreenPixel == -1.0){
-                paint.setARGB(255, 0, 0, 0);
-            }
-            else if (zInScreenPixel < 40) {
-                paint.setARGB(255, 255, 0, 0);
-            } else if (zInScreenPixel < 60) {
+            if (zInScreenPixel == 0){
                 paint.setARGB(255, 255, 255, 255);
+            }
+            else if (zInScreenPixel < 50) {
+                paint.setARGB(255, 255, 0, 0);
+            } else if (zInScreenPixel < 70) {
+                paint.setARGB(255, 255, 255, 0);
 
             } else {
                 paint.setARGB(255, 0, 255, 0);
@@ -285,7 +286,7 @@ public class GraphicOverlay extends View {
             updateTransformationIfNeeded();
 
             for (Graphic graphic : graphics) {
-                graphic.draw(canvas, 0.0, 0.0, "");
+                graphic.draw(canvas, 0.0, 0.0, "", null);
             }
         }
     }

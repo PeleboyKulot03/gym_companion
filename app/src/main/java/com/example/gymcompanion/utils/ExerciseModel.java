@@ -1,12 +1,12 @@
 package com.example.gymcompanion.utils;
 
 public class ExerciseModel {
-    private boolean done;
-    private int reps;
-    private int set;
-    private int weight;
+    private final boolean done;
+    private final int reps;
+    private final int set;
+    private final double weight;
 
-    public ExerciseModel(boolean done, int reps, int set, int weight) {
+    public ExerciseModel(boolean done, int reps, int set, double weight) {
         this.done = done;
         this.reps = reps;
         this.set = set;
@@ -25,7 +25,7 @@ public class ExerciseModel {
         return set;
     }
 
-    public int getWeight() {
+    public double getWeight() {
         return weight;
     }
 }

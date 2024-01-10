@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,29 +55,26 @@ public class HomeFragment extends Fragment implements IHomeFragment {
         recyclerView = view.findViewById(R.id.recyclerView);
 
         presenter = new HomeFragmentPresenter(this);
-        presenter.getExercise();
+        presenter.getProgram();
         customProgressBar.startAnimation(animation);
         addInfo.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), RegistrationPageActivity.class);
             intent.putExtra("key", true);
             startActivity(intent);
         });
+
         return view;
     }
 
     @Override
-    public void getExercise(boolean verdict, ArrayList<HomeFragmentModel> models, int finished, boolean hasInfo, String currentDay, String date) {
-        customProgressBar.clearAnimation();
-        linearLayout.setVisibility(View.GONE);
-        day.setText(currentDay);
-
+    public void getProgram(String currentDay, String date) {
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         Date currentDate = new Date();
         ArrayList<String> programs = new ArrayList<>();
-        programs.add("Push Day");
-        programs.add("Pull Day");
-        programs.add("Leg Day");
-        programs.add("Rest Day");
+        programs.add("pushDay");
+        programs.add("pullDay");
+        programs.add("legDay");
+        programs.add("restDay");
 
         if (date != null && !date.equals(formatter.format(currentDate))) {
             int index = programs.indexOf(currentDay);
@@ -86,8 +84,18 @@ public class HomeFragment extends Fragment implements IHomeFragment {
             else {
                 index += 1;
             }
-            presenter.getNewExercise(programs.get(index));
+            presenter.setNewExercise(programs.get(index), formatter.format(currentDate));
+            return;
         }
+        presenter.getExercise();
+
+    }
+
+    @Override
+    public void getExercise(boolean verdict, ArrayList<HomeFragmentModel> models, int finished, boolean hasInfo, String currentDay, String date) {
+        customProgressBar.clearAnimation();
+        linearLayout.setVisibility(View.GONE);
+        day.setText(currentDay);
 
         if (!hasInfo) {
             description.setText(getString(R.string.empty_state_description_1));
@@ -107,5 +115,12 @@ public class HomeFragment extends Fragment implements IHomeFragment {
         }
 
         emptyState.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setNewExercise(boolean verdict) {
+        if (verdict) {
+            presenter.getExercise();
+        }
     }
 }

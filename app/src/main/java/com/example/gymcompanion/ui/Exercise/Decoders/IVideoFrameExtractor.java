@@ -1,4 +1,4 @@
-package com.example.gymcompanion.ui.Exercise.decoders;
+package com.example.gymcompanion.ui.Exercise.Decoders;
 
 public interface IVideoFrameExtractor {
     void onCurrentFrameExtracted(Frame Frame);

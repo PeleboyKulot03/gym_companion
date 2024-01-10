@@ -46,9 +46,9 @@ import com.arthenica.ffmpegkit.FFmpegKitConfig;
 import com.arthenica.ffmpegkit.ReturnCode;
 import com.example.gymcompanion.R;
 import com.example.gymcompanion.staticValues.DifferentExercise;
-import com.example.gymcompanion.ui.Exercise.decoders.Frame;
-import com.example.gymcompanion.ui.Exercise.decoders.FrameExtractor;
-import com.example.gymcompanion.ui.Exercise.decoders.IVideoFrameExtractor;
+import com.example.gymcompanion.ui.Exercise.Decoders.Frame;
+import com.example.gymcompanion.ui.Exercise.Decoders.FrameExtractor;
+import com.example.gymcompanion.ui.Exercise.Decoders.IVideoFrameExtractor;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.pose.PoseDetection;
@@ -421,7 +421,7 @@ public class ExercisePageActivityVideoRecording extends AppCompatActivity implem
                             rightAccuracy = calculateAccuracy(rightAngleResult);
 
                         }
-                        poseGraphic.draw(canvas, leftAccuracy, rightAccuracy, exercise);
+                        poseGraphic.draw(canvas, leftAccuracy, rightAccuracy, exercise, null);
 
                         String childName = filePrefix + String.format(Locale.getDefault(), "%07d", count) + fileExtn;
                         String path = dir.getAbsolutePath() + File.separator + "TempPictures";

@@ -6,13 +6,16 @@ import static java.lang.Math.min;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 
 import com.google.mlkit.vision.common.PointF3D;
 import com.google.mlkit.vision.pose.Pose;
 import com.google.mlkit.vision.pose.PoseLandmark;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class PoseGraphic extends GraphicOverlay.Graphic {
 
@@ -63,7 +66,7 @@ public class PoseGraphic extends GraphicOverlay.Graphic {
     }
 
     @Override
-    public void draw(Canvas canvas, double leftAccuracy, double rightAccuracy, String exercise) {
+    public void draw(Canvas canvas, double leftAccuracy, double rightAccuracy, String exercise, ArrayList<ArrayList<Double>> accuracies) {
         List<PoseLandmark> landmarks = pose.getAllPoseLandmarks();
         if (landmarks.isEmpty()) {
             return;
@@ -125,9 +128,16 @@ public class PoseGraphic extends GraphicOverlay.Graphic {
         drawLine(canvas, leftHip, rightHip, whitePaint);
 
         if (exercise != null
-                && exercise.equals("Dumbbell Shoulder Press")
+                && (exercise.equals("Dumbbell Shoulder Press")
+                || exercise.equals("Side Lateral Raises")
+                || exercise.equals("Flat Bench Press")
+                || exercise.equals("Incline Bench Press")
+                || exercise.equals("Skull Crushers")
+                || exercise.equals("Barbell Curls")
+                || exercise.equals("Preacher Curls"))
                 && leftAccuracy != 0.0
                 && rightAccuracy != 0.0) {
+
             // Left body
             drawLineWithAccuracy(canvas, leftShoulder, leftElbow, leftPaint,leftAccuracy);
             drawLineWithAccuracy(canvas, leftElbow, leftWrist, leftPaint,leftAccuracy);
@@ -153,6 +163,39 @@ public class PoseGraphic extends GraphicOverlay.Graphic {
             drawLine(canvas, rightShoulder, rightHip, rightPaint);
             drawLine(canvas, rightHip, rightKnee, rightPaint);
             drawLine(canvas, rightKnee, rightAnkle, rightPaint);
+            drawLine(canvas, rightAnkle, rightHeel, rightPaint);
+            drawLine(canvas, rightHeel, rightFootIndex, rightPaint);
+        }
+
+        else if (exercise != null && (exercise.equals("Deadlift") || exercise.equals("Barbell Rows")) && leftAccuracy != 0.0 && rightAccuracy != 0.0 && accuracies.size() == 3){
+
+            // Left arm
+            drawLineWithAccuracy(canvas, leftShoulder, leftElbow, leftPaint,accuracies.get(0).get(1));
+            drawLineWithAccuracy(canvas, leftElbow, leftWrist, leftPaint,accuracies.get(0).get(1));
+            drawLineWithAccuracy(canvas, leftWrist, leftThumb, leftPaint,accuracies.get(0).get(1));
+            drawLineWithAccuracy(canvas, leftWrist, leftPinky, leftPaint,accuracies.get(0).get(1));
+            drawLineWithAccuracy(canvas, leftWrist, leftIndex, leftPaint,accuracies.get(0).get(1));
+            drawLineWithAccuracy(canvas, leftIndex, leftPinky, leftPaint,accuracies.get(0).get(1));
+
+            // left body
+            drawLineWithAccuracy(canvas, leftShoulder, leftHip, leftPaint, accuracies.get(1).get(0));
+            drawLineWithAccuracy(canvas, leftHip, leftKnee, leftPaint, accuracies.get(2).get(0));
+            drawLineWithAccuracy(canvas, leftKnee, leftAnkle, leftPaint, accuracies.get(2).get(0));
+            drawLine(canvas, leftAnkle, leftHeel, leftPaint);
+            drawLine(canvas, leftHeel, leftFootIndex, leftPaint);
+
+            // Right arm
+            drawLineWithAccuracy(canvas, rightShoulder, rightElbow, rightPaint, accuracies.get(0).get(1));
+            drawLineWithAccuracy(canvas, rightElbow, rightWrist, rightPaint, accuracies.get(0).get(1));
+            drawLineWithAccuracy(canvas, rightWrist, rightThumb, rightPaint, accuracies.get(0).get(1));
+            drawLineWithAccuracy(canvas, rightWrist, rightPinky, rightPaint, accuracies.get(0).get(1));
+            drawLineWithAccuracy(canvas, rightWrist, rightIndex, rightPaint, accuracies.get(0).get(1));
+            drawLineWithAccuracy(canvas, rightIndex, rightPinky, rightPaint, accuracies.get(0).get(1));
+
+            // right body
+            drawLineWithAccuracy(canvas, rightShoulder, rightHip, rightPaint, accuracies.get(1).get(1));
+            drawLineWithAccuracy(canvas, rightHip, rightKnee, rightPaint, accuracies.get(2).get(1));
+            drawLineWithAccuracy(canvas, rightKnee, rightAnkle, rightPaint, accuracies.get(2).get(1));
             drawLine(canvas, rightAnkle, rightHeel, rightPaint);
             drawLine(canvas, rightHeel, rightFootIndex, rightPaint);
         }
@@ -212,7 +255,7 @@ public class PoseGraphic extends GraphicOverlay.Graphic {
 
         // Gets average z for the current body line
         updatePaintColorByZValue(
-                paint, canvas, visualizeZ, rescaleZForVisualization, 50.0, zMin, zMax);
+                paint, canvas, visualizeZ, rescaleZForVisualization, 0, zMin, zMax);
 
         canvas.drawLine(
                 translateX(start.getX()),

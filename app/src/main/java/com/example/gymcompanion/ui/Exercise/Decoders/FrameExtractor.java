@@ -1,4 +1,4 @@
-package com.example.gymcompanion.ui.Exercise.decoders;
+package com.example.gymcompanion.ui.Exercise.Decoders;
 
 import static android.media.MediaCodec.BUFFER_FLAG_END_OF_STREAM;
 

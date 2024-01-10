@@ -36,8 +36,6 @@ public class tutorial_activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorial);
 
-
-
         Intent intent = getIntent();
         DifferentExercise differentExercise = new DifferentExercise(getApplicationContext());
 
@@ -45,14 +43,30 @@ public class tutorial_activity extends AppCompatActivity {
         ImageView back = findViewById(R.id.back);
 
         TextView program = findViewById(R.id.program);
+        TextView description = findViewById(R.id.description);
+        TextView setTV = findViewById(R.id.sets);
+        TextView repsTV = findViewById(R.id.reps);
+        TextView weightTV = findViewById(R.id.weights);
         Button startLiveFeed = findViewById(R.id.startLiveFeed);
         Button startRecording = findViewById(R.id.startRecord);
 
-
         String exercise = intent.getStringExtra("exercise");
         setNumber = intent.getIntExtra("sets", 0);
+        int reps = intent.getIntExtra("reps", 0);
+        double weight = intent.getDoubleExtra("weight",0.0);
         boolean isDone = intent.getBooleanExtra("isDone", false);
 
+
+        String setString = setNumber + " sets";
+        String repsString = reps + " reps";
+        String weightString = weight + " lbs";
+
+        setTV.setText(setString);
+        repsTV.setText(repsString);
+        weightTV.setText(weightString);
+
+        DifferentExercise exercises = new DifferentExercise();
+        description.setText(exercises.getDescription().get(exercise));
 
         DRAWABLES = new HashMap<>();
         DRAWABLES.putAll(differentExercise.getDRAWABLES());

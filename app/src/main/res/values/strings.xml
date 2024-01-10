@@ -48,7 +48,22 @@
     <string name="credentials_prompt">Almost done…</string>
     <string name="email">Email</string>
     <string name="terms_prompt">By checking the box, you agree to Gym Companion\'s policies and all the information you provided is correct.<font color="#1A70B6">Privacy Policy</font>.</string>
-    <string name="dummy_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in faucibus purus. nec <font color="#1E82D3">Privacy Policy</font> Policy felis. Donec dapibus a orci sed dignissim. Aliquam molestie, lectus sit amet semper facilisis, enim quam condimentum augue, at aliquam tortor urna in nulla. Donec sit amet purus id erat sodales tristique. Cras pretium <font color="#1E82D3">Privacy Policy</font> vestibulum. </string>
+    <string name="dummy_text"><b>Welcome to Gym Companion!</b> Prior to completing your registration, please take a moment to review our User Registration and Data Usage Policy. Your agreement to the terms specified below is necessary for registration on our platform
+        \n\n<b>Information Collection:</b>
+        \nThroughout the registration process, we gather the following details:
+        \n\n<b>Name</b>, <b>Birthday</b> , <b>Age</b>, <b>Experience</b>, <b>Height</b>, <b>Weight</b>, <b>Email</b>.
+        \n\n<b>Purpose of Data Collection</b>:
+        \nThe primary objective of collecting this data is to enhance user experience and optimize our system\'s functionality. Additionally, we utilize the camera to capture exercises, aiding in assessing the accuracy of your workout execution and assisting users in proper exercise performance.
+        \n\n<b>Why We Require and Use Your Data?</b>
+        \nYour data serves the following purposes:
+        \n\n<b>Communication</b>: Your email address enables us to send essential announcements, updates, and notifications related to your account and system usage.
+        \n\n<b>Personalization</b>: Your name, gender, birthday, height, weight and experience information may be utilized to personalize your platform experience, tailoring content to your preferences.
+        \n\n<b>Camera</b>: The camera is essential to detect the correct execution of user exercises, facilitating accurate guidance on exercise performance.
+        \n\n<b>Data Security</b>: We are dedicated to maintaining the security and confidentiality of your data. All collected data is securely stored, with restricted access limited to authorized personnel. Industry-standard measures are employed to protect your information from unauthorized access, disclosure, alteration, and destruction.
+        \n\n<b>Data Sharing</b>: We do not share or lease your personal information with third parties.
+
+        \n\n<b>Consent</b>: By checking the box below, you acknowledge that you have read, understood, and agree to the collection and usage of the provided data as outlined in this User Registration and <font color="#1E82D3">Data Usage Policy</font>. If you disagree with any part of this Agreement, please refrain from proceeding with the registration process.
+        \n\n<b>Policy Changes</b>: We reserve the right to update and modify this policy. Any changes will be communicated to you through the email address provided during registration.</string>
     <string name="agreement_prompt">Why do we need this data?</string>
     <string name="validate">Validate</string>
     <string name="forgot_password_prompt">Forgot Password</string>

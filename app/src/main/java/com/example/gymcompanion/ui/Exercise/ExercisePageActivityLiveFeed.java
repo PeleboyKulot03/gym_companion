@@ -1,7 +1,6 @@
 package com.example.gymcompanion.ui.Exercise;
 
 import static java.lang.Math.abs;
-import static java.lang.Math.atan2;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -36,18 +35,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.gymcompanion.R;
-import com.example.gymcompanion.utils.LiveFeedExerciseModel;
+import com.example.gymcompanion.ui.Exercise.Logics.BarbellCurls;
+import com.example.gymcompanion.ui.Exercise.Logics.BarbellRows;
+import com.example.gymcompanion.ui.Exercise.Logics.Deadlift;
+import com.example.gymcompanion.ui.Exercise.Logics.DumbbellShoulderPress;
+import com.example.gymcompanion.ui.Exercise.Logics.FlatBenchPress;
+import com.example.gymcompanion.ui.Exercise.Logics.SideLateralRaises;
 import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.pose.Pose;
 import com.google.mlkit.vision.pose.PoseDetection;
 import com.google.mlkit.vision.pose.PoseDetector;
 import com.google.mlkit.vision.pose.PoseLandmark;
 import com.google.mlkit.vision.pose.defaults.PoseDetectorOptions;
-
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Locale;
 import java.util.Objects;
 
 public class ExercisePageActivityLiveFeed extends AppCompatActivity implements ILiveFeed{
@@ -60,39 +60,25 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
     private CameraDevice mCameraDevice;
     private TextureView textureView;
     private PoseDetector poseDetector;
-    private int count = 0;
     private ImageView imageView;
-    private boolean didPass = false, hasStart = false;
-    private int directionFrom = 0;
     private String exercise;
-    private double leftAccuracy = 0.0;
-    private double rightAccuracy = 0.0;
-    private String curLoc = "BM";
-    private TextView counter, timer, countDownTV;
-    long startTime = 0;
-    long millis, seconds, minutes;
-    private ArrayList<Double> accuracies;
-    private LiveFeedPresenter presenter;
+    private TextView timer;
+    private TextView countDownTV;
     private int setNumber;
     private final Handler timerHandler = new Handler();
     private final Handler countDownHandler = new Handler();
     private int countDown = 3;
     private Canvas canvas;
     private Paint paint;
-    private final Runnable timerRunnable = new Runnable() {
-        @Override
-        public void run() {
-            millis = System.currentTimeMillis() - startTime;
-            seconds = (int) (millis / 1000);
-            minutes = seconds / 60;
-            seconds = seconds % 60;
-            timer.setText(String.format(Locale.ENGLISH, "%d:%02d", minutes, seconds));
-            timerHandler.postDelayed(this, 500);
-        }
-    };
     int width;
     int height;
     boolean firstBox = true;
+    private DumbbellShoulderPress dumbbellShoulderPressLogic;
+    private SideLateralRaises sideLateralRaises;
+    private FlatBenchPress flatBenchPress;
+    private Deadlift deadlift;
+    private BarbellRows barbellRows;
+    private BarbellCurls barbellCurls;
     private final Runnable countDownRunnable = new Runnable() {
         @Override
         public void run() {
@@ -110,7 +96,9 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
             countDownHandler.postDelayed(this, 1000);
         }
     };
-    private boolean isFirst = false, isInTheBox = false, isAligned = false, isDone = true;
+    private boolean isInTheBox = false;
+    private boolean isAligned = false;
+    private boolean isDone = true;
 
 
     @Override
@@ -118,11 +106,11 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exercise_page);
         Intent intent = getIntent();
-        accuracies = new ArrayList<>();
         if (intent != null) {
             exercise = intent.getStringExtra("exercise");
             setNumber = intent.getIntExtra("sets", 3);
         }
+
         paint = new Paint();
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(10);
@@ -131,9 +119,9 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
         countDownTV = findViewById(R.id.countDownTV);
         textureView = findViewById(R.id.textureView);
         imageView = findViewById(R.id.imageView);
-        counter = findViewById(R.id.counter);
+        TextView counter = findViewById(R.id.counter);
         timer = findViewById(R.id.timer);
-        presenter = new LiveFeedPresenter(this);
+        LiveFeedPresenter presenter = new LiveFeedPresenter(this);
         HandlerThread handlerThread = new HandlerThread("Video Thread");
         handlerThread.start();
         handler = new Handler(handlerThread.getLooper());
@@ -147,6 +135,12 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
 
         poseDetector = PoseDetection.getClient(options);
 
+        dumbbellShoulderPressLogic = new DumbbellShoulderPress(counter, timer, timerHandler, presenter, exercise, setNumber);
+        sideLateralRaises = new SideLateralRaises(counter, timer, timerHandler, presenter, exercise, setNumber);
+        flatBenchPress = new FlatBenchPress(counter, timer, timerHandler, presenter, exercise, setNumber);
+        deadlift = new Deadlift(counter, timer, timerHandler, presenter, exercise, setNumber);
+        barbellRows = new BarbellRows(counter, timer, timerHandler, presenter, exercise, setNumber);
+        barbellCurls = new BarbellCurls(counter, timer, timerHandler, presenter, exercise, setNumber);
 
         textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
             @Override
@@ -244,59 +238,14 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
                                             countDownHandler.removeCallbacks(countDownRunnable);
                                         }
                                     }
-                                    poseGraphic.draw(canvas, leftAccuracy, rightAccuracy, exercise);
+                                    poseGraphic.draw(canvas, 0.0, 0.0, exercise, null);
                                     imageView.setImageMatrix(setTextureTransform(characteristics));
                                     imageView.setImageBitmap(bitmapImage);
                                     return;
                                 }
 
                                 // user is aligned within eye level and can now continue to do the exercise
-
-                                // left arm
-                                PoseLandmark leftWrist = pose.getPoseLandmark(PoseLandmark.LEFT_WRIST);
-                                PoseLandmark leftElbow = pose.getPoseLandmark(PoseLandmark.LEFT_ELBOW);
-                                PoseLandmark leftShoulder = pose.getPoseLandmark(PoseLandmark.LEFT_SHOULDER);
-
-                                // right arm
-                                PoseLandmark rightWrist = pose.getPoseLandmark(PoseLandmark.RIGHT_WRIST);
-                                PoseLandmark rightElbow = pose.getPoseLandmark(PoseLandmark.RIGHT_ELBOW);
-                                PoseLandmark rightShoulder = pose.getPoseLandmark(PoseLandmark.RIGHT_SHOULDER);
-
-
-                                if (((leftWrist != null) && (leftElbow != null) && (leftShoulder != null) && (leftWrist.getPosition().y < leftElbow.getPosition().y))
-                                        && ((rightWrist != null) && (rightElbow != null) && (rightShoulder != null) && (rightWrist.getPosition().y < rightElbow.getPosition().y))) {
-
-                                    startCounter();
-                                    int leftAngleResult = (int) Math.toDegrees(
-                                            atan2(leftShoulder.getPosition().y - leftElbow.getPosition().y,
-                                                    leftShoulder.getPosition().x - leftElbow.getPosition().x)
-                                                    - atan2(leftWrist.getPosition().y - leftElbow.getPosition().y,
-                                                    leftWrist.getPosition().x - leftElbow.getPosition().x));
-
-                                    int rightAngleResult = (int) Math.toDegrees(
-                                            atan2(rightShoulder.getPosition().y - rightElbow.getPosition().y,
-                                                    rightShoulder.getPosition().x - rightElbow.getPosition().x)
-                                                    - atan2(rightWrist.getPosition().y - rightElbow.getPosition().y,
-                                                    rightWrist.getPosition().x - rightElbow.getPosition().x));
-
-                                    leftAngleResult = abs(leftAngleResult);
-                                    rightAngleResult = abs(rightAngleResult);
-
-                                    if (leftAngleResult > 180) {
-                                        leftAngleResult = (360 - leftAngleResult);
-                                    }
-                                    if (rightAngleResult > 180) {
-                                        rightAngleResult = (360 - rightAngleResult);
-                                    }
-
-                                    checkForm(leftAngleResult);
-                                    checkForm(rightAngleResult);
-                                    leftAccuracy = calculateAccuracy(leftAngleResult);
-                                    rightAccuracy = calculateAccuracy(rightAngleResult);
-                                }
-                                poseGraphic.draw(canvas, leftAccuracy, rightAccuracy, exercise);
-                                leftAccuracy = 0.0;
-                                rightAccuracy = 0.0;
+                                chooseLogic(pose, poseGraphic);
                                 imageView.setImageMatrix(setTextureTransform(characteristics));
                                 imageView.setImageBitmap(bitmapImage);
                             })
@@ -313,86 +262,31 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
 
     }
 
-    private void startCounter() {
-        if (!hasStart) {
-            hasStart = true;
-            startTime = System.currentTimeMillis();
-            timerHandler.postDelayed(timerRunnable, 0);
-        }
-
-    }
-
-    private double calculateAccuracy(double angleResult){
-        if (!curLoc.equals("") && (curLoc.equals("MB") || curLoc.equals("BM"))) {
-            double accuracy = (100.0 - ((90.0 - angleResult) / 90.0) * 100.0);
-            if (curLoc.equals("BM") && isFirst) {
-                accuracies.add(accuracy);
-//                Log.i("engeTea", "calculateAccuracy: " + accuracy);
-                isFirst = false;
-            }
-            return accuracy;
-        }
-
-        if (!curLoc.equals("") && (curLoc.equals("MT") || curLoc.equals("TM"))) {
-            return (100.0 - ((170.0 - angleResult) / 170.0) * 100.0);
-        }
-
-        return 0.0;
-    }
-
-    private void checkForm(double angleResult) {
-        // the down state is reached update the direction
-        // direction is from middle to bottom
-        if (angleResult < 70.0 && didPass){
-            directionFrom = 0;
-            didPass = false;
-            curLoc = "BM";
+    private void chooseLogic(Pose pose, PoseGraphic poseGraphic) {
+        if (exercise.equals("Dumbbell Shoulder Press")) {
+            dumbbellShoulderPressLogic.getTheLandmarks(pose, poseGraphic, canvas);
             return;
         }
-
-        // middle point is reached
-        if (angleResult >= 90.0 && angleResult <= 110.0 && !didPass){
-            // middle point is hit and the direction is from bottom to middle
-            if (directionFrom == 0){
-                didPass = true;
-                curLoc = "MT";
-                isFirst = true;
-                return;
-            }
-
-            // direction is from top to middle
-            if (directionFrom == 1){
-                didPass = true;
-                curLoc = "MB";
-                return;
-            }
-            didPass = true;
+        if (exercise.equals("Side Lateral Raises")) {
+            sideLateralRaises.getTheLandmarks(pose, poseGraphic, canvas);
+        }
+        if (exercise.equals("Flat Bench Press") || exercise.equals("Incline Bench Press")) {
+            flatBenchPress.getTheLandmarks(pose, poseGraphic, canvas);
+        }
+        if (exercise.equals("Skull Crushers")) {
+            flatBenchPress.getTheLandmarks(pose, poseGraphic, canvas);
         }
 
-        // upstate reached and the direction is from middle to top
-        if (angleResult > 150.0 && didPass) {
-            directionFrom = 1;
-            didPass = false;
-            curLoc = "TM";
-            count += 1;
-            String temp = "Count: " + count;
-            counter.setText(temp);
-            if (count == 12) {
-                DecimalFormat decimalFormat = new DecimalFormat("0.00");
-                decimalFormat.setRoundingMode(RoundingMode.UP);
-                timerHandler.removeCallbacks(timerRunnable);
-                double averageAccuracy = 0.0;
-                for (Double accuracy: accuracies){
-                    averageAccuracy += accuracy;
-                }
-                averageAccuracy /= accuracies.size();
-
-                LiveFeedExerciseModel model = new LiveFeedExerciseModel(millis, Double.parseDouble(decimalFormat.format(averageAccuracy)));
-                presenter.addData(exercise, model, setNumber);
-            }
+        if (exercise.equals("Deadlift")) {
+            deadlift.getTheLandmarks(pose, poseGraphic, canvas);
+        }
+        if (exercise.equals("Barbell Rows")) {
+            barbellRows.getTheLandmarks(pose, poseGraphic, canvas);
+        }
+        if (exercise.equals("Barbell Curls") || exercise.equals("Preacher Curls")) {
+            barbellCurls.getTheLandmarks(pose, poseGraphic, canvas);
         }
     }
-
     private Matrix setTextureTransform(CameraCharacteristics characteristics) {
         Size previewSize = getPreviewSize(characteristics);
         int width = previewSize.getWidth();
