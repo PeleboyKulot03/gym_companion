@@ -41,6 +41,8 @@ import com.example.gymcompanion.ui.Exercise.Logics.Deadlift;
 import com.example.gymcompanion.ui.Exercise.Logics.DumbbellShoulderPress;
 import com.example.gymcompanion.ui.Exercise.Logics.FlatBenchPress;
 import com.example.gymcompanion.ui.Exercise.Logics.SideLateralRaises;
+import com.example.gymcompanion.ui.Exercise.Logics.Squats;
+import com.example.gymcompanion.ui.Homepage.HomePageActivity;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.pose.Pose;
 import com.google.mlkit.vision.pose.PoseDetection;
@@ -79,6 +81,7 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
     private Deadlift deadlift;
     private BarbellRows barbellRows;
     private BarbellCurls barbellCurls;
+    private Squats squats;
     private final Runnable countDownRunnable = new Runnable() {
         @Override
         public void run() {
@@ -141,6 +144,7 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
         deadlift = new Deadlift(counter, timer, timerHandler, presenter, exercise, setNumber);
         barbellRows = new BarbellRows(counter, timer, timerHandler, presenter, exercise, setNumber);
         barbellCurls = new BarbellCurls(counter, timer, timerHandler, presenter, exercise, setNumber);
+        squats = new Squats(counter, timer, timerHandler, presenter, exercise, setNumber);
 
         textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
             @Override
@@ -285,6 +289,10 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
         }
         if (exercise.equals("Barbell Curls") || exercise.equals("Preacher Curls")) {
             barbellCurls.getTheLandmarks(pose, poseGraphic, canvas);
+        }
+
+        if (exercise.equals("Squats")) {
+            squats.getTheLandmarks(pose, poseGraphic, canvas);
         }
     }
     private Matrix setTextureTransform(CameraCharacteristics characteristics) {
@@ -492,6 +500,7 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
     protected void onDestroy() {
         super.onDestroy();
         mCameraDevice.close();
+        startActivity(new Intent(getApplicationContext(), HomePageActivity.class));
     }
 
     @Override

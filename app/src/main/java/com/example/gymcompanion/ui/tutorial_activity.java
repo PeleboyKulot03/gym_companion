@@ -91,13 +91,13 @@ public class tutorial_activity extends AppCompatActivity {
 
         startLiveFeed.setOnClickListener(view -> {
             Intent intent1 = new Intent(getApplicationContext(), ExercisePageActivityLiveFeed.class);
-
             intent1.putExtra("exercise", exercise);
             intent1.putExtra("sets", setNumber);
             SharedPreferences dialogPreferences = getSharedPreferences(getPackageName() + "_preferences", Context.MODE_PRIVATE);
             String check = dialogPreferences.getString("showDialog", "");
             if (check.equals("1")) {
                 startActivity(intent1);
+                finish();
             } else {
                 CustomViewActivity cdd = new CustomViewActivity(tutorial_activity.this, intent1);
                 Objects.requireNonNull(cdd.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));

@@ -199,6 +199,37 @@ public class PoseGraphic extends GraphicOverlay.Graphic {
             drawLine(canvas, rightAnkle, rightHeel, rightPaint);
             drawLine(canvas, rightHeel, rightFootIndex, rightPaint);
         }
+        else if (exercise != null && (exercise.equals("Squats") && leftAccuracy != 0.0 && rightAccuracy != 0.0)) {
+            // Left arm
+            drawLine(canvas, leftShoulder, leftElbow, leftPaint);
+            drawLine(canvas, leftElbow, leftWrist, leftPaint);
+            drawLine(canvas, leftWrist, leftThumb, leftPaint);
+            drawLine(canvas, leftWrist, leftPinky, leftPaint);
+            drawLine(canvas, leftWrist, leftIndex, leftPaint);
+            drawLine(canvas, leftIndex, leftPinky, leftPaint);
+
+            // left body
+            drawLine(canvas, leftShoulder, leftHip, leftPaint);
+            drawLineWithAccuracy(canvas, leftHip, leftKnee, leftPaint, leftAccuracy);
+            drawLineWithAccuracy(canvas, leftKnee, leftAnkle, leftPaint, leftAccuracy);
+            drawLine(canvas, leftAnkle, leftHeel, leftPaint);
+            drawLine(canvas, leftHeel, leftFootIndex, leftPaint);
+
+            // Right arm
+            drawLine(canvas, rightShoulder, rightElbow, rightPaint);
+            drawLine(canvas, rightElbow, rightWrist, rightPaint);
+            drawLine(canvas, rightWrist, rightThumb, rightPaint);
+            drawLine(canvas, rightWrist, rightPinky, rightPaint);
+            drawLine(canvas, rightWrist, rightIndex, rightPaint);
+            drawLine(canvas, rightIndex, rightPinky, rightPaint);
+
+            // right body
+            drawLine(canvas, rightShoulder, rightHip, rightPaint);
+            drawLineWithAccuracy(canvas, rightHip, rightKnee, rightPaint, rightAccuracy);
+            drawLineWithAccuracy(canvas, rightKnee, rightAnkle, rightPaint, rightAccuracy);
+            drawLine(canvas, rightAnkle, rightHeel, rightPaint);
+            drawLine(canvas, rightHeel, rightFootIndex, rightPaint);
+        }
         else {
             // Left body
             drawLine(canvas, leftShoulder, leftElbow, leftPaint);

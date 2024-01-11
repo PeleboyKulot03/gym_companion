@@ -124,13 +124,10 @@ public class SideLateralRaises {
                 double difference = rightAccuracy - 100.00;
                 rightAccuracy = 100.0 - difference;
             }
-
-            if (!isFirstTime) {
+            if (!isFirstTime && (leftAccuracy > 0 && rightAccuracy > 0)) {
                 accuracies.add(leftAccuracy);
                 accuracies.add(rightAccuracy);
             }
-            Log.i("hereeee", "left: " + leftAccuracy);
-            Log.i("hereeee", "right: " + rightAccuracy);
         }
 
         poseGraphic.draw(canvas, leftAccuracy, rightAccuracy, exercise, null);
@@ -162,6 +159,7 @@ public class SideLateralRaises {
             if (directionFrom == 1){
                 didPass = true;
                 curLoc = "MB";
+                isFirst = true;
                 return;
             }
             didPass = true;

@@ -134,6 +134,7 @@ public class BarbellCurls {
             if (directionFrom == 1){
                 didPass = true;
                 curLoc = "TM";
+                isFirst = true;
                 return;
             }
             didPass = true;
@@ -170,10 +171,14 @@ public class BarbellCurls {
                 double difference = accuracy - 100.00;
                 accuracy = 100. - difference;
             }
-            if (curLoc.equals("BM") && isFirst) {
+            if (isFirst) {
+                if (accuracy < 0) {
+                    return accuracy;
+                }
                 accuracies.add(accuracy);
                 isFirst = false;
             }
+            accuracies.add(accuracy);
             return accuracy;
         }
 
@@ -183,6 +188,14 @@ public class BarbellCurls {
                 double difference = accuracy - 100.00;
                 accuracy = 100.0 - difference;
             }
+            if (isFirst) {
+                if (accuracy < 0) {
+                    return accuracy;
+                }
+                accuracies.add(accuracy);
+                isFirst = false;
+            }
+            accuracies.add(accuracy);
             return accuracy;
         }
 

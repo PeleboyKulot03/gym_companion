@@ -38,6 +38,7 @@ public class Deadlift {
     private ArrayList<ArrayList<Double>> accuracies;
     private double leftBodyAccuracy = 0.0, rightBodyAccuracy = 0.0, leftArmAccuracy = 0.0, rightArmAccuracy = 0.0, leftLowerBodyAccuracy = 0.0, rightLowerBodyAccuracy = 0.0;
     private boolean isFirsTime = true;
+    private boolean isFirstArm = false;
 
 
     public Deadlift(TextView counter, TextView timer, Handler timerHandler, LiveFeedPresenter presenter, String exercise, int setNumber) {
@@ -214,6 +215,7 @@ public class Deadlift {
                 didPass = true;
                 curLoc = "MT";
                 isFirst = true;
+                isFirstArm = true;
                 return;
             }
 
@@ -221,6 +223,8 @@ public class Deadlift {
             if (directionFrom == 1){
                 didPass = true;
                 curLoc = "MB";
+                isFirst = true;
+                isFirstArm = true;
                 return;
             }
             didPass = true;
@@ -257,10 +261,14 @@ public class Deadlift {
                 double difference = accuracy - 100.00;
                 accuracy = 100. - difference;
             }
-            if (curLoc.equals("BM") && isFirst) {
+            if (isFirst) {
+                if (accuracy < 0) {
+                    return accuracy;
+                }
                 finalAccuracy.add(accuracy);
                 isFirst = false;
             }
+            finalAccuracy.add(accuracy);
             return accuracy;
         }
 
@@ -270,6 +278,14 @@ public class Deadlift {
                 double difference = accuracy - 100.00;
                 accuracy = 100.0 - difference;
             }
+            if (isFirst) {
+                if (accuracy < 0) {
+                    return accuracy;
+                }
+                finalAccuracy.add(accuracy);
+                isFirst = false;
+            }
+            finalAccuracy.add(accuracy);
             return accuracy;
         }
 
@@ -282,10 +298,14 @@ public class Deadlift {
             double difference = accuracy - 100.00;
             accuracy = 100. - difference;
         }
-        if (curLoc.equals("BM") && isFirst) {
+        if (isFirstArm) {
+            if (accuracy < 0) {
+                return accuracy;
+            }
             finalAccuracy.add(accuracy);
-            isFirst = false;
+            isFirstArm = false;
         }
+        finalAccuracy.add(accuracy);
         return accuracy;
     }
 

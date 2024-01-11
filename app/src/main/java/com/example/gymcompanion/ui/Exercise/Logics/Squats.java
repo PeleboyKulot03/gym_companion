@@ -18,7 +18,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class FlatBenchPress {
+public class Squats {
     private boolean didPass = false, isFirst = false, hasStart = false;
     private int directionFrom = 0, count = 0;
     private String curLoc = "BM";
@@ -32,9 +32,10 @@ public class FlatBenchPress {
     private final int setNumber;
     private final ArrayList<Double> accuracies;
     private double leftAccuracy = 0.0, rightAccuracy = 0.0;
+    private boolean isFirstTime = true;
 
 
-    public FlatBenchPress(TextView counter, TextView timer, Handler timerHandler, LiveFeedPresenter presenter, String exercise, int setNumber) {
+    public Squats(TextView counter, TextView timer, Handler timerHandler, LiveFeedPresenter presenter, String exercise, int setNumber) {
         this.counter = counter;
         this.timer = timer;
         this.timerHandler = timerHandler;
@@ -57,32 +58,36 @@ public class FlatBenchPress {
     };
 
     public void getTheLandmarks(Pose pose, PoseGraphic poseGraphic, Canvas canvas) {
-        // left arm
-        PoseLandmark leftWrist = pose.getPoseLandmark(PoseLandmark.LEFT_WRIST);
-        PoseLandmark leftElbow = pose.getPoseLandmark(PoseLandmark.LEFT_ELBOW);
-        PoseLandmark leftShoulder = pose.getPoseLandmark(PoseLandmark.LEFT_SHOULDER);
+        // left legs
+        PoseLandmark leftHip = pose.getPoseLandmark(PoseLandmark.LEFT_HIP);
+        PoseLandmark leftKnee = pose.getPoseLandmark(PoseLandmark.LEFT_KNEE);
+        PoseLandmark leftAnkle = pose.getPoseLandmark(PoseLandmark.LEFT_ANKLE);
 
-        // right arm
-        PoseLandmark rightWrist = pose.getPoseLandmark(PoseLandmark.RIGHT_WRIST);
-        PoseLandmark rightElbow = pose.getPoseLandmark(PoseLandmark.RIGHT_ELBOW);
-        PoseLandmark rightShoulder = pose.getPoseLandmark(PoseLandmark.RIGHT_SHOULDER);
+        // right legs
+        PoseLandmark rightHip = pose.getPoseLandmark(PoseLandmark.RIGHT_HIP);
+        PoseLandmark rightKnee = pose.getPoseLandmark(PoseLandmark.RIGHT_KNEE);
+        PoseLandmark rightAnkle = pose.getPoseLandmark(PoseLandmark.RIGHT_ANKLE);
 
 
-        if (((leftWrist != null) && (leftElbow != null) && (leftShoulder != null) && (leftWrist.getPosition().y < leftElbow.getPosition().y))
-                && ((rightWrist != null) && (rightElbow != null) && (rightShoulder != null) && (rightWrist.getPosition().y < rightElbow.getPosition().y))) {
+        if (((leftAnkle != null) && (leftKnee != null) && (leftHip != null)) && ((rightAnkle != null) && (rightKnee != null) && (rightHip != null))) {
 
-            startCounter();
+            if (isFirstTime) {
+                if (leftHip.getPosition().y < leftKnee.getPosition().y && rightHip.getPosition().y < rightKnee.getPosition().y) {
+                    startCounter();
+                    isFirstTime = false;
+                }
+            }
             int leftAngleResult = (int) Math.toDegrees(
-                    atan2(leftShoulder.getPosition().y - leftElbow.getPosition().y,
-                            leftShoulder.getPosition().x - leftElbow.getPosition().x)
-                            - atan2(leftWrist.getPosition().y - leftElbow.getPosition().y,
-                            leftWrist.getPosition().x - leftElbow.getPosition().x));
+                    atan2(leftHip.getPosition().y - leftKnee.getPosition().y,
+                            leftHip.getPosition().x - leftKnee.getPosition().x)
+                            - atan2(leftAnkle.getPosition().y - leftKnee.getPosition().y,
+                            leftAnkle.getPosition().x - leftKnee.getPosition().x));
 
             int rightAngleResult = (int) Math.toDegrees(
-                    atan2(rightShoulder.getPosition().y - rightElbow.getPosition().y,
-                            rightShoulder.getPosition().x - rightElbow.getPosition().x)
-                            - atan2(rightWrist.getPosition().y - rightElbow.getPosition().y,
-                            rightWrist.getPosition().x - rightElbow.getPosition().x));
+                    atan2(rightHip.getPosition().y - rightKnee.getPosition().y,
+                            rightHip.getPosition().x - rightKnee.getPosition().x)
+                            - atan2(rightAnkle.getPosition().y - rightKnee.getPosition().y,
+                            rightAnkle.getPosition().x - rightKnee.getPosition().x));
 
             leftAngleResult = abs(leftAngleResult);
             rightAngleResult = abs(rightAngleResult);
@@ -108,7 +113,7 @@ public class FlatBenchPress {
     public void checkForm(double angleResult) {
         // the down state is reached update the direction
         // direction is from middle to bottom
-        if (angleResult < 70.0 && didPass){
+        if (angleResult < 90.0 && didPass){
             directionFrom = 0;
             didPass = false;
             curLoc = "BM";
@@ -116,7 +121,7 @@ public class FlatBenchPress {
         }
 
         // middle point is reached
-        if (angleResult >= 90.0 && angleResult <= 110.0 && !didPass){
+        if (angleResult >= 130.0 && angleResult <= 140.0 && !didPass){
             // middle point is hit and the direction is from bottom to middle
             if (directionFrom == 0){
                 didPass = true;
@@ -136,7 +141,7 @@ public class FlatBenchPress {
         }
 
         // upstate reached and the direction is from middle to top
-        if (angleResult > 150.0 && didPass) {
+        if (angleResult > 170.0 && didPass) {
             directionFrom = 1;
             didPass = false;
             curLoc = "TM";
@@ -160,11 +165,11 @@ public class FlatBenchPress {
     }
 
     public double calculateAccuracy(double angleResult) {
-        if (!curLoc.equals("") && curLoc.equals("MB")) {
+        if (!curLoc.equals("") && (curLoc.equals("MB") || curLoc.equals("BM"))) {
             double accuracy = (100.0 - ((90.0 - angleResult) / 90.0) * 100.0);
             if (accuracy > 100.0) {
                 double difference = accuracy - 100.00;
-                accuracy = 100. - difference;
+                accuracy = 100.0 - difference;
             }
             if (isFirst) {
                 if (accuracy < 0) {
@@ -173,25 +178,9 @@ public class FlatBenchPress {
                 accuracies.add(accuracy);
                 isFirst = false;
             }
-            accuracies.add(accuracy);
             return accuracy;
         }
-        if (!curLoc.equals("") && curLoc.equals("BM")) {
-            double accuracy = (100.0 - ((70.0 - angleResult) / 70.0) * 100.0);
-            if (accuracy > 100.0) {
-                double difference = accuracy - 100.00;
-                accuracy = 100. - difference;
-            }
-            if (isFirst) {
-                if (accuracy < 0) {
-                    return accuracy;
-                }
-                accuracies.add(accuracy);
-                isFirst = false;
-            }
-            accuracies.add(accuracy);
-            return accuracy;
-        }
+
         if (!curLoc.equals("") && (curLoc.equals("MT") || curLoc.equals("TM"))) {
             double accuracy = (100.0 - ((170.0 - angleResult) / 170.0) * 100.0);
             if (accuracy > 100.0) {

@@ -37,6 +37,8 @@ public class BarbellRows {
     private double leftBodyAccuracy = 0.0;
     private double rightBodyAccuracy = 0.0;
     private boolean isFirsTime = true;
+    private boolean isFirstLowerBody = false;
+    private boolean isFirstBody = false;
 
 
     public BarbellRows(TextView counter, TextView timer, Handler timerHandler, LiveFeedPresenter presenter, String exercise, int setNumber) {
@@ -214,6 +216,8 @@ public class BarbellRows {
                 didPass = true;
                 curLoc = "MB";
                 isFirst = true;
+                isFirstBody = true;
+                isFirstLowerBody = true;
                 return;
             }
 
@@ -221,6 +225,9 @@ public class BarbellRows {
             if (directionFrom == 1){
                 didPass = true;
                 curLoc = "TM";
+                isFirst = true;
+                isFirstBody = true;
+                isFirstLowerBody = true;
                 return;
             }
             didPass = true;
@@ -256,10 +263,14 @@ public class BarbellRows {
             double difference = accuracy - 100.00;
             accuracy = 100. - difference;
         }
-        if (curLoc.equals("BM") && isFirst) {
+        if (isFirstLowerBody && curLoc.equals("BM")) {
+            if (accuracy < 0) {
+                return accuracy;
+            }
             finalAccuracy.add(accuracy);
-            isFirst = false;
+            isFirstLowerBody = false;
         }
+        finalAccuracy.add(accuracy);
         return accuracy;
     }
 
@@ -270,10 +281,14 @@ public class BarbellRows {
                 double difference = accuracy - 100.00;
                 accuracy = 100. - difference;
             }
-            if (curLoc.equals("BM") && isFirst) {
+            if (isFirst) {
+                if (accuracy < 0) {
+                    return accuracy;
+                }
                 finalAccuracy.add(accuracy);
                 isFirst = false;
             }
+            finalAccuracy.add(accuracy);
             return accuracy;
         }
 
@@ -283,6 +298,14 @@ public class BarbellRows {
                 double difference = accuracy - 100.00;
                 accuracy = 100.0 - difference;
             }
+            if (isFirst) {
+                if (accuracy < 0) {
+                    return accuracy;
+                }
+                finalAccuracy.add(accuracy);
+                isFirst = false;
+            }
+            finalAccuracy.add(accuracy);
             return accuracy;
         }
 
@@ -295,10 +318,14 @@ public class BarbellRows {
             double difference = accuracy - 100.00;
             accuracy = 100. - difference;
         }
-        if (curLoc.equals("BM") && isFirst) {
+        if (isFirstBody && curLoc.equals("BM")) {
+            if (accuracy < 0) {
+                return accuracy;
+            }
             finalAccuracy.add(accuracy);
-            isFirst = false;
+            isFirstBody = false;
         }
+        finalAccuracy.add(accuracy);
         return accuracy;
     }
 

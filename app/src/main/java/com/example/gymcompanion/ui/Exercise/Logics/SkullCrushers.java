@@ -129,6 +129,7 @@ public class SkullCrushers {
             if (directionFrom == 1){
                 didPass = true;
                 curLoc = "MB";
+                isFirst = true;
                 return;
             }
             didPass = true;
@@ -165,10 +166,14 @@ public class SkullCrushers {
                 double difference = accuracy - 100.00;
                 accuracy = 100. - difference;
             }
-            if (curLoc.equals("BM") && isFirst) {
+            if (isFirst) {
+                if (accuracy < 0) {
+                    return accuracy;
+                }
                 accuracies.add(accuracy);
                 isFirst = false;
             }
+            accuracies.add(accuracy);
             return accuracy;
         }
 
@@ -178,6 +183,14 @@ public class SkullCrushers {
                 double difference = accuracy - 100.00;
                 accuracy = 100.0 - difference;
             }
+            if (isFirst) {
+                if (accuracy < 0) {
+                    return accuracy;
+                }
+                accuracies.add(accuracy);
+                isFirst = false;
+            }
+            accuracies.add(accuracy);
             return accuracy;
         }
 

@@ -90,9 +90,11 @@ public class HomeFragmentModel {
                     hasInfo = true;
                 }
 
-                databaseReference.child(Objects.requireNonNull(auth.getCurrentUser()).getUid()).child("currentExercise").addListenerForSingleValueEvent(new ValueEventListener() {
+                databaseReference.child(Objects.requireNonNull(auth.getCurrentUser()).getUid()).child("currentExercise").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        models.clear();
+                        tempModels.clear();
                         for (DataSnapshot exercise: snapshot.getChildren()){
                             HomeFragmentModel model = exercise.getValue(HomeFragmentModel.class);
                             Objects.requireNonNull(model).setProgram(exercise.getKey());
