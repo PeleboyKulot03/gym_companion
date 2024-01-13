@@ -9,6 +9,7 @@
     android:backgroundTint="@color/white"
     tools:context=".ui.CustomViews.CustomViewActivity"
     android:layout_margin="10dp"
+
     >
 
     <TextView

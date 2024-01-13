@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".ui.DetailedProfile.DetailedProfileActivity"
     android:scrollbars="none"
+    android:background="@color/white"
     >
 
     <RelativeLayout

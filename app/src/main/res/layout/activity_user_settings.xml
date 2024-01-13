@@ -20,6 +20,7 @@
             app:title="@string/user_profile"
             app:titleTextColor="@color/black"
             app:navigationIcon="@drawable/baseline_arrow_back_24"
+            android:background="@color/white"
             />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -42,6 +43,7 @@
             android:id="@+id/name"
             >
             <TextView
+                android:background="@color/white"
                 android:padding="10dp"
                 android:drawablePadding="10dp"
                 android:layout_width="match_parent"
@@ -63,6 +65,7 @@
             android:id="@+id/heightAndWeight"
             >
             <TextView
+                android:background="@color/white"
                 android:padding="10dp"
                 android:drawablePadding="10dp"
                 android:layout_width="match_parent"
@@ -85,6 +88,7 @@
             android:id="@+id/birthday"
             >
             <TextView
+                android:background="@color/white"
                 android:padding="10dp"
                 android:drawablePadding="10dp"
                 android:layout_width="match_parent"

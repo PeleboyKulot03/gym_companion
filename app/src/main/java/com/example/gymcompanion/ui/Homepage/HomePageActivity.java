@@ -1,18 +1,12 @@
 package com.example.gymcompanion.ui.Homepage;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import com.example.gymcompanion.R;
 import com.example.gymcompanion.ui.Homepage.fragments.account.AccountFragment;
@@ -50,11 +44,8 @@ public class HomePageActivity extends AppCompatActivity {
     private static final int LUNGES = R.id.lunges;
     private static final int ROMANIAN_DEADLIFT = R.id.rdl;
     private static final int SQUAT = R.id.squats;
-
-
-
     private Toolbar toolbar;
-    private SearchView searchView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -159,39 +150,6 @@ public class HomePageActivity extends AppCompatActivity {
             }
             if (item.getItemId() == findFriends) {
                 switchFragment(findFriendsFragment);
-                toolbar.inflateMenu(R.menu.explore_menu);
-                toolbar.setTitle(R.string.explore);
-                toolbar.setVisibility(View.VISIBLE);
-
-                SearchManager searchManager = (SearchManager) HomePageActivity.this.getSystemService(Context.SEARCH_SERVICE);
-                MenuItem searchItem = toolbar.getMenu().findItem(R.id.search);
-
-                if (searchItem != null) {
-                    searchView = (SearchView) searchItem.getActionView();
-                }
-                if (searchView != null) {
-                    searchView.setQueryHint("Search here...");
-                    searchView.setSearchableInfo(searchManager.getSearchableInfo(HomePageActivity.this.getComponentName()));
-                    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                        @Override
-                        public boolean onQueryTextSubmit(String query) {
-                            // Toast like print
-                            Log.i("ing","onQueryTextSubmit: " + query);
-                            if(!searchView.isIconified()) {
-                                searchView.setIconified(true);
-                            }
-                            if (searchItem != null) {
-                                searchItem.collapseActionView();
-                            }
-                            return false;
-                        }
-                        @Override
-                        public boolean onQueryTextChange(String s) {
-                            // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
-                            return false;
-                        }
-                    });
-                }
             }
             if (item.getItemId() == account) {
                 switchFragment(accountFragment);

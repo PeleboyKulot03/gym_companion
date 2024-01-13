@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class HomeFragmentModel {
+    private static final double ACCEPTED_ACCURACY = 85;
     private String program;
     private int set;
     private int reps;
@@ -31,10 +32,12 @@ public class HomeFragmentModel {
     private boolean hasInfo = false;
     private String currentDay;
     private String date;
+    private Map<String, Boolean> isReadyForNewProgram;
 
     public HomeFragmentModel(){
         databaseReference = FirebaseDatabase.getInstance().getReference("users");
         auth = FirebaseAuth.getInstance();
+        isReadyForNewProgram = new HashMap<>();
     }
     public HomeFragmentModel(int set, int reps, double weight, boolean done, double accuracy, String time) {
         this.reps = reps;
@@ -83,7 +86,7 @@ public class HomeFragmentModel {
 
         final int[] count = {0};
 
-        databaseReference.child("informations").child("age").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child(Objects.requireNonNull(auth.getCurrentUser()).getUid()).child("informations").child("age").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.getValue(String.class) != null) {
@@ -179,7 +182,7 @@ public class HomeFragmentModel {
     }
 
     public void getCurrentProgram(final onGetExercise onGetExercise) {
-        databaseReference.child(auth.getCurrentUser().getUid()).child("quickInformation").addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.child(Objects.requireNonNull(auth.getCurrentUser()).getUid()).child("quickInformation").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 date = snapshot.child("date").getValue(String.class);
@@ -194,10 +197,76 @@ public class HomeFragmentModel {
         });
     }
 
+    public void checkForNewProgram(final onGetExercise onGetExercise, int year, int month, int day) {
+        HashMap<String, Double> averageAcc = new HashMap<>();
+        HashMap<String, Integer> ocurrence = new HashMap<>();
+        databaseReference.child(Objects.requireNonNull(auth.getCurrentUser()).getUid()).child("history").child(String.valueOf(year)).child(String.valueOf(month))
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (int i = 0; i < 7; i++) {
+                            for (DataSnapshot exercise : snapshot.child(String.valueOf(day + i)).getChildren()) {
+                                for (DataSnapshot set : exercise.getChildren()) {
+                                    Double accuracy = set.child("accuracy").getValue(Double.class);
+                                    if (averageAcc.containsKey(exercise.getKey())) {
+                                        Double currAcc = averageAcc.get(exercise.getKey());
+                                        if (accuracy != null && currAcc != null) {
+                                            averageAcc.replace(exercise.getKey(),  currAcc + accuracy);
+                                            ocurrence.replace(exercise.getKey(), Objects.requireNonNull(ocurrence.get(exercise.getKey())) + 1);
+                                        }
+                                        continue;
+                                    }
+                                    ocurrence.put(exercise.getKey(), 1);
+                                    averageAcc.put(exercise.getKey(), accuracy);
+                                }
+                            }
+                        }
+                        for (Map.Entry<String, Double> entry : averageAcc.entrySet()) {
+                            isReadyForNewProgram.put(entry.getKey(), (entry.getValue() / Objects.requireNonNull(ocurrence.get(entry.getKey())) > ACCEPTED_ACCURACY));
+                        }
+                        onGetExercise.onGetUpdate(true, isReadyForNewProgram);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
+
+    public void updateCurrentProgram(final onGetExercise onGetExercise, Map<String, Boolean> isReadyForUpdate) {
+        databaseReference.child(Objects.requireNonNull(auth.getCurrentUser()).getUid()).child("currentProgram").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot day: snapshot.getChildren()) {
+                    for (DataSnapshot exercise: day.getChildren()) {
+                        if (isReadyForUpdate.containsKey(exercise.getKey())) {
+                            if (Objects.requireNonNull(isReadyForUpdate.get(exercise.getKey()))) {
+                                Double acc = exercise.child("weight").getValue(Double.class);
+                                databaseReference.child(Objects.requireNonNull(auth.getCurrentUser().getUid())).child("currentProgram")
+                                        .child(Objects.requireNonNull(day.getKey()))
+                                        .child(Objects.requireNonNull(exercise.getKey()))
+                                        .child("weight")
+                                        .setValue(Objects.requireNonNull(acc) + 5);
+                            }
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     public interface onGetExercise {
         void isSuccess(boolean verdict, ArrayList<HomeFragmentModel> models, int finished, boolean hasInfo, String currentDay, String date);
         void isDone(boolean verdict);
         void onGetProgram(String date, String day);
+        void onGetUpdate(boolean verdict, Map<String, Boolean> isReadyForNewProgram);
+        void onUpdateProgram(boolean verdict);
     }
 
 }

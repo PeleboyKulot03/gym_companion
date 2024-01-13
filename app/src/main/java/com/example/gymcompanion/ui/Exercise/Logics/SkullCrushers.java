@@ -154,7 +154,7 @@ public class SkullCrushers {
                 averageAccuracy /= accuracies.size();
 
                 LiveFeedExerciseModel model = new LiveFeedExerciseModel(millis, Double.parseDouble(decimalFormat.format(averageAccuracy)));
-                presenter.addData(exercise, model, setNumber);
+                presenter.addData(exercise, model, setNumber, String.valueOf(averageAccuracy), String.valueOf(seconds));
             }
         }
     }

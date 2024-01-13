@@ -11,11 +11,13 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
+import android.graphics.drawable.ColorDrawable;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
 import android.hardware.camera2.CameraCharacteristics;
@@ -31,24 +33,32 @@ import android.util.Size;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.gymcompanion.R;
+import com.example.gymcompanion.ui.CustomViews.CustomFilterDialogV1;
+import com.example.gymcompanion.ui.CustomViews.ExerciseFinishActivity;
 import com.example.gymcompanion.ui.Exercise.Logics.BarbellCurls;
 import com.example.gymcompanion.ui.Exercise.Logics.BarbellRows;
 import com.example.gymcompanion.ui.Exercise.Logics.Deadlift;
 import com.example.gymcompanion.ui.Exercise.Logics.DumbbellShoulderPress;
 import com.example.gymcompanion.ui.Exercise.Logics.FlatBenchPress;
+import com.example.gymcompanion.ui.Exercise.Logics.Lunges;
 import com.example.gymcompanion.ui.Exercise.Logics.SideLateralRaises;
 import com.example.gymcompanion.ui.Exercise.Logics.Squats;
 import com.example.gymcompanion.ui.Homepage.HomePageActivity;
+import com.example.gymcompanion.ui.Homepage.fragments.dashboard.DashBoardFragment;
 import com.google.mlkit.vision.common.InputImage;
 import com.google.mlkit.vision.pose.Pose;
 import com.google.mlkit.vision.pose.PoseDetection;
 import com.google.mlkit.vision.pose.PoseDetector;
 import com.google.mlkit.vision.pose.PoseLandmark;
 import com.google.mlkit.vision.pose.defaults.PoseDetectorOptions;
+
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Collections;
 import java.util.Objects;
 
@@ -82,6 +92,7 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
     private BarbellRows barbellRows;
     private BarbellCurls barbellCurls;
     private Squats squats;
+    private Lunges lunges;
     private final Runnable countDownRunnable = new Runnable() {
         @Override
         public void run() {
@@ -118,6 +129,7 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(10);
         paint.setTextSize(30);
+        Button finishSet = findViewById(R.id.finishSet);
 
         countDownTV = findViewById(R.id.countDownTV);
         textureView = findViewById(R.id.textureView);
@@ -138,14 +150,14 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
 
         poseDetector = PoseDetection.getClient(options);
 
-        dumbbellShoulderPressLogic = new DumbbellShoulderPress(counter, timer, timerHandler, presenter, exercise, setNumber);
-        sideLateralRaises = new SideLateralRaises(counter, timer, timerHandler, presenter, exercise, setNumber);
-        flatBenchPress = new FlatBenchPress(counter, timer, timerHandler, presenter, exercise, setNumber);
-        deadlift = new Deadlift(counter, timer, timerHandler, presenter, exercise, setNumber);
-        barbellRows = new BarbellRows(counter, timer, timerHandler, presenter, exercise, setNumber);
-        barbellCurls = new BarbellCurls(counter, timer, timerHandler, presenter, exercise, setNumber);
-        squats = new Squats(counter, timer, timerHandler, presenter, exercise, setNumber);
-
+        dumbbellShoulderPressLogic = new DumbbellShoulderPress(counter, timer, timerHandler, presenter, exercise, setNumber, finishSet, ExercisePageActivityLiveFeed.this);
+        sideLateralRaises = new SideLateralRaises(counter, timer, timerHandler, presenter, exercise, setNumber, finishSet, ExercisePageActivityLiveFeed.this);
+        flatBenchPress = new FlatBenchPress(counter, timer, timerHandler, presenter, exercise, setNumber, finishSet, ExercisePageActivityLiveFeed.this);
+        deadlift = new Deadlift(counter, timer, timerHandler, presenter, exercise, setNumber, finishSet, ExercisePageActivityLiveFeed.this);
+        barbellRows = new BarbellRows(counter, timer, timerHandler, presenter, exercise, setNumber, finishSet, ExercisePageActivityLiveFeed.this);
+        barbellCurls = new BarbellCurls(counter, timer, timerHandler, presenter, exercise, setNumber, finishSet, ExercisePageActivityLiveFeed.this);
+        squats = new Squats(counter, timer, timerHandler, presenter, exercise, setNumber, finishSet, ExercisePageActivityLiveFeed.this);
+        lunges = new Lunges(counter, timer, timerHandler, presenter, exercise, setNumber, finishSet, ExercisePageActivityLiveFeed.this);
         textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
             @Override
             public void onSurfaceTextureAvailable(@NonNull SurfaceTexture surface, int width, int height) {
@@ -263,7 +275,6 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
 
             }
         });
-
     }
 
     private void chooseLogic(Pose pose, PoseGraphic poseGraphic) {
@@ -293,6 +304,9 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
 
         if (exercise.equals("Squats")) {
             squats.getTheLandmarks(pose, poseGraphic, canvas);
+        }
+        if (exercise.equals("Lunges")) {
+            lunges.getTheLandmarks(pose, poseGraphic, canvas);
         }
     }
     private Matrix setTextureTransform(CameraCharacteristics characteristics) {
@@ -473,7 +487,15 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
         }
     }
 
+    private void showFinishSetView(String acc, String time) {
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        decimalFormat.setRoundingMode(RoundingMode.UP);
 
+        ExerciseFinishActivity cdd = new ExerciseFinishActivity(ExercisePageActivityLiveFeed.this, "Total Accuracy: " + decimalFormat.format(Double.parseDouble(acc)) + "%", "Total time: " + time + " sec");
+        Objects.requireNonNull(cdd.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        cdd.show();
+        mCameraDevice.close();
+    }
     @Override
     protected void onPause() {
         super.onPause();
@@ -504,7 +526,12 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
     }
 
     @Override
-    public void onAddData(boolean verdict, String message) {
+    public void onAddData(boolean verdict, String message, String acc, String time) {
+        if (verdict) {
+            showFinishSetView(acc, time);
+            return;
+        }
+        Toast.makeText(this, "Sorry, " + message, Toast.LENGTH_SHORT).show();
 
     }
 }

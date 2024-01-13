@@ -14,10 +14,15 @@
     </style>
 
     <style name="MySearchViewStyle" parent="Widget.AppCompat.SearchView">
-    <item name="closeIcon">@drawable/baseline_close_24</item>
+        <item name="closeIcon">@drawable/baseline_close_24</item>
+
     <!-- Search button icon -->
 <!--    <item name="searchIcon">...</item>-->
     <!-- Go/commit button icon -->
-</style>
+    </style>
+
+    <style name="AppTheme.Picker" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="android:textColorPrimary">@android:color/black</item>
+    </style>
 
 </resources>

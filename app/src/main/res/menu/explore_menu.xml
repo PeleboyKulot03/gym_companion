@@ -7,8 +7,4 @@
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="collapseActionView|ifRoom" />
 
-    <item android:id="@+id/favorites"
-        android:title="@string/search_title"
-        android:icon="@drawable/baseline_star_24"
-        app:showAsAction="collapseActionView|ifRoom" />
 </menu>

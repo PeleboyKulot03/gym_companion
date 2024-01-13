@@ -8,7 +8,6 @@
     android:background="@color/lightPrimaryVariant"
     >
 
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/toolBar"
         android:layout_width="match_parent"
@@ -168,6 +167,7 @@
             >
 
             <TextView
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/name_prompt"
@@ -226,6 +226,7 @@
             >
 
             <TextView
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/bmi_prompt"
@@ -321,6 +322,7 @@
             >
 
             <TextView
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/age_prompt"
@@ -388,6 +390,7 @@
             >
 
             <TextView
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/gender_prompt"
@@ -416,6 +419,7 @@
                     app:cardUseCompatPadding="true"
                     >
                     <LinearLayout
+                        android:background="@color/white"
                         android:id="@+id/male"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -450,6 +454,7 @@
                     app:cardUseCompatPadding="true"
                     >
                     <LinearLayout
+                        android:background="@color/white"
                         android:id="@+id/female"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -484,6 +489,7 @@
                 app:cardUseCompatPadding="true"
                 >
                 <LinearLayout
+                    android:background="@color/white"
                     android:id="@+id/others"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -520,6 +526,7 @@
             >
 
             <TextView
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/level_prompt"
@@ -729,6 +736,7 @@
             >
 
             <TextView
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/credentials_prompt"
@@ -753,7 +761,7 @@
                     android:textColor="@color/black"
                     android:drawableStart="@drawable/baseline_person_24"
                     android:drawablePadding="10dp"
-                    android:drawableTint="@color/material_on_surface_emphasis_medium"
+                    android:drawableTint="@color/black"
                     android:hint="@string/username"
                     android:id="@+id/usernameET"
                     android:autofillHints="username"
@@ -776,7 +784,7 @@
                     android:textColor="@color/black"
                     android:drawableStart="@drawable/baseline_email_24"
                     android:drawablePadding="10dp"
-                    android:drawableTint="@color/material_on_surface_emphasis_medium"
+                    android:drawableTint="@color/black"
                     android:hint="@string/email"
                     android:id="@+id/emailET"
                     android:autofillHints="username"
@@ -799,13 +807,14 @@
                 android:background="@drawable/round_edit_text"
                 app:passwordToggleEnabled="true"
                 app:passwordToggleDrawable="@drawable/show_password"
+                app:passwordToggleTint="@color/lightPrimary"
                 app:hintEnabled="false"
                 >
 
                 <EditText
                     android:textColorHint="@color/gray"
                     android:textColor="@color/black"
-                    android:drawableTint="@color/material_on_surface_emphasis_medium"
+                    android:drawableTint="@color/black"
                     android:drawableStart="@drawable/baseline_lock_24"
                     android:drawablePadding="10dp"
                     android:id="@+id/passwordET"
@@ -832,6 +841,7 @@
             >
 
             <TextView
+                android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/medical_condition_prompt"

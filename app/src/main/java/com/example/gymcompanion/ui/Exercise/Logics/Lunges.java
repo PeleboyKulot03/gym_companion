@@ -21,7 +21,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class Squats {
+public class Lunges {
     private boolean didPass = false, isFirst = false, hasStart = false;
     private int directionFrom = 0, count = 0;
     private String curLoc = "BM";
@@ -36,8 +36,10 @@ public class Squats {
     private final ArrayList<Double> accuracies;
     private double leftAccuracy = 0.0, rightAccuracy = 0.0;
     private boolean isFirstTime = true;
+    private int rightAngleResult = 0, leftAngleResult = 0;
     private DecimalFormat decimalFormat;
-    public Squats(TextView counter, TextView timer, Handler timerHandler, LiveFeedPresenter presenter, String exercise, int setNumber, Button finishSet, Activity activity) {
+
+    public Lunges(TextView counter, TextView timer, Handler timerHandler, LiveFeedPresenter presenter, String exercise, int setNumber, Button finishSet, Activity activity) {
         this.counter = counter;
         this.timer = timer;
         this.timerHandler = timerHandler;
@@ -94,13 +96,13 @@ public class Squats {
                     isFirstTime = false;
                 }
             }
-            int leftAngleResult = (int) Math.toDegrees(
+            leftAngleResult = (int) Math.toDegrees(
                     atan2(leftHip.getPosition().y - leftKnee.getPosition().y,
                             leftHip.getPosition().x - leftKnee.getPosition().x)
                             - atan2(leftAnkle.getPosition().y - leftKnee.getPosition().y,
                             leftAnkle.getPosition().x - leftKnee.getPosition().x));
 
-            int rightAngleResult = (int) Math.toDegrees(
+            rightAngleResult = (int) Math.toDegrees(
                     atan2(rightHip.getPosition().y - rightKnee.getPosition().y,
                             rightHip.getPosition().x - rightKnee.getPosition().x)
                             - atan2(rightAnkle.getPosition().y - rightKnee.getPosition().y,
@@ -117,9 +119,14 @@ public class Squats {
             }
 
             checkForm(leftAngleResult);
-            checkForm(rightAngleResult);
-            leftAccuracy = calculateAccuracy(leftAngleResult);
-            rightAccuracy = calculateAccuracy(rightAngleResult);
+            if (leftAngleResult < 90) {
+                leftAccuracy = calculateAccuracy(leftAngleResult);
+                rightAccuracy = calculateAlternateAccuracy(rightAngleResult);
+            }
+            else {
+                leftAccuracy = calculateAlternateAccuracy(leftAngleResult);
+                rightAccuracy = calculateAccuracy(rightAngleResult);
+            }
         }
 
         poseGraphic.draw(canvas, leftAccuracy, rightAccuracy, exercise, null);
@@ -200,6 +207,43 @@ public class Squats {
 
         if (!curLoc.equals("") && (curLoc.equals("MT") || curLoc.equals("TM"))) {
             double accuracy = (100.0 - ((170.0 - angleResult) / 170.0) * 100.0);
+            if (accuracy > 100.0) {
+                double difference = accuracy - 100.00;
+                accuracy = 100.0 - difference;
+            }
+            if (isFirst) {
+                if (accuracy < 0) {
+                    return accuracy;
+                }
+                accuracies.add(accuracy);
+                isFirst = false;
+            }
+            accuracies.add(accuracy);
+            return accuracy;
+        }
+
+        return 0.0;
+    }
+
+    public double calculateAlternateAccuracy(double angleResult) {
+        if (!curLoc.equals("") && (curLoc.equals("MB") || curLoc.equals("BM"))) {
+            double accuracy = (100.0 - ((170.0 - angleResult) / 170.0) * 100.0);
+            if (accuracy > 100.0) {
+                double difference = accuracy - 100.00;
+                accuracy = 100.0 - difference;
+            }
+            if (isFirst) {
+                if (accuracy < 0) {
+                    return accuracy;
+                }
+                accuracies.add(accuracy);
+                isFirst = false;
+            }
+            return accuracy;
+        }
+
+        if (!curLoc.equals("") && (curLoc.equals("MT") || curLoc.equals("TM"))) {
+            double accuracy = (100.0 - ((90.0 - angleResult) / 90.0) * 100.0);
             if (accuracy > 100.0) {
                 double difference = accuracy - 100.00;
                 accuracy = 100.0 - difference;

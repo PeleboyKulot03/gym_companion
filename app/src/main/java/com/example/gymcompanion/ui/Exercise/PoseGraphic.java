@@ -199,7 +199,7 @@ public class PoseGraphic extends GraphicOverlay.Graphic {
             drawLine(canvas, rightAnkle, rightHeel, rightPaint);
             drawLine(canvas, rightHeel, rightFootIndex, rightPaint);
         }
-        else if (exercise != null && (exercise.equals("Squats") && leftAccuracy != 0.0 && rightAccuracy != 0.0)) {
+        else if (exercise != null && ((exercise.equals("Squats") || exercise.equals("Lunges")) && leftAccuracy != 0.0 && rightAccuracy != 0.0)) {
             // Left arm
             drawLine(canvas, leftShoulder, leftElbow, leftPaint);
             drawLine(canvas, leftElbow, leftWrist, leftPaint);

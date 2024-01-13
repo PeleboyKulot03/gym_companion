@@ -13,6 +13,7 @@
         app:cardElevation="3dp"
         app:cardCornerRadius="10dp"
         app:cardUseCompatPadding="true"
+        android:background="@color/white"
         >
         <LinearLayout
             android:background="@color/white"

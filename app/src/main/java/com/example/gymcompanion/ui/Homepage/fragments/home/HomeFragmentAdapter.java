@@ -56,6 +56,9 @@ public class HomeFragmentAdapter extends RecyclerView.Adapter<HomeFragmentAdapte
         holder.weights.setText(weight);
         Log.i("testtt", "onBindViewHolder: " + model.getProgram());
         holder.image.setImageDrawable(Objects.requireNonNull(differentExercise.getDRAWABLES().get(model.getProgram())).get(1));
+        if (model.getProgram().equals("Dumbbell Shoulder Press")) {
+            holder.image.setImageDrawable(Objects.requireNonNull(differentExercise.getDRAWABLES().get(model.getProgram())).get(0));
+        }
 
         if (model.getDone()) {
             holder.finishInfos.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 0));

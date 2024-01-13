@@ -197,4 +197,8 @@
     <string name="sample_follower">100</string>
     <string name="separator">|</string>
     <string name="current_program">Current Program</string>
+    <string name="set_finish_image">set finish image</string>
+    <string name="set_finish">Set Finish!</string>
+    <string name="total_accuracy_template">Total Accuracy: 90%</string>
+    <string name="total_time_template">Total Time: 18 sec</string>
 </resources>

@@ -5,9 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.Homepage.fragments.dashboard.DetailedDashboardActivity">
+    tools:context=".ui.Homepage.fragments.dashboard.DetailedDashboardActivity"
+    android:background="@color/white">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.google.android.material.appbar.MaterialToolbar
@@ -15,6 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:title="@string/dummy_title"
+            app:titleTextColor="@color/black"
             app:titleCentered="true"
             app:menu="@menu/filter_menu"
             app:navigationIcon="@drawable/baseline_arrow_back_24"

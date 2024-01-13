@@ -282,7 +282,7 @@ public class RegistrationPageActivity extends AppCompatActivity implements IRegi
 
     private void removePicks(ArrayList<LinearLayout> layouts) {
         for (LinearLayout layout: layouts){
-            layout.setBackground(null);
+            layout.setBackground(AppCompatResources.getDrawable(getApplicationContext(), R.color.white));
         }
     }
 

@@ -4,10 +4,13 @@ import static java.lang.Math.abs;
 import static java.lang.Math.atan2;
 import static java.lang.Math.max;
 
+import android.app.Activity;
 import android.graphics.Canvas;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.gymcompanion.ui.Exercise.LiveFeedPresenter;
 import com.example.gymcompanion.ui.Exercise.PoseGraphic;
@@ -39,9 +42,10 @@ public class Deadlift {
     private double leftBodyAccuracy = 0.0, rightBodyAccuracy = 0.0, leftArmAccuracy = 0.0, rightArmAccuracy = 0.0, leftLowerBodyAccuracy = 0.0, rightLowerBodyAccuracy = 0.0;
     private boolean isFirsTime = true;
     private boolean isFirstArm = false;
+    private DecimalFormat decimalFormat;
 
 
-    public Deadlift(TextView counter, TextView timer, Handler timerHandler, LiveFeedPresenter presenter, String exercise, int setNumber) {
+    public Deadlift(TextView counter, TextView timer, Handler timerHandler, LiveFeedPresenter presenter, String exercise, int setNumber, Button finishSet, Activity activity) {
         this.counter = counter;
         this.timer = timer;
         this.timerHandler = timerHandler;
@@ -50,6 +54,21 @@ public class Deadlift {
         this.setNumber = setNumber;
         finalAccuracy = new ArrayList<>();
         accuracies = new ArrayList<>();
+        decimalFormat = new DecimalFormat("0.00");
+        decimalFormat.setRoundingMode(RoundingMode.UP);
+        finishSet.setOnClickListener(view -> {
+            if (count > 12) {
+                double averageAccuracy = 0.0;
+                for (Double accuracy: finalAccuracy){
+                    averageAccuracy += accuracy;
+                }
+                averageAccuracy /= finalAccuracy.size();
+                LiveFeedExerciseModel model = new LiveFeedExerciseModel(millis, Double.parseDouble(decimalFormat.format(averageAccuracy)));
+                presenter.addData(exercise, model, setNumber, String.valueOf(averageAccuracy), String.valueOf(seconds));
+                return;
+            }
+            Toast.makeText(activity, "There is still " + (12 - count) + " left, You got this!", Toast.LENGTH_SHORT).show();
+        });
     }
 
     private final Runnable timerRunnable = new Runnable() {
@@ -249,7 +268,7 @@ public class Deadlift {
                 averageAccuracy /= finalAccuracy.size();
 
                 LiveFeedExerciseModel model = new LiveFeedExerciseModel(millis, Double.parseDouble(decimalFormat.format(averageAccuracy)));
-                presenter.addData(exercise, model, setNumber);
+                presenter.addData(exercise, model, setNumber, String.valueOf(averageAccuracy), String.valueOf(seconds));
             }
         }
     }

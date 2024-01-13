@@ -31,7 +31,6 @@
             android:fitsSystemWindows="true"
             android:minHeight="?attr/actionBarSize"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            android:background="@color/white"
             app:titleTextColor="@color/black"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
@@ -59,7 +58,11 @@
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:background="@android:color/white"
+        app:itemTextColor="@color/black"
+        app:itemIconTint="@color/black"
+        app:subheaderColor="@color/black"
         app:menu="@menu/nav_view_menu"
+        app:itemBackground="@color/nav_drawer_background_item"
         />
 
 </androidx.drawerlayout.widget.DrawerLayout>

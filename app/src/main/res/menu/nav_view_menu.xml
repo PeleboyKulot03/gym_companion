@@ -11,6 +11,7 @@
                     android:icon="@drawable/baseline_navigate_next_24"
                     android:title="@string/Dips"
                     app:showAsAction="ifRoom"
+
                     />
                 <item
                     android:icon="@drawable/baseline_navigate_next_24"

@@ -3,9 +3,13 @@ package com.example.gymcompanion.ui.Exercise.Logics;
 import static java.lang.Math.abs;
 import static java.lang.Math.atan2;
 
+import android.app.Activity;
 import android.graphics.Canvas;
 import android.os.Handler;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.example.gymcompanion.ui.Exercise.LiveFeedPresenter;
 import com.example.gymcompanion.ui.Exercise.PoseGraphic;
 import com.example.gymcompanion.utils.LiveFeedExerciseModel;
@@ -31,9 +35,10 @@ public class DumbbellShoulderPress {
     private final int setNumber;
     private final ArrayList<Double> accuracies;
     private double leftAccuracy = 0.0, rightAccuracy = 0.0;
+    private DecimalFormat decimalFormat;
 
 
-    public DumbbellShoulderPress(TextView counter, TextView timer, Handler timerHandler, LiveFeedPresenter presenter, String exercise, int setNumber) {
+    public DumbbellShoulderPress(TextView counter, TextView timer, Handler timerHandler, LiveFeedPresenter presenter, String exercise, int setNumber, Button finishSet, Activity activity) {
         this.counter = counter;
         this.timer = timer;
         this.timerHandler = timerHandler;
@@ -41,6 +46,21 @@ public class DumbbellShoulderPress {
         this.exercise = exercise;
         this.setNumber = setNumber;
         accuracies = new ArrayList<>();
+        decimalFormat = new DecimalFormat("0.00");
+        decimalFormat.setRoundingMode(RoundingMode.UP);
+        finishSet.setOnClickListener(view -> {
+            if (count > 12) {
+                double averageAccuracy = 0.0;
+                for (Double accuracy: accuracies){
+                    averageAccuracy += accuracy;
+                }
+                averageAccuracy /= accuracies.size();
+                LiveFeedExerciseModel model = new LiveFeedExerciseModel(millis, Double.parseDouble(decimalFormat.format(averageAccuracy)));
+                presenter.addData(exercise, model, setNumber, String.valueOf(averageAccuracy), String.valueOf(seconds));
+                return;
+            }
+            Toast.makeText(activity, "There is still " + (12 - count) + " left, You got this!", Toast.LENGTH_SHORT).show();
+        });
     }
 
     private final Runnable timerRunnable = new Runnable() {
@@ -143,7 +163,7 @@ public class DumbbellShoulderPress {
             String temp = "Count: " + count;
             counter.setText(temp);
             if (count == 12) {
-                DecimalFormat decimalFormat = new DecimalFormat("0.00");
+                decimalFormat = new DecimalFormat("0.00");
                 decimalFormat.setRoundingMode(RoundingMode.UP);
                 timerHandler.removeCallbacks(timerRunnable);
                 double averageAccuracy = 0.0;
@@ -153,7 +173,7 @@ public class DumbbellShoulderPress {
                 averageAccuracy /= accuracies.size();
 
                 LiveFeedExerciseModel model = new LiveFeedExerciseModel(millis, Double.parseDouble(decimalFormat.format(averageAccuracy)));
-                presenter.addData(exercise, model, setNumber);
+                presenter.addData(exercise, model, setNumber, String.valueOf(averageAccuracy), String.valueOf(seconds));
             }
         }
     }

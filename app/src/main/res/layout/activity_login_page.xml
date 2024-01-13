@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.LoginPage.LoginPageActivity"
     android:fillViewport="true"
-
+    android:background="@color/white"
     >
 
     <RelativeLayout
@@ -76,6 +76,7 @@
                 app:passwordToggleEnabled="true"
                 app:passwordToggleDrawable="@drawable/show_password"
                 app:hintEnabled="false"
+                app:passwordToggleTint="@color/lightPrimary"
                 >
 
                 <EditText
@@ -104,6 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:text="@string/log_in"
+                android:textColor="@color/white"
                 android:textSize="16sp" />
 
             <Space
