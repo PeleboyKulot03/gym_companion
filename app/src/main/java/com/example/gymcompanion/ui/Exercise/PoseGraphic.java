@@ -135,6 +135,8 @@ public class PoseGraphic extends GraphicOverlay.Graphic {
                 || exercise.equals("Skull Crushers")
                 || exercise.equals("Barbell Curls")
                 || exercise.equals("Preacher Curls"))
+                || exercise.equals("Dips")
+                || exercise.equals("Lat Pull Down")
                 && leftAccuracy != 0.0
                 && rightAccuracy != 0.0) {
 
@@ -167,7 +169,7 @@ public class PoseGraphic extends GraphicOverlay.Graphic {
             drawLine(canvas, rightHeel, rightFootIndex, rightPaint);
         }
 
-        else if (exercise != null && (exercise.equals("Deadlift") || exercise.equals("Barbell Rows")) && leftAccuracy != 0.0 && rightAccuracy != 0.0 && accuracies.size() == 3){
+        else if (exercise != null && (exercise.equals("Deadlift") || exercise.equals("Barbell Rows") || exercise.equals("Dumbbell Rows") || exercise.equals("Romanian Deadlift")) && leftAccuracy != 0.0 && rightAccuracy != 0.0 && accuracies.size() == 3){
 
             // Left arm
             drawLineWithAccuracy(canvas, leftShoulder, leftElbow, leftPaint,accuracies.get(0).get(1));
@@ -199,7 +201,7 @@ public class PoseGraphic extends GraphicOverlay.Graphic {
             drawLine(canvas, rightAnkle, rightHeel, rightPaint);
             drawLine(canvas, rightHeel, rightFootIndex, rightPaint);
         }
-        else if (exercise != null && ((exercise.equals("Squats") || exercise.equals("Lunges")) && leftAccuracy != 0.0 && rightAccuracy != 0.0)) {
+        else if (exercise != null && ((exercise.equals("Squats") || exercise.equals("Lunges") || exercise.equals("Leg Extension")) && leftAccuracy != 0.0 && rightAccuracy != 0.0)) {
             // Left arm
             drawLine(canvas, leftShoulder, leftElbow, leftPaint);
             drawLine(canvas, leftElbow, leftWrist, leftPaint);

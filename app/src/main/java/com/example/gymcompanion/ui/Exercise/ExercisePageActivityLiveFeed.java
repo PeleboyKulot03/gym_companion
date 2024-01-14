@@ -43,6 +43,7 @@ import com.example.gymcompanion.ui.CustomViews.ExerciseFinishActivity;
 import com.example.gymcompanion.ui.Exercise.Logics.BarbellCurls;
 import com.example.gymcompanion.ui.Exercise.Logics.BarbellRows;
 import com.example.gymcompanion.ui.Exercise.Logics.Deadlift;
+import com.example.gymcompanion.ui.Exercise.Logics.Dips;
 import com.example.gymcompanion.ui.Exercise.Logics.DumbbellShoulderPress;
 import com.example.gymcompanion.ui.Exercise.Logics.FlatBenchPress;
 import com.example.gymcompanion.ui.Exercise.Logics.Lunges;
@@ -88,6 +89,7 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
     private DumbbellShoulderPress dumbbellShoulderPressLogic;
     private SideLateralRaises sideLateralRaises;
     private FlatBenchPress flatBenchPress;
+    private Dips dips;
     private Deadlift deadlift;
     private BarbellRows barbellRows;
     private BarbellCurls barbellCurls;
@@ -158,6 +160,7 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
         barbellCurls = new BarbellCurls(counter, timer, timerHandler, presenter, exercise, setNumber, finishSet, ExercisePageActivityLiveFeed.this);
         squats = new Squats(counter, timer, timerHandler, presenter, exercise, setNumber, finishSet, ExercisePageActivityLiveFeed.this);
         lunges = new Lunges(counter, timer, timerHandler, presenter, exercise, setNumber, finishSet, ExercisePageActivityLiveFeed.this);
+        dips = new Dips(counter, timer, timerHandler, presenter, exercise, setNumber, finishSet, ExercisePageActivityLiveFeed.this);
         textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
             @Override
             public void onSurfaceTextureAvailable(@NonNull SurfaceTexture surface, int width, int height) {
@@ -278,7 +281,9 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
     }
 
     private void chooseLogic(Pose pose, PoseGraphic poseGraphic) {
-        if (exercise.equals("Dumbbell Shoulder Press")) {
+
+        // push dayyyyyy
+        if (exercise.equals("Dumbbell Shoulder Press") || exercise.equals("Lat Pull Down")) {
             dumbbellShoulderPressLogic.getTheLandmarks(pose, poseGraphic, canvas);
             return;
         }
@@ -291,23 +296,30 @@ public class ExercisePageActivityLiveFeed extends AppCompatActivity implements I
         if (exercise.equals("Skull Crushers")) {
             flatBenchPress.getTheLandmarks(pose, poseGraphic, canvas);
         }
+        if (exercise.equals("Dips")) {
+            dips.getTheLandmarks(pose, poseGraphic, canvas);
+        }
 
-        if (exercise.equals("Deadlift")) {
+        // pull day
+        if (exercise.equals("Deadlift") || exercise.equals("Romanian Deadlift")) {
             deadlift.getTheLandmarks(pose, poseGraphic, canvas);
         }
-        if (exercise.equals("Barbell Rows")) {
+        if (exercise.equals("Barbell Rows") || exercise.equals("Dumbbell Rows")) {
             barbellRows.getTheLandmarks(pose, poseGraphic, canvas);
         }
         if (exercise.equals("Barbell Curls") || exercise.equals("Preacher Curls")) {
             barbellCurls.getTheLandmarks(pose, poseGraphic, canvas);
         }
 
-        if (exercise.equals("Squats")) {
+        // leg day
+        if (exercise.equals("Squats") || exercise.equals("Leg Extension")) {
             squats.getTheLandmarks(pose, poseGraphic, canvas);
         }
         if (exercise.equals("Lunges")) {
             lunges.getTheLandmarks(pose, poseGraphic, canvas);
         }
+
+
     }
     private Matrix setTextureTransform(CameraCharacteristics characteristics) {
         Size previewSize = getPreviewSize(characteristics);
