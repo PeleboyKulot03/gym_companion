@@ -203,4 +203,7 @@
     <string name="total_time_template">Total Time: 18 sec</string>
     <string name="save">save</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="update">Update Information</string>
+    <string name="sorry_note">sorry but we cannot change your password because it\'s from google one tap sign-in.</string>
+    <string name="current_password">Current Password</string>
 </resources>
