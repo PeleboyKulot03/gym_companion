@@ -45,6 +45,7 @@
             android:id="@+id/displayName"
             >
             <TextView
+                android:id="@+id/displayName"
                 android:background="@color/white"
                 android:padding="10dp"
                 android:drawablePadding="10dp"
@@ -56,6 +57,7 @@
                 android:fontFamily="@font/poppins_medium"
                 android:gravity="center_vertical"
                 app:drawableEndCompat="@drawable/baseline_navigate_next_24"/>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView

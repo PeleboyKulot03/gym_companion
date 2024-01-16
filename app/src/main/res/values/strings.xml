@@ -134,7 +134,7 @@
     <string name="name">Name</string>
     <string name="birthday">Birthday</string>
     <string name="height_weight">Height and Weight</string>
-    <string name="note_prompt">changes will be permanently applied until 30day. \nMake sure that the provided information is correct.</string>
+    <string name="note_prompt">changes will be permanently applied until 30days. \nMake sure that the provided information is correct.</string>
     <string name="display_name">Display Name</string>
     <string name="alert_title">Alert Notice</string>
     <string name="instruction_dialog">Before you start the exercise make sure to place your phone upfront and eye level to you. Make sure that your head is inside the bounding box and stay for that position for at least 3 seconds to start the exercise.</string>
@@ -201,4 +201,6 @@
     <string name="set_finish">Set Finish!</string>
     <string name="total_accuracy_template">Total Accuracy: 90%</string>
     <string name="total_time_template">Total Time: 18 sec</string>
+    <string name="save">save</string>
+    <string name="confirm_password">Confirm Password</string>
 </resources>

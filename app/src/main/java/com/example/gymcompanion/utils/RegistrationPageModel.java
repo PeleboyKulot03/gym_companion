@@ -128,12 +128,10 @@ public class RegistrationPageModel {
         pullDay.add("Barbell Rows");
         pullDay.add("Deadlift");
         pullDay.add("Dumbbell Rows");
-        pullDay.add("Lat Pull Down");
         pullDay.add("Preacher Curls");
 
         ArrayList<String> legDay = new ArrayList<>();
         legDay.add("Leg Extension");
-        legDay.add("Lunges");
         legDay.add("Romanian Deadlift");
         legDay.add("Squats");
 
@@ -153,11 +151,9 @@ public class RegistrationPageModel {
             exerciseModels.add(new ExerciseModel(false, 12, 3, 10));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
-            exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
 
             // for leg day
             exerciseModels.add(new ExerciseModel(false, 12, 3, 10));
-            exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 10));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
         }
@@ -177,10 +173,8 @@ public class RegistrationPageModel {
             exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
-            exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
 
             // for leg day
-            exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 5));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 2.5));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 10));
@@ -200,12 +194,10 @@ public class RegistrationPageModel {
             exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 130));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 40));
-            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 60));
 
             // for leg day
             exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
-            exerciseModels.add(new ExerciseModel(false, 12, 3, 30));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 60));
         }
@@ -224,12 +216,10 @@ public class RegistrationPageModel {
             exerciseModels.add(new ExerciseModel(false, 12, 3, 60));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 20));
-            exerciseModels.add(new ExerciseModel(false, 12, 3, 60));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 30));
 
             // for leg day
             exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
-            exerciseModels.add(new ExerciseModel(false, 12, 3, 30));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 60));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 60));
         }
@@ -247,12 +237,10 @@ public class RegistrationPageModel {
             exerciseModels.add(new ExerciseModel(false, 12, 3, 140));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 150));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 60));
-            exerciseModels.add(new ExerciseModel(false, 12, 3, 150));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 80));
 
             // for leg day
             exerciseModels.add(new ExerciseModel(false, 12, 3, 150));
-            exerciseModels.add(new ExerciseModel(false, 12, 3, 80));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 150));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 80));
         }
@@ -271,12 +259,10 @@ public class RegistrationPageModel {
             exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 30));
-            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 40));
 
             // for leg day
             exerciseModels.add(new ExerciseModel(false, 12, 3, 130));
-            exerciseModels.add(new ExerciseModel(false, 12, 3, 80));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 150));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 80));
         }
@@ -295,12 +281,10 @@ public class RegistrationPageModel {
             exerciseModels.add(new ExerciseModel(false, 12, 3, 200));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 200));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 80));
-            exerciseModels.add(new ExerciseModel(false, 12, 3, 200));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
 
             // for leg day
             exerciseModels.add(new ExerciseModel(false, 12, 3, 200));
-            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 200));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
         }
@@ -318,12 +302,10 @@ public class RegistrationPageModel {
             exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 150));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 40));
-            exerciseModels.add(new ExerciseModel(false, 12, 3, 120));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 30));
 
             // for leg day
             exerciseModels.add(new ExerciseModel(false, 12, 3, 150));
-            exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 180));
             exerciseModels.add(new ExerciseModel(false, 12, 3, 100));
         }
@@ -341,6 +323,7 @@ public class RegistrationPageModel {
                         reference.child("users").child(user.getUid()).child("currentExercise").child(pushDay.get(i)).setValue(exerciseModels.get(i));
                     }
                     while (counter < pushDay.size() + pullDay.size() + legDay.size()) {
+                        Log.i("testers", "createNewUser: ");
                         if (counter < pushDay.size()) {
                             reference = reference.getRoot();
                             reference.child("users").child(user.getUid()).child("currentProgram").child("pushDay").child(pushDay.get(pushCounter)).setValue(exerciseModels.get(counter));
@@ -365,7 +348,6 @@ public class RegistrationPageModel {
                     reference = reference.getRoot();
                     reference.child("users").child(user.getUid()).child("quickInformation").child("date").setValue(model.getDate());
                     onRegister.isSuccess(true, "");
-
                 }
             }).addOnFailureListener(e -> onRegister.isSuccess(false, e.getLocalizedMessage()));
             return;
@@ -384,12 +366,37 @@ public class RegistrationPageModel {
                         user.updateProfile(profileUpdates)
                                 .addOnCompleteListener(task2 -> {
                                     if (task2.isSuccessful()) {
+                                        int counter = 0;
+                                        int pushCounter = 0;
+                                        int pullCounter = 0;
+                                        int legCounter = 0;
                                         for (int i = 0; i < pushDay.size(); i++) {
                                             reference = reference.getRoot();
                                             reference.child("users").child(user.getUid()).child("currentExercise").child(pushDay.get(i)).setValue(exerciseModels.get(i));
                                         }
+                                        while (counter < pushDay.size() + pullDay.size() + legDay.size()) {
+                                            Log.i("testers", "createNewUser: ");
+                                            if (counter < pushDay.size()) {
+                                                reference = reference.getRoot();
+                                                reference.child("users").child(user.getUid()).child("currentProgram").child("pushDay").child(pushDay.get(pushCounter)).setValue(exerciseModels.get(counter));
+                                                counter++;
+                                                pushCounter++;
+                                                continue;
+                                            }
+                                            if (counter < pushDay.size() + pullDay.size()) {
+                                                reference = reference.getRoot();
+                                                reference.child("users").child(user.getUid()).child("currentProgram").child("pullDay").child(pullDay.get(pullCounter)).setValue(exerciseModels.get(counter));
+                                                counter++;
+                                                pullCounter++;
+                                                continue;
+                                            }
+                                            reference = reference.getRoot();
+                                            reference.child("users").child(user.getUid()).child("currentProgram").child("legDay").child(legDay.get(legCounter)).setValue(exerciseModels.get(counter));
+                                            counter++;
+                                            legCounter++;
+                                        }
                                         reference = reference.getRoot();
-                                        reference.child("users").child(user.getUid()).child("quickInformation").child("currentDay").setValue("Push Day");
+                                        reference.child("users").child(user.getUid()).child("quickInformation").child("currentDay").setValue("pushDay");
                                         reference = reference.getRoot();
                                         reference.child("users").child(user.getUid()).child("quickInformation").child("date").setValue(model.getDate());
                                         onRegister.isSuccess(true, "");
