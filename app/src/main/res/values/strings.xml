@@ -148,7 +148,7 @@
     <string name="sample_date">December, 2023</string>
     <string name="weekly">Weekly</string>
     <string name="current_weight_sample">Current Weight</string>
-    <string name="pass_weight">90KG</string>
+    <string name="pass_weight">0 LBS</string>
     <string name="filter">Filter</string>
     <string name="progress_title">Monthly Progress</string>
     <string name="progress_title1">Detailed Progress</string>
@@ -206,4 +206,5 @@
     <string name="update">Update Information</string>
     <string name="sorry_note">sorry but we cannot change your password because it\'s from google one tap sign-in.</string>
     <string name="current_password">Current Password</string>
+    <string name="user_name">Username</string>
 </resources>

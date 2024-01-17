@@ -42,16 +42,15 @@
             app:cardElevation="3dp"
             app:cardCornerRadius="10dp"
             app:cardUseCompatPadding="true"
-            android:id="@+id/displayName"
+            android:id="@+id/userName"
             >
             <TextView
-                android:id="@+id/displayName"
                 android:background="@color/white"
                 android:padding="10dp"
                 android:drawablePadding="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
-                android:text="@string/display_name"
+                android:text="@string/user_name"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:fontFamily="@font/poppins_medium"

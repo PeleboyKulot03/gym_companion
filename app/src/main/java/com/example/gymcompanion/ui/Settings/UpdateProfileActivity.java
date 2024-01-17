@@ -29,7 +29,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements IPrivacy
     private static final String NAME = "name";
     private static final String BIRTHDATE = "birthdate";
     private static final String WEIGHT_AND_HEIGHT = "weightAndHeight";
-    private static final String DISPLAY_NAME = "displayName";
+    private static final String DISPLAY_NAME = "username";
     private LinearLayout name, birthdate, weightAndHeight, displayName, password;
     private String layoutFrom = "";
     private final Calendar calendar = Calendar.getInstance();
@@ -160,6 +160,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements IPrivacy
                     finalMiddleName = middleNameET.getText().toString();
                     finalSurname = surnameET.getText().toString();
                 }
+                customProgressBar.startAnimation(animation);
+                privacySettingsPresenter.changeName(nameET.getText().toString(), middleNameET.getText().toString(), surnameET.getText().toString());
                 break;
 
             case WEIGHT_AND_HEIGHT:
@@ -177,6 +179,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements IPrivacy
                     finalWeight = weightET.getText().toString();
                     finalHeight = heightET.getText().toString();
                 }
+                customProgressBar.startAnimation(animation);
+                privacySettingsPresenter.changeHeightAndWeight(weightET.getText().toString(), heightET.getText().toString());
                 break;
 
             case BIRTHDATE:
@@ -197,6 +201,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements IPrivacy
                     }
                     finalAge = String.valueOf(userAge);
                 }
+                customProgressBar.startAnimation(animation);
+                privacySettingsPresenter.changeAge(birthday.getText().toString(), finalAge);
                 break;
 
 
@@ -217,6 +223,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements IPrivacy
                     privacySettingsPresenter.hasUser(usernameET.getText().toString());
                     return false;
                 }
+                customProgressBar.startAnimation(animation);
+                privacySettingsPresenter.changeUsername(usernameET.getText().toString());
                 break;
 
             case PASSWORD:
@@ -304,6 +312,22 @@ public class UpdateProfileActivity extends AppCompatActivity implements IPrivacy
     @Override
     public void onChangeInfo(boolean verdict, String message) {
         if (verdict) {
+            if (layoutFrom.equals(NAME)) {
+                Toast.makeText(this, "Name changing complete!", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            if (layoutFrom.equals(WEIGHT_AND_HEIGHT)) {
+                Toast.makeText(this, "Weight and Height changing complete!", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            if (layoutFrom.equals(BIRTHDATE)) {
+                Toast.makeText(this, "Birthday changing complete!", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            if (layoutFrom.equals(DISPLAY_NAME)) {
+                Toast.makeText(this, "Username changing complete!", Toast.LENGTH_SHORT).show();
+                finish();
+            }
             if (layoutFrom.equals(PASSWORD)) {
                 Toast.makeText(this, "Password changing complete!", Toast.LENGTH_SHORT).show();
                 finish();

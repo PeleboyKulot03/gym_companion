@@ -37,14 +37,14 @@ public class PrivacySettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_privacy_settings);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(Objects.requireNonNull(user).getUid()).child("quickInformation");
-        CardView displayName = findViewById(R.id.displayName);
+        CardView username = findViewById(R.id.userName);
         CardView password = findViewById(R.id.password);
         Intent intent = new Intent(getApplicationContext(), UpdateProfileActivity.class);
 
-        displayName.setOnClickListener(view -> reference.child("displayName").addListenerForSingleValueEvent(new ValueEventListener() {
+        username.setOnClickListener(view -> reference.child("changeUsername").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.getValue(String.class) != null) {
+                if (snapshot.exists()) {
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);
                         Date date = null;
@@ -58,15 +58,15 @@ public class PrivacySettingsActivity extends AppCompatActivity {
                         Duration diff = Duration.between(d1.atStartOfDay(), d2.atStartOfDay());
                         long diffDays = diff.toDays();
                         if (diffDays >= 30) {
-                            intent.putExtra("from", "displayName");
+                            intent.putExtra("from", "username");
                             startActivity(intent);
                             return;
                         }
-                        Toast.makeText(PrivacySettingsActivity.this, "Sorry but you have to wait until " + (30 - diffDays) + " days to change your password!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PrivacySettingsActivity.this, "Sorry but you have to wait until " + (30 - diffDays) + " days to change your username!", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else {
-                    intent.putExtra("from", "displayName");
+                    intent.putExtra("from", "username");
                     startActivity(intent);
                 }
 
@@ -80,7 +80,8 @@ public class PrivacySettingsActivity extends AppCompatActivity {
         password.setOnClickListener(view -> reference.child("changePassword").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.getValue(String.class) != null) {
+                if (snapshot.exists()) {
+
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);
                         Date date = null;

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
@@ -158,7 +159,6 @@ public class PrivacySettingModel {
             reference.getRoot().child("users").child(user.getUid()).child("quickInformation").child("changePassword").setValue(formatter.format(date)).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    Log.i("testerrr", "onComplete: ");
                     if (task.isSuccessful()) {
                         onGetData.onChangeInfo(true, "");
                     }
@@ -166,6 +166,91 @@ public class PrivacySettingModel {
             }).addOnFailureListener(e -> {
                 onGetData.onChangeInfo(false, e.getLocalizedMessage());
             });
+        }).addOnFailureListener(e -> onGetData.onChangeInfo(false, e.getLocalizedMessage()));
+    }
+
+    public void changeUsername(final onGetData onGetData, String displayName) {
+        reference.child("username").setValue(displayName).addOnSuccessListener(unused -> {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);
+            Date date = new Date();
+            onGetData.onChangeInfo(true, "");
+            reference.getRoot().child("users").child(user.getUid()).child("quickInformation").child("changeUsername").setValue(formatter.format(date)).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    onGetData.onChangeInfo(true, "");
+                }
+            }).addOnFailureListener(e -> {
+                onGetData.onChangeInfo(false, e.getLocalizedMessage());
+            });
+
+        }).addOnFailureListener(e -> {
+            onGetData.onChangeInfo(false, e.getLocalizedMessage());
+        });
+    }
+
+    public void changeName(final onGetData onGetData, String fName, String mName, String sName) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);
+        Date date = new Date();
+        reference.child("firstName").setValue(fName).addOnCompleteListener(task -> {
+           if (task.isSuccessful()) {
+               reference.getRoot().child("users").child(user.getUid()).child("informations").child("middleName").setValue(mName).addOnCompleteListener(task1 -> {
+                   if (task1.isSuccessful()) {
+                       reference.getRoot().child("users").child(user.getUid()).child("informations").child("surname").setValue(sName).addOnCompleteListener(task2 -> {
+                           if (task2.isSuccessful()){
+                               reference.getRoot().child("users").child(user.getUid()).child("quickInformation").child("changeName").setValue(formatter.format(date)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                   @Override
+                                   public void onComplete(@NonNull Task<Void> task2) {
+                                       if (task2.isSuccessful()) {
+                                           onGetData.onChangeInfo(true, "");
+                                       }
+                                   }
+                               }).addOnFailureListener(e -> onGetData.onChangeInfo(false, e.getLocalizedMessage()));
+                           }
+                       }).addOnFailureListener(e -> onGetData.onChangeInfo(false, e.getLocalizedMessage()));
+                   }
+               }).addOnFailureListener(e -> onGetData.onChangeInfo(false, e.getLocalizedMessage()));
+           }
+        }).addOnFailureListener(e -> onGetData.onChangeInfo(false, e.getLocalizedMessage()));
+    }
+
+    public void changeHeightAndWeight(final onGetData onGetData, String weight, String height) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);
+        Date date = new Date();
+        reference.child("height").setValue(height).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                reference.getRoot().child("users").child(user.getUid()).child("informations").child("weight").setValue(weight).addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        reference.getRoot().child("users").child(user.getUid()).child("quickInformation").child("changeBMI").setValue(formatter.format(date)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task2) {
+                                if (task2.isSuccessful()) {
+                                    onGetData.onChangeInfo(true, "");
+                                }
+                            }
+                        }).addOnFailureListener(e -> onGetData.onChangeInfo(false, e.getLocalizedMessage()));
+                    }
+                }).addOnFailureListener(e -> onGetData.onChangeInfo(false, e.getLocalizedMessage()));
+            }
+        }).addOnFailureListener(e -> onGetData.onChangeInfo(false, e.getLocalizedMessage()));
+    }
+
+    public void changeAge(final onGetData onGetData, String birthday, String age) {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd", Locale.ENGLISH);
+        Date date = new Date();
+        reference.child("age").setValue(age).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                reference.getRoot().child("users").child(user.getUid()).child("informations").child("birthday").setValue(birthday).addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        reference.getRoot().child("users").child(user.getUid()).child("quickInformation").child("changeBDAY").setValue(formatter.format(date)).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task2) {
+                                if (task2.isSuccessful()) {
+                                    onGetData.onChangeInfo(true, "");
+                                }
+                            }
+                        }).addOnFailureListener(e -> onGetData.onChangeInfo(false, e.getLocalizedMessage()));
+                    }
+                }).addOnFailureListener(e -> onGetData.onChangeInfo(false, e.getLocalizedMessage()));
+            }
         }).addOnFailureListener(e -> onGetData.onChangeInfo(false, e.getLocalizedMessage()));
     }
 

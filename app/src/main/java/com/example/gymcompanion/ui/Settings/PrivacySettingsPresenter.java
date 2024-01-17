@@ -109,4 +109,104 @@ public class PrivacySettingsPresenter {
             }
         }, password);
     }
+
+    public void changeUsername(String username) {
+        PrivacySettingModel privacySettingModel = new PrivacySettingModel();
+        privacySettingModel.changeUsername(new PrivacySettingModel.onGetData() {
+            @Override
+            public void onGetInformation(PrivacySettingModel model) {
+
+            }
+
+            @Override
+            public void reAuthenticate(boolean verdict) {
+
+            }
+
+            @Override
+            public void hasUser(boolean verdict) {
+
+            }
+
+            @Override
+            public void onChangeInfo(boolean verdict, String message) {
+
+            }
+        }, username);
+    }
+
+    public void changeName(String fName, String mName, String sName) {
+        PrivacySettingModel model = new PrivacySettingModel();
+        model.changeName(new PrivacySettingModel.onGetData() {
+            @Override
+            public void onGetInformation(PrivacySettingModel model) {
+
+            }
+
+            @Override
+            public void reAuthenticate(boolean verdict) {
+
+            }
+
+            @Override
+            public void hasUser(boolean verdict) {
+
+            }
+
+            @Override
+            public void onChangeInfo(boolean verdict, String message) {
+                iPrivacySettings.onChangeInfo(verdict, message);
+            }
+        }, fName, mName, sName);
+    }
+
+    public void changeHeightAndWeight(String weight, String height) {
+        PrivacySettingModel model = new PrivacySettingModel();
+        model.changeHeightAndWeight(new PrivacySettingModel.onGetData() {
+            @Override
+            public void onGetInformation(PrivacySettingModel model) {
+
+            }
+
+            @Override
+            public void reAuthenticate(boolean verdict) {
+
+            }
+
+            @Override
+            public void hasUser(boolean verdict) {
+
+            }
+
+            @Override
+            public void onChangeInfo(boolean verdict, String message) {
+                iPrivacySettings.onChangeInfo(verdict, message);
+            }
+        }, weight, height);
+    }
+
+    public void changeAge(String birthday, String finalAge) {
+        PrivacySettingModel model = new PrivacySettingModel();
+        model.changeAge(new PrivacySettingModel.onGetData() {
+            @Override
+            public void onGetInformation(PrivacySettingModel model) {
+
+            }
+
+            @Override
+            public void reAuthenticate(boolean verdict) {
+
+            }
+
+            @Override
+            public void hasUser(boolean verdict) {
+
+            }
+
+            @Override
+            public void onChangeInfo(boolean verdict, String message) {
+                iPrivacySettings.onChangeInfo(verdict, message);
+            }
+        }, birthday, finalAge);
+    }
 }
